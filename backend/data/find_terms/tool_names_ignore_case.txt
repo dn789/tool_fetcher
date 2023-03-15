@@ -218,7 +218,6 @@ FOCA
 FTK Imager
 FakeM
 Falcon Orchestrator
-Faraday
 Fast Incident Response
 FastIR Collector
 Felismus
@@ -541,7 +540,6 @@ RTLSDR Scanner
 Radare2
 Ragnar Locker
 RainbowCrack
-Raindrop
 Rar Crack
 Ratproxy
 RawDisk
@@ -969,7 +967,6 @@ blackeye
 blackhash
 blacknurse
 bleah
-bletchley
 blind-sql-bitshifting
 blindelephant
 blindsql
@@ -1463,8 +1460,6 @@ fakedns
 fakemail
 fakenet-ng
 fakenetbios
-faraday
-faradaysec
 fast-recon
 fastnetmon
 fav-up
@@ -1689,7 +1684,6 @@ hakku
 hakrawler
 hakrevdns
 halcyon-ide
-hamster
 hamster-sidejack
 hasere
 hash-buster
@@ -1945,7 +1939,6 @@ kadimus
 kalibrate-rtl
 kalitorify
 kamerka
-katana
 katana-framework
 katana-pd
 katsnoop
@@ -1973,7 +1966,6 @@ klee
 klogger
 knxmap
 koadic
-kolkata
 konan
 krackattacks-scripts
 kraken
@@ -2135,7 +2127,6 @@ metoscan
 mfcuk
 mfoc
 mfsniffer
-mft2csv
 mftcarver
 mfterm
 mftrcrd
@@ -2205,7 +2196,6 @@ multiscanner
 multitun
 munin-hashchecker
 muraena
-mutator
 mwebfp
 mxtract
 mybff
@@ -2967,7 +2957,6 @@ snoopy-ng
 snowman
 snscan
 snscrape
-snyk
 soapui
 sobelow
 socat
@@ -3214,6 +3203,7 @@ truehunter
 trufflehog
 trusttrees
 tsh-sctp
+TShark
 ttpassgen
 tunna
 turbinia
@@ -3396,7 +3386,6 @@ wikigen
 wildpwn
 windapsearch
 windivert
-windows-binaries
 windows-exploit-suggester
 windows-prefetch-parser
 windows-privesc-check
@@ -3440,7 +3429,6 @@ wpsik
 wpsweep
 wreckuests
 ws-attacker
-wscript
 wsfuzzer
 wssip
 wsuspect-proxy
