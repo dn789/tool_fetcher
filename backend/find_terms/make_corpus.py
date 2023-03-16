@@ -169,7 +169,12 @@ def make_train_test_sets(folder, args_ref, train_test_split=(85, 15)):
         else:
             sets.append(sents[last_index:count])
             last_index = count
-    return sets, corpus_summary
+
+    with open(os.path.join(folder, 'summary.json'),
+              'w', encoding='utf-8') as f:
+        f.write(json.dumps(corpus_summary))
+
+    return sets
 
 
 def make_corpus(input_folder,
@@ -308,8 +313,7 @@ def make_corpus(input_folder,
     for filename in tqdm(os.listdir(tokenized_folder),
                          desc='Finding terms',
                          position=0,
-                         leave=True,
-                         disable=True):
+                         leave=True):
         file_ref = os.path.splitext(filename)[0]
         ext = log[file_ref]['ext']
         if f'{file_ref}.txt' in os.listdir(tagged_folder) or log[file_ref]['no_terms']:
@@ -319,6 +323,7 @@ def make_corpus(input_folder,
                 terms_ignore_case_path, terms_keep_case_path)
         sents = open(os.path.join(tokenized_folder, filename),
                      encoding='utf-8').read().strip().split('\n')
+        sents = set(sents)
         neg_sents_proportion = neg_sents_proportion_pdf if ext == '.pdf' else neg_sents_proportion_web
         tagged_sents = find_terms_in_doc(
             patterns, sents, dont_filter_sents=dont_filter_sents, neg_sents_proportion=neg_sents_proportion)
@@ -330,11 +335,8 @@ def make_corpus(input_folder,
             open(log_path, 'w', encoding='utf-8').write(json.dumps(log))
 
     if os.listdir(tagged_folder):
-        sets, corpus_summary = make_train_test_sets(
+        sets = make_train_test_sets(
             tagged_folder, args_ref, train_test_split=train_test_split)
-        with open(os.path.join(output_folder, 'summary.json'),
-                  'w', encoding='utf-8') as f:
-            f.write(json.dumps(corpus_summary))
         labels = {0: 'train.txt', 1: 'dev.txt', 2: 'test.txt'}
         for index, set_ in enumerate(sets):
             with open(os.path.join(train_test_split_folder, labels[index]),
