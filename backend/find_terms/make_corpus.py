@@ -169,12 +169,7 @@ def make_train_test_sets(folder, args_ref, train_test_split=(85, 15)):
         else:
             sets.append(sents[last_index:count])
             last_index = count
-
-    with open(os.path.join(folder, 'summary.json'),
-              'w', encoding='utf-8') as f:
-        f.write(json.dumps(corpus_summary))
-
-    return sets
+    return sets, corpus_summary
 
 
 def make_corpus(input_folder,
@@ -244,7 +239,7 @@ def make_corpus(input_folder,
     text_folder = os.path.join(output_folder, 'converted_text')
     tokenized_folder = os.path.join(output_folder, 'sentence_tokenized')
     tagged_folder = os.path.join(output_folder, 'tagged')
-    train_test_split_folder = os.path.join(output_folder, 'train_test_split')
+    train_test_split_folder = os.path.join(output_folder, 'train_test_sets')
 
     for folder in (text_folder,
                    tokenized_folder,
@@ -335,11 +330,15 @@ def make_corpus(input_folder,
             open(log_path, 'w', encoding='utf-8').write(json.dumps(log))
 
     if os.listdir(tagged_folder):
-        sets = make_train_test_sets(
+        sets, summary = make_train_test_sets(
             tagged_folder, args_ref, train_test_split=train_test_split)
         labels = {0: 'train.txt', 1: 'dev.txt', 2: 'test.txt'}
         for index, set_ in enumerate(sets):
             with open(os.path.join(train_test_split_folder, labels[index]),
                       'w', encoding='utf-8') as f:
                 f.write('\n\n'.join(set_))
+        with open(os.path.join(train_test_split_folder, 'summary.json'),
+                  'w', encoding='utf-8') as f:
+            f.write(json.dumps(summary))
+
         print('\nCorpus is ready!')
