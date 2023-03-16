@@ -141,12 +141,11 @@ def get_out_of_vocabulary_prop(train_test_sets):
             terms = get_terms_from_tagged_sent(sent)
             dict_ = train_dict if not index else test_dict
             add_to_summary(dict_, terms)
-    type_overlap = set(train_dict.keys()).intersection(set(test_dict.keys()))
-    type_oov_count = len(type_overlap)
+    type_oov = set(test_dict.keys()).difference(set(train_dict.keys()))
+    type_oov_count = len(type_oov)
     type_oov_prop = type_oov_count / len(test_dict)
-    token_oov_count = sum([test_dict[x] for x in type_overlap])
+    token_oov_count = sum([test_dict[x] for x in type_oov])
     token_oov_prop = token_oov_count / sum(test_dict.values())
-    print(test_dict)
     overlap_dict = {
         'type_oov_count': type_oov_count,
         'type_oov_prop': round(type_oov_prop, 2),

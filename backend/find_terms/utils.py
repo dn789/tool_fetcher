@@ -74,12 +74,13 @@ def get_terms_from_tagged_sent(sent):
             current_term = [word]
         elif tag == 'I-Term':
             current_term.append(word)
-            if index == last_index:
-                terms.append(' '.join(current_term))
         elif tag == 'O':
             if current_term:
                 terms.append(' '.join(current_term))
                 current_term = []
+        if index == last_index and current_term:
+                terms.append(' '.join(current_term))
+
     return terms
 
 
