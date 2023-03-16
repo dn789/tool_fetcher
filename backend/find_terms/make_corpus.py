@@ -10,7 +10,12 @@ import re
 from tqdm.auto import tqdm
 from bs4 import BeautifulSoup
 
-from .utils import get_alpha_prop, prepare_sent_NER, sent_filter, sent_tokenize_web_doc
+from .utils import (
+    get_alpha_prop,
+    get_terms_from_tagged_sent,
+    prepare_sent_NER,
+    sent_filter,
+    sent_tokenize_web_doc)
 from . import pdf_extract
 
 
@@ -55,10 +60,10 @@ def make_re_patterns(terms_ignore_case_path, terms_keep_case_path=None):
     return ignore_case_pattern, keep_case_pattern
 
 
-def find_terms_in_doc(patterns, sents, dont_filter_sents=False, neg_sents_proportion=0):
-    """Finds terms in document. 
+def match_terms_in_doc(patterns, sents, dont_filter_sents=False, neg_sents_proportion=0):
+    """Finds termss in document using re matching.
 
-    If dont_filter_sents, sentences longer than 100 words or with a proportion of 
+    If dont_filter_sents, sentences longer than 100 words or with a proportion of
     letters less than .9 (not including spaces) will not be excluded from tagging.
     """
     ignore_case_pattern, keep_case_pattern = patterns
@@ -104,47 +109,65 @@ def find_terms_in_doc(patterns, sents, dont_filter_sents=False, neg_sents_propor
 
 
 def add_to_summary(summary, words):
-    words = ' '.join(words)
-    summary.setdefault(words, 0)
-    summary[words] += 1
+    for word in words:
+        summary.setdefault(word, 0)
+        summary[word] += 1
 
 
 def get_file_summary(corpus_summary, filename, sents):
     file_summary = corpus_summary['files'][filename] = {}
     for sent in sents:
-        current_term = []
-        sent_split = sent.split('\n')
-        len_sent_split = len(sent_split)
+        word_count = len(sent.split('\n'))
         corpus_summary['total']['sent_count'] += 1
-        corpus_summary['total']['word_count'] += len_sent_split
+        corpus_summary['total']['word_count'] += word_count
+        terms = get_terms_from_tagged_sent(sent)
+        add_to_summary(file_summary, terms)
 
-        for index, line in enumerate(sent_split):
-            word, tag = line.split()
-            if tag == 'B-Term':
-                if current_term:
-                    add_to_summary(file_summary, current_term)
-                    current_term = []
-                current_term.append(word)
-            elif tag == 'I-Term':
-                current_term.append(word)
-                if index == len_sent_split - 1:
-                    add_to_summary(file_summary, current_term)
-            elif tag == 'O':
-                if current_term:
-                    add_to_summary(file_summary, current_term)
-                    current_term = []
+
+def get_out_of_vocabulary_prop(train_test_sets):
+    """
+    Reports type and token out-of-vocabulary proportion in test(dev and/or
+    test) sets, i.e. the proportion of entity types and tokens in the test sets
+    that don't occur in the training set.
+    """
+    train_sents = train_test_sets[0]
+    test_sents = []
+    for set_ in train_test_sets[1:]:
+        test_sents.extend(set_)
+    assert len(train_sents) > len(test_sents)
+    train_dict, test_dict = {}, {}
+    for index, sent_set in enumerate((train_sents, test_sents)):
+        for sent in sent_set:
+            terms = get_terms_from_tagged_sent(sent)
+            dict_ = train_dict if not index else test_dict
+            add_to_summary(dict_, terms)
+    type_overlap = set(train_dict.keys()).intersection(set(test_dict.keys()))
+    type_oov_count = len(type_overlap)
+    type_oov_prop = type_oov_count / len(test_dict)
+    token_oov_count = sum([test_dict[x] for x in type_overlap])
+    token_oov_prop = token_oov_count / sum(test_dict.values())
+    print(test_dict)
+    overlap_dict = {
+        'type_oov_count': type_oov_count,
+        'type_oov_prop': round(type_oov_prop, 2),
+        'token_oov_count': token_oov_count,
+        'token_oov_prop': round(token_oov_prop, 2)
+    }
+    return overlap_dict
 
 
 def make_train_test_sets(folder, args_ref, train_test_split=(85, 15)):
     """Makes train, dev, and test sets and corpus summary."""
     sents = []
     corpus_summary = {
-        'args': args_ref,
-        'total': {
-            'sent_count': 0,
-            'word_count': 0,
-            'terms': {}
-        },
+        'corpus': {
+            'args': args_ref,
+            'oov': {},
+            'total': {
+                'sent_count': 0,
+                'word_count': 0,
+                'terms': {}
+            }, },
         'files': {}
     }
     for filename in os.listdir(folder):
@@ -169,6 +192,8 @@ def make_train_test_sets(folder, args_ref, train_test_split=(85, 15)):
         else:
             sets.append(sents[last_index:count])
             last_index = count
+    oov_dict = get_out_of_vocabulary_prop(sets)
+    corpus_summary['oov'] = oov_dict
     return sets, corpus_summary
 
 
@@ -182,33 +207,33 @@ def make_corpus(input_folder,
     """Uses provided terms to make a training NER corpus.
 
     Can be re-run on existing output folder by adding files of the appropriate
-    type to the input folder or other folders (e.g. adding a pdf to the 
-    input_folder, a sentence-tokenized file to the sentence_tokenized folder). 
+    type to the input folder or other folders (e.g. adding a pdf to the
+    input_folder, a sentence-tokenized file to the sentence_tokenized folder).
     The new data will be processed through the rest of the pipeline and added
-    to the train, dev, and test sets. 
+    to the train, dev, and test sets.
 
     Parameters
     ----------
     input_folder : str
-        Path to folder containing input files (pdfs, htm/l, and txt files). If 
+        Path to folder containing input files (pdfs, htm/l, and txt files). If
         None, corpus will be created from already processed files in output
         folder, if any
     output_folder : str
         Folders containing extracted, sentence-tokenized, and tagged text, and
-        train, dev, and test sets go here. 
+        train, dev, and test sets go here.
     train_test_split : tuple, optional
         Percentages of sentences in train, dev, test sets. Defaults to (85, 15)
         (train and dev only).
     dont_filter_sents : bool, optional
-        By default, sentences longer than 100 words or with a proportion of 
-        letter characters less than .9 (not including spaces) will be excluded 
+        By default, sentences longer than 100 words or with a proportion of
+        letter characters less than .9 (not including spaces) will be excluded
         from the output. Set to True to tag these as well
     neg_sents_proportion_pdf : int, optional
-        The percentage of the corpus made of sentences without entities for 
-        pdfs. -1 to include all sentences. 
+        The percentage of the corpus made of sentences without entities for
+        pdfs. -1 to include all sentences.
     neg_sents_proportion_web : int, optional
-        The percentage of the corpus made of sentences without entities for 
-        web documents or text files. -1 to include all sentences. 
+        The percentage of the corpus made of sentences without entities for
+        web documents or text files. -1 to include all sentences.
     """
     if kwargs.get('sent_tokenize_method') == 'spacy':
         import spacy
@@ -264,9 +289,9 @@ def make_corpus(input_folder,
                 log.setdefault(file_ref, {'ext': ext, 'no_terms': False})
                 open(log_path, 'w', encoding='utf-8').write(json.dumps(log))
             if f'{file_ref}.txt' in (
-                os.listdir(text_folder) + os.listdir(tagged_folder)) \
-                    or log[file_ref].get('no_terms'):
+                    os.listdir(text_folder) + os.listdir(tagged_folder)) or log[file_ref].get('no_terms'):
                 continue
+            text = None
             if ext == '.txt':
                 text = open(os.path.join(input_folder, filename),
                             encoding='utf-8').read()
@@ -275,16 +300,17 @@ def make_corpus(input_folder,
                           encoding='utf-8') as f:
                     f.write('\n'.join(sents))
                 continue
-            if ext == '.pdf':
+            elif ext == '.pdf':
                 text = pdf_extract.pdf_to_txt(
                     os.path.join(input_folder, filename))
-            if ext in ('.htm', '.html'):
+            elif ext in ('.htm', '.html'):
                 html = open(os.path.join(input_folder, filename),
                             encoding='utf-8').read()
                 text = BeautifulSoup(html, 'lxml').text
-            with open(os.path.join(text_folder, f'{file_ref}.txt'),
-                      'w', encoding='utf-8') as f:
-                f.write(text)
+            if text:
+                with open(os.path.join(text_folder, f'{file_ref}.txt'),
+                          'w', encoding='utf-8') as f:
+                    f.write(text)
 
     for filename in tqdm(os.listdir(text_folder),
                          desc='Tokenizing sentences',
@@ -295,6 +321,7 @@ def make_corpus(input_folder,
         if f'{file_ref}.txt' in (os.listdir(tokenized_folder) +
                                  os.listdir(tagged_folder)) or log[file_ref].get('no_terms'):
             continue
+        sents = None
         if ext == '.pdf':
             sents = pdf_extract.tokenize_doc(
                 os.path.join(text_folder, filename), sent_tokenize,
@@ -302,8 +329,9 @@ def make_corpus(input_folder,
         elif ext in ('.htm', '.html'):
             sents = sent_tokenize_web_doc(
                 sent_tokenize, os.path.join(text_folder, filename))
-        with open(os.path.join(tokenized_folder, filename), 'w', encoding='utf-8') as f:
-            f.write('\n'.join(sents))
+        if sents:
+            with open(os.path.join(tokenized_folder, filename), 'w', encoding='utf-8') as f:
+                f.write('\n'.join(sents))
 
     for filename in tqdm(os.listdir(tokenized_folder),
                          desc='Finding terms',
@@ -320,7 +348,7 @@ def make_corpus(input_folder,
                      encoding='utf-8').read().strip().split('\n')
         sents = set(sents)
         neg_sents_proportion = neg_sents_proportion_pdf if ext == '.pdf' else neg_sents_proportion_web
-        tagged_sents = find_terms_in_doc(
+        tagged_sents = match_terms_in_doc(
             patterns, sents, dont_filter_sents=dont_filter_sents, neg_sents_proportion=neg_sents_proportion)
         if tagged_sents:
             with open(os.path.join(tagged_folder, filename), 'w', encoding='utf-8') as f:

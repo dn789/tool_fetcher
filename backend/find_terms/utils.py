@@ -61,6 +61,28 @@ def get_alpha_prop(sent):
     return alnum_count / total
 
 
+def get_terms_from_tagged_sent(sent):
+    terms = []
+    current_term = []
+    lines = sent.split('\n')
+    last_index = len(lines) - 1
+    for index, line in enumerate(lines):
+        word, tag = line.split()
+        if tag == 'B-Term':
+            if current_term:
+                terms.append(' '.join(current_term))
+            current_term = [word]
+        elif tag == 'I-Term':
+            current_term.append(word)
+            if index == last_index:
+                terms.append(' '.join(current_term))
+        elif tag == 'O':
+            if current_term:
+                terms.append(' '.join(current_term))
+                current_term = []
+    return terms
+
+
 def prepare_sent_NER(sent):
     return re.sub(PUNCT_PATTERN, r' \1 ', sent)
 
