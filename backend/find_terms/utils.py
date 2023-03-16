@@ -49,24 +49,6 @@ def check_term_in_corpus(term, tagged_folder, corpus_summary_path, remove=False)
             f.write(json.dumps(corpus_summary))
 
 
-def remove_term_in_corpus(term, tagged_folder, corpus_summary):
-    """
-    Removes all sentences containing specified term for all files in 
-    tagged_folder and updates summary. 
-    """
-    corpus_summary = json.load(open(corpus_summary, encoding='utf-8'))
-    term_split = term.split()
-    for filename, terms in corpus_summary['files'].items():
-        if term not in terms:
-            continue
-        print(f'{filename} :\n')
-        sents = open(os.path.join(tagged_folder, filename),
-                     encoding='utf-8').read().strip().split('\n\n')
-        for sent in sents:
-            for line in sents.split('\n'):
-                word, tag = line.split()
-
-
 def get_alpha_prop(sent):
     total, alnum_count = 0, 0
     for char in sent:
@@ -96,3 +78,16 @@ def sent_tokenize_web_doc(method, filepath):
     for section in sections:
         sents.extend(method(section))
     return sents
+
+
+def iob_to_json(filepath, output_path):
+    sents = open(filepath, encoding='utf-8').read().split('\n\n')
+    output_dicts = []
+    for sent in sents:
+        output_dict = {'words': [], 'ner': []}
+        for line in sent.split('\n'):
+            word, tag = line.split()
+            output_dict['words'].append(word)
+            output_dict['ner'].append(tag)
+        output_dicts.append(json.dumps(output_dict))
+    open(output_path, 'w', encoding='utf-8').write('\n'.join(output_dicts))
