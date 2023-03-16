@@ -9,25 +9,62 @@ PUNCT = ',;:\'‘’"“”()[]{}\\/|'
 PUNCT_PATTERN = rf'({"|".join([re.escape(char) for char in PUNCT])}|[.!?]+$)'
 
 
-def check_term_in_corpus(term, tagged_folder, corpus_summary):
+def check_term_in_corpus(term, tagged_folder, corpus_summary_path, remove=False):
     """
-    Displays all sentences containing specified term for all files in 
-    tagged_folder.
+    Displays or all sentences containing specified term for all files in 
+    tagged_folder. If remove, removes all sentences containing the term and 
+    updates the summary instead.
+    """
+    corpus_summary = json.load(open(corpus_summary_path, encoding='utf-8'))
+    assert term in corpus_summary['totals']['terms']
+    corpus_summary['totals']['terms'].pop(term)
+    for filename, terms in corpus_summary['files'].items():
+        remove_indices = []
+        if term not in terms:
+            continue
+        corpus_summary['files']['filename'].pop(term)
+        if not remove:
+            print(f'{filename} :\n')
+        sents = open(os.path.join(tagged_folder, filename),
+                     encoding='utf-8').read().strip().split('\n\n')
+
+        for index, sent in enumerate(sents):
+            if not re.findall(rf'\b{term}\b', sent):
+                continue
+            if remove:
+                remove_indices.append(index)
+            else:
+                sent = ' '.join([line.split()[0] for line in sent.split('\n')])
+                print(''.join([x for x in sent if ord(x) <= 256]))
+        if remove:
+            for index in remove_indices:
+                del sents[index]
+            with open(os.path.join(tagged_folder, filename), 'w', encoding='utf-8') as f:
+                f.write('\n\n'.join(sents))
+            print(
+                f'Deleted {len(remove_indices)} sentence(s) from {filename}.')
+        print('\n------------------\n')
+    if remove:
+        with open(corpus_summary, 'w', encoding='utf-8') as f:
+            f.write(json.dumps(corpus_summary))
+
+
+def remove_term_in_corpus(term, tagged_folder, corpus_summary):
+    """
+    Removes all sentences containing specified term for all files in 
+    tagged_folder and updates summary. 
     """
     corpus_summary = json.load(open(corpus_summary, encoding='utf-8'))
+    term_split = term.split()
     for filename, terms in corpus_summary['files'].items():
         if term not in terms:
             continue
         print(f'{filename} :\n')
         sents = open(os.path.join(tagged_folder, filename),
                      encoding='utf-8').read().strip().split('\n\n')
-
         for sent in sents:
-            if not re.findall(rf'\b{term}\b', sent):
-                continue
-            sent = ' '.join([line.split()[0] for line in sent.split('\n')])
-            print(''.join([x for x in sent if ord(x) <= 256]))
-        print('\n------------------\n')
+            for line in sents.split('\n'):
+                word, tag = line.split()
 
 
 def get_alpha_prop(sent):
