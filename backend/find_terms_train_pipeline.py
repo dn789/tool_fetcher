@@ -16,8 +16,10 @@ parser.add_argument('--neg_sents_proportion_pdf', type=float, default=0,
                     help='Percentage of sentences without entities for pdfs')
 parser.add_argument('--neg_sents_proportion_web', type=float, default=0,
                     help='Percentage of sentences without entities for web documents or text files')
+parser.add_argument('--replace_test_terms_with_oov', action=argparse.BooleanOptionalAction,
+                    help='Replaces terms in test and dev sentences with terms that don\'t occur in train sentences.')
 
 args = parser.parse_args()
-# print(args.dont_filter_sents)
+
 if args.make_corpus:
     make_corpus(**vars(args))
