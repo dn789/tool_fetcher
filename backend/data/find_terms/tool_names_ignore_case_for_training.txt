@@ -55,7 +55,6 @@ ArcSight ESM
 ArchStrike
 Arcsight Enterprise Security Manager
 Aria-body
-Armitage
 Artifact Examiner
 ArtifactExtractor
 Asleap
@@ -64,13 +63,14 @@ AttifyOS
 AutoIt backdoor
 AutoSploit
 AutoTTP
-Automater
 Azorult
 BBQSQL
 BITSAdmin
+BUBBLEWRAP
 BabyShark
 Backdoor Factory
 Bash Bunny
+BeEFs
 BeeLogger
 Beelogger
 Belkasoft Evidence Center
@@ -239,6 +239,7 @@ FinSpy
 Final1stspy
 FindBugs
 Firebug
+Firewalk
 FlawedAmmyy
 FlawedGrace
 FlexiSpy
@@ -328,6 +329,7 @@ Interactive Disassembler
 Intercepter-NG
 Intezer
 Inundator
+Invicti
 Invoke-LiveResponse
 Invoke-PSImage
 Ixeshe
@@ -711,6 +713,7 @@ Valkyrie
 Valkyrie Verdict
 Vasport
 Veles
+Velociraptor
 Virus Total
 VirusTotal
 Virustotal
@@ -1091,6 +1094,7 @@ cdpsnarf
 cecster
 celerystalk
 centry
+cero
 certgraph
 certipy
 certutil
@@ -1224,7 +1228,6 @@ ctftool
 ctunnel
 ctypes-sh
 cuckoo sandbox
-cupp
 cutycapt
 cve-api
 cve-search
@@ -1672,6 +1675,7 @@ gobd
 gobuster
 gocabrito
 goddi
+goldeneye
 golismero
 gomapenum
 goodork
@@ -2283,7 +2287,6 @@ munin-hashchecker
 muraena
 mwebfp
 mxtract
-mybff
 myjwt
 mylg
 mysql2sqlite
@@ -2668,6 +2671,8 @@ pstoreview
 pth-toolkit
 ptunnel
 pulledpork
+pulsar
+punter
 pupy
 pureblood
 pwcrack
@@ -2800,6 +2805,7 @@ raspberry pwn
 rastrea2r
 rathole
 ratproxy
+rawr
 rawsec-cli
 rbasefind
 rbkb
@@ -2928,8 +2934,6 @@ samydeluxe
 sandcastle
 sandmap
 sandsifter
-saruman
-sasm
 sawef
 sb0x
 sc-make
@@ -3045,6 +3049,7 @@ slackpirate
 sleuth kit
 sleuthkit
 sleuthql
+slither
 sloth-fuzzer
 slowhttptest
 slowloris
@@ -3109,14 +3114,11 @@ socialscan
 socketfuzz
 sockstat
 sodinokibi
-sonar
 sonarcloud
 sonarlint
 sonarqube
 spaf
 sparrowdoor
-sparta
-spartan
 sparty
 spectools
 speedpwn
@@ -3210,6 +3212,7 @@ stig-viewer
 stompy
 stoq
 storm-ring
+stowaway
 strace
 streamfinder
 stringsifter
@@ -3227,6 +3230,7 @@ subover
 subscraper
 sucrack
 suid3num
+sulley
 superscan
 supersu
 surfraw
@@ -3449,6 +3453,7 @@ vbscan
 vbsmin
 vcsmap
 vega scanner
+veles
 veracrypt
 verinice
 vfeed
@@ -3459,7 +3464,9 @@ vipermonkey
 viproy-voipkit
 virustotal
 visql
+visualize-logs
 vivisect
+vlan-hopping
 vlany
 vmap
 vnak
@@ -3677,6 +3684,7 @@ zelos
 zenmap
 zeratool
 zerowine
+zeus
 zeus-scanner
 zgrab
 zgrab2
