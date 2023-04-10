@@ -15,9 +15,10 @@ from .utils import (
     make_re_patterns,
     match_terms_in_sents,
     normalize_term,
-    prepare_sent_NER,
-    sent_filter,
-    sent_tokenize_web_doc)
+    sent_tokenize_web_doc,
+    read_lines,
+    write_lines
+)
 from . import pdf_utils
 
 
@@ -131,7 +132,8 @@ def replace_terms_with_oov(term_patterns, term_sets, train_sents, test1_sents, t
             sent = match_terms_in_sents(
                 term_patterns, sent, dont_filter_sents=True)[0]
             sents[index] = sent
-        return_sets[key] = sents
+
+        return_sets[key] = [x for x in sents if x]
 
         if key == 'test1' and test2_sents:
             test_terms_ignore_case, test_terms_keep_case = set(), set()
@@ -258,12 +260,9 @@ def make_corpus(input_folder,
         'terms_ignore_cast_path', 'data/find_terms/tool_names_ignore_case.txt')
     terms_keep_case_path = kwargs.get(
         'terms_keep_cast_path', 'data/find_terms/tool_names_keep_case.txt')
-    terms_ignore_case = set(open(
-        terms_ignore_case_path, encoding='utf-8').read().split('\n'))
-    terms_keep_case = set(open(terms_keep_case_path,
-                               encoding='utf-8').read().split('\n'))
-    term_patterns = make_re_patterns(
-        terms_ignore_case, terms_keep_case)
+    terms_ignore_case = set(read_lines(terms_ignore_case_path))
+    terms_keep_case = set(read_lines(terms_keep_case_path))
+    term_patterns = make_re_patterns(terms_ignore_case, terms_keep_case)
 
     text_folder = os.path.join(output_folder, 'text')
     tokenized_folder = os.path.join(output_folder, 'sentence_tokenized')
@@ -299,10 +298,9 @@ def make_corpus(input_folder,
             if ext == '.txt':
                 text = open(os.path.join(input_folder, filename),
                             encoding='utf-8').read()
+
                 sents = sent_tokenize(text)
-                with open(os.path.join(tokenized_folder, filename), 'w',
-                          encoding='utf-8') as f:
-                    f.write('\n'.join(sents))
+                write_lines(os.path.join(tokenized_folder, filename), sents)
                 continue
             elif ext == '.pdf':
                 text = pdf_utils.pdf_to_txt(

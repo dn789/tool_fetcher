@@ -4,6 +4,7 @@ Utility functions
 import json
 import os
 import re
+from tqdm import tqdm
 
 PUNCT = ',;:\'‘’"“”()[]{}\\/|'
 PUNCT_PATTERN = rf'({"|".join([re.escape(char) for char in PUNCT])}|[.!?]+$)'
@@ -130,7 +131,7 @@ def match_terms_in_sents(term_patterns, *sents, dont_filter_sents=False, neg_sen
     tagged_sents = []
     sents_total, sents_with_entities = 0, 0
 
-    for sent in sents:
+    for sent in tqdm(sents):
         # print(sent)
         if not dont_filter_sents and not sent_filter(sent):
             continue
@@ -170,7 +171,7 @@ def match_terms_in_sents(term_patterns, *sents, dont_filter_sents=False, neg_sen
 
 
 def normalize_term(term):
-    return ''.join([char for char in term if char.isalnum()])
+    return ''.join([char.lower() for char in term if char.isalnum()])
 
 
 def prepare_sent_NER(sent):
@@ -178,7 +179,7 @@ def prepare_sent_NER(sent):
 
 
 def sent_filter(sent):
-    if 5 <= len(sent.split()) <= 100 and get_alpha_prop(sent) >= .9:
+    if 5 <= len(sent.split()) <= 100 and get_alpha_prop(sent) >= .85:
         return True
 
 
@@ -203,3 +204,63 @@ def iob_to_json(filepath, output_path):
             output_dict['ner'].append(tag)
         output_dicts.append(json.dumps(output_dict))
     open(output_path, 'w', encoding='utf-8').write('\n'.join(output_dicts))
+
+
+def json_to_roster(json_path, roster_dir=None, test=False):
+    roster_text, roster_labels = [], []
+    dicts = open(json_path, encoding='utf-8').read().split('\n')
+    for line in dicts:
+        dict_ = json.loads(line)
+        roster_text.append(' '.join(dict_['words']))
+        roster_labels.append(' '.join(dict_['ner']))
+    text_output_path = 'test_text.txt' if test else 'train_text.txt'
+    label_output_path = 'test_label_true.txt' if test else 'train_label_dist.txt'
+    text_output_path = os.path.join(
+        roster_dir, text_output_path) if roster_dir else text_output_path
+    label_output_path = os.path.join(
+        roster_dir, label_output_path) if roster_dir else label_output_path
+    open(text_output_path, 'w', encoding='utf-8').write('\n'.join(roster_text))
+    open(label_output_path, 'w', encoding='utf-8').write('\n'.join(roster_labels))
+
+
+def reg_iob_to_roster(filepath, roster_dir=None, test=False):
+    roster_text, roster_labels = [], []
+    sents = open(filepath, encoding='utf-8').read().split('\n\n')
+    for sent in sents:
+        sent_text, sent_label = [], []
+        for line in sent.split('\n'):
+            word, tag = line.split()
+            sent_text.append(word)
+            sent_label.append(tag)
+        roster_text.append(' '.join(sent_text))
+        roster_labels.append(' '.join(sent_label))
+    text_output_path = 'test_text.txt' if test else 'train_text.txt'
+    label_output_path = 'test_label_true.txt' if test else 'train_label_dist.txt'
+    text_output_path = os.path.join(
+        roster_dir, text_output_path) if roster_dir else text_output_path
+    label_output_path = os.path.join(
+        roster_dir, label_output_path) if roster_dir else label_output_path
+    open(text_output_path, 'w', encoding='utf-8').write('\n'.join(roster_text))
+    open(label_output_path, 'w', encoding='utf-8').write('\n'.join(roster_labels))
+
+
+def load_json(path):
+    return json.load(open(path, encoding='utf-8'))
+
+
+def read_lines(path):
+    return open(path, encoding='utf-8').read().strip().split('\n')
+
+
+def write_lines(path, to_write):
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(to_write))
+
+
+def read_iob(path):
+    return open(path, encoding='utf-8').read().strip().split('\n\n')
+
+
+def write_iob(path, to_write=None):
+    with open(path, 'w', encoding='utf-8')as f:
+        f.write('\n\n'.join(to_write))
