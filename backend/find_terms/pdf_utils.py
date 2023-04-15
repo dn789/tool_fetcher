@@ -15,7 +15,7 @@ COMMON_WORDS = set(
     open(COMMON_WORDS_DIR, encoding='utf-8').read().strip().split('\n'))
 
 
-def tokenize_doc_from_text(text, sent_tokenize_method, use_line_ends=True):
+def sent_tokenize_pdf(text, sent_tokenize_method, use_line_ends=True):
     """
     Tokenizes sentences in document.
 
@@ -24,7 +24,7 @@ def tokenize_doc_from_text(text, sent_tokenize_method, use_line_ends=True):
     text : Extracted text from a pdf.
     sent_tokenize_method: func
         Method that takes a text string and returns a list of sentences.
-    use_line_ends : bool
+    use_line_ends : bool, default True
         Uses the presence or absence of spaces before newlines
         in text extracted from PDFs to aid tokenization. This method doesn't
         appear to work on extracted text with relatively few spaces before
@@ -112,9 +112,9 @@ def tokenize_doc_from_text(text, sent_tokenize_method, use_line_ends=True):
 
 
 def tokenize_doc_from_filepath(filepath, sent_tokenize_method, use_line_ends):
-    return tokenize_doc_from_text(open(filepath, encoding='utf-8').read().strip(),
-                                  sent_tokenize_method=sent_tokenize_method,
-                                  use_line_ends=use_line_ends)
+    return sent_tokenize_pdf(open(filepath, encoding='utf-8').read().strip(),
+                             sent_tokenize_method=sent_tokenize_method,
+                             use_line_ends=use_line_ends)
 
 
 def pdf_to_txt(doc, output_path=None):
@@ -157,12 +157,12 @@ def process_word_obj(word_obj):
     return r, word
 
 
-def highlight(pdf_or_path,
-              terms,
-              return_pdf=False,
-              output_path=None,
-              fast=False,
-              ):
+def pdf_highlight(pdf_or_path,
+                  terms,
+                  return_pdf=False,
+                  output_path=None,
+                  fast=False,
+                  ):
     """
     Highlights terms in PDF. Fast version (adjacent punctuation also gets
     higlighted).

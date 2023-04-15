@@ -4,7 +4,6 @@ Utility functions
 import json
 import os
 import re
-from tqdm import tqdm
 
 PUNCT = ',;:\'‘’"“”()[]{}\\/|'
 PUNCT_PATTERN = rf'({"|".join([re.escape(char) for char in PUNCT])}|[.!?]+$)'
@@ -12,8 +11,8 @@ PUNCT_PATTERN = rf'({"|".join([re.escape(char) for char in PUNCT])}|[.!?]+$)'
 
 def check_term_in_corpus(term, tagged_folder, corpus_summary_path, remove=False):
     """
-    Displays or all sentences containing specified term for all files in 
-    tagged_folder. If remove, removes all sentences containing the term and 
+    Displays or all sentences containing specified term for all files in
+    tagged_folder. If remove, removes all sentences containing the term and
     updates the summary instead.
     """
     corpus_summary = json.load(open(corpus_summary_path, encoding='utf-8'))
@@ -58,18 +57,16 @@ def get_alpha_prop(sent):
             if char.isalnum():
                 alnum_count += 1
     if not total:
-        return 0
+        return
     return alnum_count / total
 
 
-def get_terms_from_tagged_sents(*sents):
+def get_terms_from_tagged_sents(sents):
     terms = []
     for sent in sents:
         current_term = []
-        lines = sent.split('\n')
-        last_index = len(lines) - 1
-        for index, line in enumerate(lines):
-            word, tag = line.split()
+        last_index = len(sent['labels']) - 1
+        for index, (word, tag) in enumerate(zip(sent['text'], sent['labels'])):
             if tag == 'B-Term':
                 if current_term:
                     terms.append(' '.join(current_term))
@@ -82,11 +79,10 @@ def get_terms_from_tagged_sents(*sents):
                     current_term = []
             if index == last_index and current_term:
                 terms.append(' '.join(current_term))
-
     return terms
 
 
-def make_re_patterns(terms_ignore_case, terms_keep_case=set()):
+def make_term_patterns(terms_ignore_case, terms_keep_case=None):
     """
     Makes regex patterns to find terms in text.
 
@@ -94,84 +90,71 @@ def make_re_patterns(terms_ignore_case, terms_keep_case=set()):
     ----------
     terms_ignore_case : iterable
         Terms to match ignoring case (don't have common word aliases).
-    terms_keep_case : str, optional
-        Terms to match case-sensitively (do have common word aliases).
+    terms_keep_case : iterable, optional
+        Terms to match case-sensitively.
     """
-    terms_ignore_case, terms_keep_case = set(
-        terms_ignore_case), set(terms_keep_case)
-    for set_ in (terms_ignore_case, terms_keep_case):
+    term_patterns = {}
+
+    for terms in (terms_ignore_case, terms_keep_case):
+        key = 'ignore_case' if terms is terms_ignore_case else 'keep_case'
+        if not terms:
+            term_patterns[key] = None
+            continue
+        terms = set(terms)
         update = set()
-        for term in set_:
+        for term in terms:
             update.add(term.replace('-', ' '))
             update.add(term.replace(' ', '-'))
-        set_.update(update)
+        terms.update(update)
+        sorted_terms = sorted(terms, key=len, reverse=True)
+        escaped_terms = [re.escape(term) for term in sorted_terms]
+        flags = re.IGNORECASE if key == 'ignore_case' else 0
+        term_pattern = re.compile(
+            rf'\b({"|".join(escaped_terms)})\b', flags=flags)
+        term_patterns[key] = term_pattern
 
-    terms_ignore_case = sorted(terms_ignore_case, key=len, reverse=True)
-    ignore_case_pattern = re.compile(
-        rf'\b({"|".join([re.escape(term) for term in terms_ignore_case])})\b',
-        re.IGNORECASE)
-    if terms_keep_case:
-        terms_keep_case = sorted(
-            terms_keep_case, key=len, reverse=True)
-        keep_case_pattern = re.compile(
-            rf'\b({"|".join([re.escape(term) for term in terms_keep_case])})\b')
-    else:
-        keep_case_pattern = None
-    return ignore_case_pattern, keep_case_pattern
+    return term_patterns
 
 
-def match_terms_in_sents(term_patterns, *sents, dont_filter_sents=False, neg_sents_proportion=0):
-    """Finds termss in sents using re matching.
-
-    If dont_filter_sents, sentences shorter than 5 words or longer than 100 or 
-    with a proportion of letters less than .9 (not including spaces) will not 
-    be excluded from tagging.
+def match_terms_in_sents(term_patterns, sents, return_terms_only=False):
     """
-    ignore_case_pattern, keep_case_pattern = term_patterns
+    Finds terms in sentences using regex, returning a dictionary of tagged 
+    sentences and a list of matched terms.
+    """
     tagged_sents = []
-    sents_total, sents_with_entities = 0, 0
-
-    for sent in tqdm(sents):
-        # print(sent)
-        if not dont_filter_sents and not sent_filter(sent):
-            continue
+    matched_terms = set()
+    for sent in sents:
         sent = prepare_sent_NER(sent)
         spans = set()
         spans.update([match.span()
-                     for match in re.finditer(ignore_case_pattern, sent)])
-        if keep_case_pattern:
+                     for match in re.finditer(term_patterns['ignore_case'], sent)])
+        if term_patterns['keep_case']:
             spans.update([match.span()
-                          for match in re.finditer(keep_case_pattern, sent)])
+                          for match in re.finditer(term_patterns['keep_case'], sent)])
         spans = sorted(spans, key=lambda x: (x[0], -x[1]))
-
-        if not spans and neg_sents_proportion != -1:
-            if not neg_sents_proportion or not sents_total or (1 - (sents_with_entities / sents_total)) >= neg_sents_proportion:
-                continue
-        if spans:
-            sents_with_entities += 1
-        sents_total += 1
         last_stop = 0
-        tagged_sent = []
+        text, labels = [], []
         for index, (start, stop) in enumerate(spans):
+            matched_terms.add(sent[start:stop])
             if index != 0 and start in spans[index - 1]:
                 continue
-            tagged_sent.extend([(word, 'O')
-                               for word in sent[last_stop:start].split()])
-            tagged_sent.extend([(word, 'B-Term' if not index else 'I-Term')
-                               for index, word in enumerate(sent[start:stop].split())])
+            for word in sent[last_stop:start].split():
+                text.append(word)
+                labels.append('O')
+            for index, word in enumerate(sent[start:stop].split()):
+                text.append(word)
+                labels.append('B-Term' if not index else 'I-Term')
             last_stop = stop
         if last_stop != len(sent):
-            tagged_sent.extend([(word, 'O')
-                               for word in sent[last_stop:].split()])
-        if tagged_sent:
-            tagged_sent = '\n'.join(
-                [f'{word} {tag}' for word, tag in tagged_sent])
+            for word in sent[last_stop:].split():
+                text.append(word)
+                labels.append('O')
+        if text:
+            tagged_sent = {'text': text, 'labels': labels}
             tagged_sents.append(tagged_sent)
-    return tagged_sents
-
-
-def normalize_term(term):
-    return ''.join([char.lower() for char in term if char.isalnum()])
+    if return_terms_only:
+        return matched_terms
+    return tagged_sents, matched_terms
 
 
 def prepare_sent_NER(sent):
@@ -183,8 +166,7 @@ def sent_filter(sent):
         return True
 
 
-def sent_tokenize_web_doc(method, filepath):
-    text = open(filepath, encoding='utf-8').read()
+def sent_tokenize_web_doc(text, method):
     sents = []
     text = text.replace('\r', '\n')
     sections = text.split('\n')
@@ -248,11 +230,28 @@ def load_json(path):
     return json.load(open(path, encoding='utf-8'))
 
 
+def read(path):
+    if type(path) != str:
+        path = os.path.join(*[x for x in path])
+    return open(path, encoding='utf-8').read()
+
+
 def read_lines(path):
+    if type(path) != str:
+        path = os.path.join(*[x for x in path])
     return open(path, encoding='utf-8').read().strip().split('\n')
 
 
-def write_lines(path, to_write):
+def write(to_write, path):
+    if type(path) != str:
+        path = os.path.join(*[x for x in path])
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(to_write)
+
+
+def write_lines(to_write, path):
+    if type(path) != str:
+        path = os.path.join(*[x for x in path])
     with open(path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(to_write))
 
