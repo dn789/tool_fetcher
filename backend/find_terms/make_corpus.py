@@ -160,7 +160,7 @@ def make_train_test_sets(folder,
                     sent_count += 1
                     neg_sent_count += 1
                     combined_sents.append(sent_dict)
-        get_file_summary(corpus_summary, filename, file_sents)
+        get_file_summary(corpus_summary, filename, combined_sents)
 
     for terms_dict in corpus_summary['files'].values():
         for term, count in terms_dict.items():
