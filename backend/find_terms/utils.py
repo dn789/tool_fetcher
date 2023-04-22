@@ -64,8 +64,12 @@ def get_alpha_prop(sent):
 def get_terms_from_tagged_sents(sents):
     terms = []
     for sent in sents:
-        current_term = []
+        if type(sent['text']) == str:
+            sent['text'] = sent['text'].split()
+        if type(sent['labels']) == str:
+            sent['labels'] = sent['labels'].split()
         last_index = len(sent['labels']) - 1
+        current_term = []
         for index, (word, tag) in enumerate(zip(sent['text'], sent['labels'])):
             if tag == 'B-Term':
                 if current_term:
