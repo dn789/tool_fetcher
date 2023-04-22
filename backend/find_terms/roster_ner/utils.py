@@ -54,17 +54,13 @@ class RoSTERUtils(object):
             if entity_type != "O":
                 self.entity_types.append(entity_type.split('-')[-1])
 
-    def get_label_map(self, tag_scheme):
+    def get_label_map(self):
         label_map = {'O': 0}
         num_labels = 1
         for entity_type in self.entity_types:
             label_map['B-' + entity_type] = num_labels
-            if tag_scheme == 'iob':
-                label_map['I-' + entity_type] = num_labels + 1
-                num_labels += 2
-            elif tag_scheme == 'io':
-                label_map['I-' + entity_type] = num_labels
-                num_labels += 1
+            label_map['I-' + entity_type] = num_labels
+            num_labels += 1
         label_map['UNK'] = -100
         inv_label_map = {k: v for v, k in label_map.items()}
         self.label_map = label_map

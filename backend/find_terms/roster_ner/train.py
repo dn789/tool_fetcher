@@ -1,4 +1,3 @@
-import shutil
 from .trainer import RoSTERTrainer
 
 
@@ -6,7 +5,7 @@ def train(args):
 
     print(args)
 
-    if args.do_train:
+    if not args.eval_only:
 
         # train K models for ensemble
         for i in range(args.num_models):
@@ -21,8 +20,6 @@ def train(args):
 
         # self-training
         trainer.self_train()
-
-        shutil.rmtree(trainer.temp_dir, ignore_errors=True)
 
     if args.do_eval:
 

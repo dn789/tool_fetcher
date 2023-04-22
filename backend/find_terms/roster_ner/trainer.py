@@ -64,8 +64,10 @@ class RoSTERTrainer(object):
         self.tokenizer = RobertaTokenizer.from_pretrained(
             args.pretrained_model, do_lower_case=False)
         self.processor = RoSTERUtils(self.corpus_dir, self.tokenizer)
-        self.label_map, self.inv_label_map = self.processor.get_label_map(
-            args.tag_scheme)
+        # Removed tag_scheme option due to errors; only uses 'io'.
+        # self.label_map, self.inv_label_map = self.processor.get_label_map(
+        #     args.tag_scheme)
+        self.label_map, self.inv_label_map = self.processor.get_label_map()
         self.num_labels = len(self.inv_label_map) - 1  # exclude UNK type
         self.vocab = self.tokenizer.get_vocab()
         self.inv_vocab = {k: v for v, k in self.vocab.items()}
@@ -77,6 +79,8 @@ class RoSTERTrainer(object):
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() else "cpu")
         print(f"***** Using {torch.cuda.device_count()} GPU(s)! *****\n")
+        self.model.to(self.device)
+
         if torch.cuda.device_count() > 1:
             self.multi_gpu = True
         else:
@@ -92,8 +96,12 @@ class RoSTERTrainer(object):
             all_labels = tensor_data["all_labels"]
             all_valid_pos = tensor_data["all_valid_pos"]
             self.tensor_data = tensor_data
-            self.gce_bin_weight = torch.ones_like(all_input_ids).float()
-            self.gce_type_weight = torch.ones_like(all_input_ids).float()
+            self.gce_bin_weight = torch.ones_like(
+                all_input_ids).to(self.device).float()
+            self.gce_type_weight = torch.ones_like(
+                all_input_ids).to(self.device).float()
+            # self.gce_bin_weight = torch.ones_like(all_input_ids).float()
+            # self.gce_type_weight = torch.ones_like(all_input_ids).float()
 
             self.train_data = TensorDataset(
                 all_idx, all_input_ids, all_attention_mask, all_valid_pos, all_labels)
@@ -237,8 +245,10 @@ class RoSTERTrainer(object):
             idx, input_ids, attention_mask, valid_pos, labels = tuple(
                 t.to(self.device) for t in batch)
 
-            type_weight = torch.ones_like(input_ids).float()
-            bin_weight = torch.ones_like(input_ids).float()
+            type_weight = torch.ones_like(input_ids).to(self.device).float()
+            bin_weight = torch.ones_like(input_ids).to(self.device).float()
+            # type_weight = torch.ones_like(input_ids).float()
+            # bin_weight = torch.ones_like(input_ids).float()
 
             max_len = attention_mask.sum(-1).max().item()
             input_ids, attention_mask, valid_pos, labels = tuple(t[:, :max_len] for t in
@@ -272,8 +282,10 @@ class RoSTERTrainer(object):
                 bin_weight[:, :max_len][(valid_pos > 0)
                                         & valid_idx] = condition.to(bin_weight)
 
-            self.gce_bin_weight[idx] = bin_weight.cpu()
-            self.gce_type_weight[idx] = type_weight.cpu()
+            self.gce_bin_weight[idx] = bin_weight
+            self.gce_type_weight[idx] = type_weight
+            # self.gce_bin_weight[idx] = bin_weight.cpu()
+            # self.gce_type_weight[idx] = type_weight.cpu()
 
         # check if there are too few training tokens for any entity type classes
         remove_label_pos = self.gce_type_weight == 0
@@ -477,7 +489,7 @@ class RoSTERTrainer(object):
         all_idx = torch.cat(indices)
 
         type_distribution = torch.zeros(
-            len(self.train_data), self.max_seq_length, self.num_labels - 1)
+            len(self.train_data), self.max_seq_length, self.num_labels - 1).to(self.device)
         for idx, type_pred in zip(all_idx, type_preds):
             type_distribution[idx] = type_pred
 
