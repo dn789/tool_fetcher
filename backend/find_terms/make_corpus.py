@@ -1,7 +1,7 @@
 """
 Uses terms to make a training NER corpus.
 """
-
+from collections import OrderedDict
 import json
 import os
 import random
@@ -26,14 +26,18 @@ from . import pdf_utils
 
 
 def get_file_summary(corpus_summary, filename, sents):
-    file_summary = corpus_summary['files'][filename] = {}
     for sent in sents:
         word_count = len(sent['labels'])
         corpus_summary['corpus']['total']['sent_count'] += 1
         corpus_summary['corpus']['total']['word_count'] += word_count
     terms = get_terms_from_tagged_sents(sents)
+    terms_dict = {}
     for term in terms:
-        file_summary[term] = file_summary.setdefault(term, 0) + 1
+        terms_dict[term] = terms_dict.setdefault(term, 0) + 1
+    ranked_term_counts = sorted(
+        terms_dict.items(), key=lambda x: x[1], reverse=True)
+    corpus_summary['files'][filename] = {
+        term: count for term, count in ranked_term_counts}
 
 
 def replace_terms_with_oov(term_patterns, term_sets, train_sents, test1_sents, test2_sents=()):
@@ -146,26 +150,33 @@ def make_train_test_sets(folder,
         sent_count, neg_sent_count = 0, 0
         file_sents = [json.loads(sent) for sent in read_lines(
             os.path.join(folder, file_ref + '.jsonl'))]
+        file_sents_to_add = []
         for sent_dict in file_sents:
             sent = ' '.join(sent_dict['text'])
             if not dont_filter_sents and not sent_filter(sent):
                 continue
             if 'B-Term' in sent_dict['labels']:
                 sent_count += 1
-                combined_sents.append(sent_dict)
+                file_sents_to_add.append(sent_dict)
             else:
                 if not neg_sent_proportion:
                     continue
                 if neg_sent_proportion == -1 or (sent_count and neg_sent_count / sent_count < neg_sent_proportion):
                     sent_count += 1
                     neg_sent_count += 1
-                    combined_sents.append(sent_dict)
-        get_file_summary(corpus_summary, filename, combined_sents)
+                    file_sents_to_add.append(sent_dict)
+        get_file_summary(corpus_summary, filename, file_sents_to_add)
+        combined_sents.extend(file_sents_to_add)
 
+    terms_dict_total = {}
     for terms_dict in corpus_summary['files'].values():
         for term, count in terms_dict.items():
-            corpus_summary['corpus']['total']['terms'].setdefault(term, 0)
-            corpus_summary['corpus']['total']['terms'][term] += count
+            terms_dict_total[term] = terms_dict_total.setdefault(
+                term, 0) + count
+    ranked_term_counts = sorted(
+        terms_dict_total.items(), key=lambda x: x[1], reverse=True)
+    corpus_summary['corpus']['total']['terms'] = {
+        term: count for term, count in ranked_term_counts}
 
     random.shuffle(combined_sents)
     assert sum(train_test_split) == 100
@@ -183,7 +194,7 @@ def make_train_test_sets(folder,
 
 def make_corpus(input,
                 output,
-                train_test_dir='set1',
+                train_test_dir='set_1',
                 train_test_split=(85, 15),
                 neg_sent_proportion_pdf=0,
                 neg_sent_proportion_web=0,
@@ -207,17 +218,17 @@ def make_corpus(input,
     folder on every run. To make a new set with different parameters without 
     overwriting previous ones, change train_test_folder. 
 
-    NOTE: Every parameter can be changed on re-run without modifying the
-    intermediate files except for:
+        NOTE: Every parameter can be changed on re-run without modifying the
+        intermediate files except for:
 
-    sent_tokenize_method, 
-    use_line_ends_for_pdf_tokenization, 
-    terms_ignore_case_path, 
-    terms_keep_case_path
+        sent_tokenize_method, 
+        use_line_ends_for_pdf_tokenization, 
+        terms_ignore_case_path, 
+        terms_keep_case_path
 
-    To change the tokenization parameters, files in the sentence_tokenized 
-    folder and tagged folder should be deleted. To change the terms used for 
-    tagging, files in the tagged folder should be deleted.
+        To change the tokenization parameters, files in the sentence_tokenized 
+        folder and tagged folder should be deleted. To change the terms used 
+        for tagging, files in the tagged folder should be deleted.
 
 
     Parameters
@@ -255,11 +266,11 @@ def make_corpus(input,
         newlines, and is automatically disabled on text with fewer than 25%
         of lines ending in spaces. 
     terms_ignore_case_path : str, 
-        default 'data/find_terms/tool_names_ignore_case.txt'
+        default 'data/find_terms/training/tool_names_ignore_case_for_training.txt'
         Path to file with terms to match ignoring case (don't have common word 
         aliases).
     terms_keep_case_path : str,
-        default 'data/find_terms/tool_names_keep_case.txt'
+        default 'data/find_terms/training/tool_names_keep_case.txt'
         Path to file with terms to match case-sensitively.
     """
     if sent_tokenize_method == 'spacy':
@@ -283,8 +294,8 @@ def make_corpus(input,
         'use_line_ends_for_pdf_tokenization': use_line_ends_for_pdf_tokenization
     }
 
-    terms_ignore_case_path = terms_ignore_case_path or 'data/find_terms/tool_names_ignore_case.txt'
-    terms_keep_case_path = terms_keep_case_path or 'data/find_terms/tool_names_keep_case.txt'
+    terms_ignore_case_path = terms_ignore_case_path or 'data/find_terms/training/tool_names_ignore_case_for_training.txt'
+    terms_keep_case_path = terms_keep_case_path or 'data/find_terms/training/tool_names_keep_case.txt'
     terms_ignore_case = read_lines(terms_ignore_case_path)
     terms_keep_case = read_lines(terms_keep_case_path)
     term_patterns = make_term_patterns(terms_ignore_case, terms_keep_case)
