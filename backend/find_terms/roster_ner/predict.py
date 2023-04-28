@@ -155,8 +155,8 @@ class RoSTerPredictor(object):
             return sent_dicts
         return y_pred
 
-    def load_model(self, model_dir):
+    def load_model(self, model_path):
         map_location = torch.device(
             'cpu') if self.device.type == 'cpu' else None
         self.model.load_state_dict(torch.load(
-            model_dir, map_location=map_location))
+            model_path, map_location=map_location))

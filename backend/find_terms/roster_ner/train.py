@@ -3,8 +3,6 @@ from .trainer import RoSTERTrainer
 
 def train(args):
 
-    print(args)
-
     if not args.eval_only:
 
         # train K models for ensemble
