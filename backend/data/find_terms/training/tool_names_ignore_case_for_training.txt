@@ -589,6 +589,7 @@ RustScan
 SAINT Security Suite
 SANS Investigative Forensic Toolkit
 SANS Investigative Forensics Toolkit
+sasm
 SCOMDecrypt
 SDelete
 SELinux

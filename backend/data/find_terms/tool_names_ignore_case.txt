@@ -55,7 +55,6 @@ ArcSight ESM
 ArchStrike
 Arcsight Enterprise Security Manager
 Aria-body
-Armitage
 Artifact Examiner
 ArtifactExtractor
 Asleap
@@ -64,7 +63,6 @@ AttifyOS
 AutoIt backdoor
 AutoSploit
 AutoTTP
-Automater
 Azorult
 BBQSQL
 BITSAdmin
@@ -1224,7 +1222,6 @@ ctftool
 ctunnel
 ctypes-sh
 cuckoo sandbox
-cupp
 cutycapt
 cve-api
 cve-search
@@ -2283,7 +2280,6 @@ munin-hashchecker
 muraena
 mwebfp
 mxtract
-mybff
 myjwt
 mylg
 mysql2sqlite
@@ -2928,7 +2924,6 @@ samydeluxe
 sandcastle
 sandmap
 sandsifter
-saruman
 sasm
 sawef
 sb0x
@@ -3109,14 +3104,11 @@ socialscan
 socketfuzz
 sockstat
 sodinokibi
-sonar
 sonarcloud
 sonarlint
 sonarqube
 spaf
 sparrowdoor
-sparta
-spartan
 sparty
 spectools
 speedpwn

@@ -1,0 +1,2460 @@
+1.4
+2.6
+4MLinux
+7-Zip
+80386
+A10 Networks
+ADABAS
+ADP
+AI Test Kitchen
+AOSP
+ARCore Elements
+ASP.NET
+ASP.NET Core
+ASP.NET MVC
+AT&T
+AWS
+AWS Amplify
+AWS Athena
+AWS Cloudformation
+AWS Lambda
+AWS Management Console
+AWS QuickSight
+AWS Rekognition
+AbiCollab
+AcademyContact
+Accelerated Mobile Pages
+Access Server
+AccessData
+Accessibility Scanner
+Acrobat Pro
+Action Blocks
+Active Directory
+Active Server Pages
+AdMob
+AdSense
+AdWords Editor
+AdWords Express
+Ada
+Adaptive Connectivity Services
+Adobe
+Adobe Aero
+Adobe Animate
+Adobe Audition
+Adobe Dimension
+Adobe Document Cloud
+Adobe Dreamweaver
+Adobe Experience Cloud
+Adobe Express
+Adobe FireFly
+Adobe Flash
+Adobe Fonts
+Adobe Fresco
+Adobe InCopy
+Adobe Reader
+Adobe Stock
+Adobe Substance
+Adobe XD
+After Effects
+Akamai Technologies
+Alarms & Clock
+Alexa
+Alibaba Cloud
+Alpine Linux
+Altibase
+Amazon AWS
+Amazon Auto-scaling
+Amazon Chime
+Amazon Cognito
+Amazon EC2
+Amazon ElastiCache
+Amazon Glacier
+Amazon IAM
+Amazon Inspector
+Amazon Kinesis
+Amazon Lambda
+Amazon Lightsail
+Amazon RDS
+Amazon S3
+Amazon SNS
+Amazon SQS
+Amazon VPC
+Amazon Web Services
+Amdocs
+American fuzzy lop
+Ampere
+Android
+Android 4.1
+Android 4.3
+Android 4.4
+Android Accessibility Suite
+Android Auto
+Android Auto for Phone Screens
+Android Beta Feedback
+Android Dev Summit
+Android Device Policy
+Android Studio
+Android System Intelligence
+Android System WebView
+Android System WebView Beta
+Android System WebView Canary
+Android System WebView Dev
+Android TV
+Android TV Core Services
+Android TV Data Saver
+Android TV Home
+Android TV Launcher
+Android TV Remote
+Android TV Remote Service
+Android Things Toolkit
+Android-x86
+Androidify
+Angular
+AngularJS
+Ansible
+Ansys
+Apache
+Apache Cocoon
+Apache License
+Apache Struts 1
+Apache Wicket
+Apertium
+App Store
+AppGuard
+AppScale
+Appie
+AppleTalk
+Aptive
+Arch Linux
+ArticMonkey
+Artistic License
+Assembly language
+Audio Factory
+Auto PC
+AutoIt
+Autodesk
+Avast
+Avira
+Azure
+Azure Active Directory
+Azure Backup
+Azure CDN
+Azure Data Factory
+Azure Function
+Azure SQL
+BASH
+BIND9
+BIOS
+BSD licenses
+BSides
+BackBox
+Backdrop Daydream
+Backup and Sync
+Base64
+Bash
+Bazel
+Beacon Tools
+Billix
+Bing
+Bitly
+BizCN
+Black Hat
+Black Hat USA
+BlackArch
+Blackberry
+Blogger
+Blue Team
+BlueStacks
+Bluetooth
+Bodhi Linux
+Bonus Service: Amazon Connect
+Bonus Service: Amazon Lex
+Bootkit
+Bootstrap
+Boto3
+Broadridge Financial Solutions
+BuddyPress
+BuiltWith
+BunsenLabs Linux
+C
+C#
+C++
+CA Technologies
+CAPEC
+CDATA
+CERT
+CERT Polska
+CERT Société Générale
+CISO
+CISOfy
+CISOfyCISOfy
+CMake
+COBOL
+CSRF
+Cadence Design Systems
+CakePHP
+Calculator
+Caldera OpenLinux
+Cameos on Google
+Camera Switches
+Camera from Google
+Cardboard
+Cardboard Camera
+Cardboard Design Lab
+Carrier Services
+Cast OS
+Catalyst
+Cellebrite UFED Physical Analyzer
+CentOS
+Certificate Authority
+Character Map
+Check Point Software Technologies
+Checkstyle
+CherryPy
+Chrome
+Chrome Beta
+Chrome Canary
+Chrome Dev
+Chrome Remote Desktop
+ChromeOS
+Chromebook Pixel
+Chromebooks
+Chromecast
+Chromecast Audio
+Chromecast Built-in
+Chromecast Ultra
+Chromecast with Google TV
+Chromium
+Chroot
+Cisco
+Cisco Systems
+CiteSeerX
+Citrix
+Citrix Systems
+Classic Visual Basic
+ClickOnce
+Clock
+Cloud Console
+Cloud Next
+Cloud Print
+CloudFlare
+CloudFormation
+Cloudera
+Cloudflare
+CodeCatalyst
+CodeCoverage
+CodeIgniter
+Coinbase
+Cold Fusion
+Collabora Online
+Command Prompt
+Component Services
+Computer Management
+Config
+Contacts
+Content Team
+Conversational Actions
+Cookies Manager+
+CorpNET
+Cortana
+CosmosDB
+CouchDB
+Couchbase
+Creative Preview
+Crowdsource
+Crowdstrike
+CrunchBang Linux
+Currents
+CyberArk
+CybraryGet
+Cygwin
+Cylance
+D
+D-Link
+DEF CON
+DEFCON
+DFIR
+DNSSEC
+DPAPI
+DPDK
+Dalvik
+Dalvik Virtual Machine
+Dart
+Dashlane
+Dassault Systèmes
+Data Restore Tool
+Data Transfer Tool
+Datadog
+Datally
+Daydream
+Daydream Elements
+Daydream Keyboard
+Daydream View
+DbVisualizer
+Debian
+Debian 5.0
+Debian Unstable
+Debugger
+Debugging Tools for Windows
+Deepin
+Defcon
+Defragment and Optimize Drives
+Delicious
+Delphi Pascal
+DevOps
+DevSecOps
+Device Health Services
+Device Lock Controller
+Device Utility
+DeviceIoControl
+Diaspora
+Digg
+Digital Wellbeing
+DigitalOcean
+DirectX
+Discourse
+Disk Cleanup
+Disk Defragmenter
+Disk Usage
+Dive Case Connector for Google Camera
+Django
+Docker
+Dockerfile
+DocuSign
+DokuWiki
+Domain Controller
+DoubleClick for Publishers
+Drive File Stream
+DriveDroid
+Dropbox
+Dropbox, Google Drive, Microsoft 365, box
+Dropbox, drop.io
+Drupal
+Dynamo DB
+DynamoDB
+EICAR
+EPAM Systems
+ESET
+Ease of Access
+EasyFTP
+Elcomsoft
+Element
+Elgg
+Emdebian Grip
+Encarta
+EnterpriseFeaturesDemoTopicsComplianceCommunityLynis
+Equifax
+Etherpad
+Event Viewer
+Evernote, Microsoft OneNote
+Express.js
+F5
+Fabby
+Facebook
+FameBit
+Family Link Manager
+Fast Pair Validator
+FastAPI
+Fat-Free Framework
+Fedora
+Fedora Linux
+FeedBurner
+Feedback Hub
+Feng Office
+Festi
+Fiber TV
+File Explorer
+FileMaker
+Files by Google
+Find My Device
+FireEye
+FireEye MarketYou
+Firefox
+Fiserv
+Fitbit
+Flash Player
+Flask
+FlatBuffers
+Fleetcor
+FlightAware
+Flutter
+Flutter Gallery
+FluxBB
+Foresight Linux
+Fortinet
+Fortran
+Fortune 500
+Foundstone
+FoxPro
+FreeBSD
+Freenode
+FriendFeed
+Friendica
+Fuchsia
+FuelPHP
+Fuzzer
+GCHQ
+GCP
+GIF Keyboard by Tenor
+GN
+GNU / Linux
+GNU General Public License
+GNU Lesser General Public License
+GNU Social
+GSoC
+Galaxy Nexus
+Gallery
+Gallery Go by Google Photos
+Gapz
+Garuda Linux
+Gatekeeper
+Gatsby
+Gboard
+Gboard Go
+Gentoo
+Genymotion
+GeoMap
+Gerrit
+Ghost
+Gigasheet
+GitHub
+GitHubSoftware
+GitLab
+Github
+Gitlab
+Glass Enterprise Companion
+Glass OS
+Global Payments Inc
+Gmail
+Gmail Go
+GnssLogger App
+Go
+Google
+Google AIY Projects
+Google ARDA project
+Google Account
+Google Activity Report
+Google Ad Manager
+Google AdMob
+Google AdSense
+Google Admin
+Google Ads
+Google Alerts
+Google Allo
+Google Analytics
+Google App Engine
+Google App for Android TV
+Google AppEngine
+Google Apps Device Policy
+Google Arts & Culture
+Google Arts & Culture VR
+Google Assistant
+Google Assistant Go
+Google Authenticator
+Google Body
+Google Books
+Google BrailleBack
+Google Calendar
+Google Camera
+Google Cantonese Input
+Google Care Studio
+Google Cast
+Google Cast Receiver
+Google Charts
+Google Chat
+Google Chrome
+Google Chromecast
+Google Classroom
+Google Clips
+Google Closure Tools
+Google Cloud
+Google Cloud IoT Cloud Service
+Google Cloud Platform
+Google Cloud Search
+Google Code Competitions
+Google Collaboratory
+Google Collections
+Google Connectivity Services
+Google Crisis Response
+Google Currents
+Google Dataset Search
+Google Developers
+Google Docs
+Google Docs Editors
+Google Docs, Microsoft 365
+Google Domains
+Google Dorks
+Google Drawings
+Google Drive
+Google Duo
+Google Earth
+Google Expeditions
+Google Family Link for Children and Teens
+Google Family Link for Parents
+Google Fi
+Google Fiber
+Google Finance
+Google Firebase
+Google Fit
+Google Flights
+Google Fonts
+Google Form creator
+Google Forms
+Google Gesture Search
+Google Get Your Business Online
+Google Glass
+Google Go
+Google Goggles
+Google Groups
+Google Guava
+Google Handwriting Input
+Google Health Studies
+Google Home
+Google I/O
+Google IME
+Google Images
+Google Indic Keyboard
+Google Jamboard
+Google Japanese Input
+Google Keep
+Google Korean Input
+Google Lens
+Google Listen
+Google Maps
+Google Maps Gallery
+Google Maps Go
+Google Maps Navigation
+Google Marketing Platform
+Google Mars
+Google Meet
+Google Moon
+Google My Business
+Google My Maps
+Google Nest
+Google News
+Google News & Weather
+Google Ngram Viewer
+Google Now Launcher
+Google One
+Google Opinion Rewards
+Google Optimize
+Google PDF Viewer
+Google PageSpeed Tools
+Google Patents
+Google Pay
+Google Pay Send
+Google Person Finder
+Google Photos
+Google Pinyin
+Google Pinyin Input
+Google Pixel
+Google Pixel Buds
+Google Pixel Watch
+Google Pixel Watch Faces
+Google Pixel Watch Services
+Google Play
+Google Play Books
+Google Play Console
+Google Play Games
+Google Play Magazines
+Google Play Music
+Google Play Newsstand
+Google Play Protect Service
+Google Play Services
+Google Play Services for AR
+Google Play Store
+Google Podcasts
+Google Primer
+Google Public DNS
+Google Public Data Explorer
+Google Reader
+Google Santa Tracker
+Google Scholar
+Google Search
+Google Search Console Sitemap
+Google Sheets
+Google Shopping
+Google Sites
+Google Sky
+Google Slides
+Google Spaces
+Google Station Onsite
+Google Street View
+Google Summer of Code
+Google Support Services
+Google TV
+Google TV Home
+Google Tables
+Google Tag Manager
+Google TalkBack
+Google Tasks
+Google Tensor
+Google Tensor G2
+Google Time Zone Data
+Google Translate
+Google Travel
+Google Trends
+Google Trends Screensaver
+Google Trips
+Google VR Services
+Google Videos
+Google Voice
+Google Voice Search
+Google Wallet
+Google Web Designer
+Google Web Toolkit
+Google Wifi
+Google WifiNanScan
+Google WifiRttLocator
+Google Workspace
+Google Zhuyin Input
+Google+
+Googletest
+Grails
+Grasshopper
+GreyEnergy
+Grml
+Grok
+HIPAA
+HSTS
+HTML5
+HackerOne
+HackerSec
+Hackerone
+Hadoop HDFS
+Hak5
+Hangouts
+Hangouts Dialer
+Haskell
+Health Connect by Android
+Heroku
+Home Max
+Home Mini
+Honeynet
+Honeynet Project
+Hotmail
+Huawei
+Hubspot
+Hyatt
+Hyper-V
+IAMAI
+IANA
+IBM
+IBM Cloud
+IBM DB2
+IBM Security
+ICMP
+IDOR
+IEEE
+IETF
+IMP
+IPCop
+IPTC
+IPv4
+Iceweasel
+Illustrator
+ImageMagick
+InDesign
+Inbox by Gmail
+InfoSec
+Informix
+Informix Dynamic Servers
+Instagram
+Intel
+Intel Framework
+Internet Explorer
+Internet Information Services
+Intersection Explorer
+Intuit
+Iptc
+Ivy Big Number Calculator
+JD-Eclipse
+JHipster
+JScript
+Jacquard by Google
+Jamboard
+Java
+Java 8
+JavaScript
+Joomla
+Julia
+Jump Inspector
+Jupyter
+Jython
+KHWE
+KLCP
+KaOS
+Kali Services
+Kanotix
+Kaseya
+KateOS
+KeX
+KeepNote
+Kerberos
+KidSafe
+Kimocoder
+Kotlin
+Kubernetes
+Kubuntu
+Kyndryl
+LDAP
+LEAF Project
+LLMNR
+LUKS
+Lambda
+Laminas
+Laravel
+LastPass
+LeapDroid
+Learn on Demand Systems
+Lenovo
+Let ' s Encrypt
+Let ’ s Encrypt
+LiMux
+Libre.fm
+Lift
+Lightroom
+LimeSurvey
+LinkedIn
+Linode
+Linux
+Linux-based
+LinuxThis
+Lisp
+Live Channels
+Live Transcribe & Sound Notifications
+LiveJournal
+LliureX
+LoRaWAN
+Local Security Policy
+Local Services Ads by Google
+Logic Apps
+Logo
+Looker Mobile
+Looker Studio
+Lua
+Lunar Linux
+MAEC
+MATLAB
+MEmu
+MIT App Inventor
+MIT License
+MITM
+MITRE CorporationUpdated
+MMAC
+MS
+MS 365
+MS Access
+MS Agent
+MS Anti-Virus for Windows
+MS BASIC
+MS Defender
+MS Developer Network
+MS Edge
+MS Excel
+MS Family Safety
+MS Forms
+MS Lens
+MS Magnifier
+MS Math Solver
+MS Notepad
+MS Office
+MS OneNote
+MS Outlook
+MS Paint
+MS PowerPoint
+MS Project
+MS Publisher
+MS SQL
+MS Security Essentials
+MS SharePoint
+MS Small Basic
+MS Store
+MS Sway
+MS Visio
+MS Word
+MS XNA
+MSDN
+MSFT
+MSHTA
+MSN
+Mac OS X
+MacOS
+MacOS 11
+Mageia
+Magento
+Magisk Manager
+Magnitude EK
+Mailman
+Malware
+ManageEngine Applications Manager
+Mandiant
+Mandriva Linux
+Mantra
+Maps
+Mapt
+MariaDB
+MarketAppsVendorsBack
+Mastodon
+Material Gallery
+Mattermost
+Maven
+McAfee
+Measure
+Measured Boot
+MediaWiki
+Meneame
+Messages
+Metasploitable 2
+Meteor
+MicroWeber
+Microsoft
+Microsoft 365
+Microsoft Access
+Microsoft Agent
+Microsoft Anti-Virus for Windows
+Microsoft Azure
+Microsoft BASIC
+Microsoft Defender
+Microsoft Developer Network
+Microsoft Edge
+Microsoft Excel
+Microsoft Family Safety
+Microsoft Forms
+Microsoft Lens
+Microsoft Magnifier
+Microsoft Math Solver
+Microsoft Notepad
+Microsoft Office
+Microsoft OneNote
+Microsoft Outlook
+Microsoft Paint
+Microsoft PowerPoint
+Microsoft Project
+Microsoft Publisher
+Microsoft SQL Server
+Microsoft Security Essentials
+Microsoft SharePoint
+Microsoft Small Basic
+Microsoft Store
+Microsoft Sway
+Microsoft Teams
+Microsoft Visio
+Microsoft Word
+Microsoft XNA
+MitM
+Mixx
+Mojolicious
+Molinux
+MongoDB
+MooTools
+Motion Picture & TV
+Motion Sense Bridge
+Motion Stills
+Mozilla
+MyBB
+MyGlass
+MySQL
+MySpace
+MyTracks
+NBT-NS
+NCC Group   3
+NGINX
+NIST
+NTFS
+NTLM
+NVIDIA
+NameCheap
+Nano
+Napatech
+Navigation for Google Maps Go
+Neo4j
+Nest
+Nest Audio
+Nest Cam IQ Indoor
+Nest Cam IQ Outdoor
+Nest Cam Indoor
+Nest Cam Outdoor
+Nest Hello
+Nest Hub
+Nest Hub Max
+Nest Learning Thermostat
+Nest Mini
+Nest Protect
+Nest Secure
+Nest Thermostat
+Nest Thermostat E
+Nest Wifi
+Nest × Yale
+NetApp
+NetBIOS
+Netgear
+Netscape
+Next.js
+Nextcloud
+Nexus 10
+Nexus 4
+Nexus 5
+Nexus 5X
+Nexus 6
+Nexus 6P
+Nexus 7
+Nexus 9
+Nexus One
+Nexus Player
+Nexus Q
+Nexus S
+Nginx
+Nikon
+Nitrux
+NixOS
+Nixintel
+No Starch Press
+No Starch Press , Inc
+NoSQL
+Node.js
+NodeJS
+Nokia
+NortonLifeLock
+Notable Women
+Notepad
+Nox App Player
+Nuclear EK
+Nuke
+Nvidia
+ODBC Data Sources
+OISF
+OLYMPUS DIGITAL CAMERA
+OPSWAT
+OS X
+OSCP
+OSINT
+OVHcloud
+OWASP
+OWASP Foundation
+Object Pascal
+Objective-C
+Offensive Security
+Office 365
+Office Online
+Offsec
+Okta
+One Today by Google
+OneDrive
+OneNote
+OnePlus 7
+Online Insights Study
+Open Information Security Foundation
+Open Journal Systems
+Open Web Application Security Project
+Open-source license
+OpenBTS
+OpenBroadcaster
+OpenCroquet
+OpenLDAP
+OpenNebula
+OpenPGP
+OpenSimulator
+OpenSocial
+OpenStreetMap
+Oracle
+Oracle Cloud
+Oracle RDBMS
+Oracle WebLogic Server
+OrientDB
+Outlook 365
+Outlook.com
+Outreachy
+PCAP
+PCI DSS
+PHP
+PHPGroupware
+PL/SQL
+POSIX
+PTES
+PackageManagerService
+Packt
+Packt Publishing
+Packt Publishing Ltd
+Padrino
+Paint 3D
+Palantir Technologies
+Palo Alto Networks
+Parrot OS
+Parsix
+Pastebin
+PayPal
+Paychex
+Paycom
+Payment Card Industry
+Paypal
+PeerTube
+Penetration Testing Academy
+Peppermint OS
+Performance Monitor
+Perl
+Personal Safety
+Phalcon
+Phone by Google
+Phorum
+PhotoScan by Google Photos
+Photoshop
+PiPlay
+Pinguy OS
+Pinterest
+Piwigo
+Pixel
+Pixel 2
+Pixel 2 XL
+Pixel 3
+Pixel 3 XL
+Pixel 3a
+Pixel 3a XL
+Pixel 4
+Pixel 4 XL
+Pixel 4a
+Pixel 5
+Pixel 5a
+Pixel 6
+Pixel 6 Pro
+Pixel 6a
+Pixel 7
+Pixel 7 Pro
+Pixel Ambient Services
+Pixel Buds
+Pixel Buds A-Series
+Pixel C
+Pixel Launcher
+Pixel Live Wallpaper
+Pixel Neural Core
+Pixel Slate
+Pixel Stand
+Pixel Tablet
+Pixel Tips
+Pixel Visual Core
+Pixel Watch
+Pixel XL
+Pixelbook
+Pixelbook Go
+Plasma
+Play Framework
+Play Store
+Playbook for Developers
+Playground
+Plumi
+Pornhub
+PortSwigger
+Postfix
+PostgreSQL
+PowerLine
+PowerShell
+PowerUp
+Powershell
+Premiere Pro
+Premiere Rush
+Print Management
+Private Compute Services
+ProcHelper
+Proinvest
+Project Activate
+Project Apache .NET Ant Library
+Project Apache ACE
+Project Apache AGE
+Project Apache APISIX
+Project Apache Abdera
+Project Apache Accumulo
+Project Apache ActiveMQ
+Project Apache Airavata
+Project Apache Airflow
+Project Apache Allura
+Project Apache Ambari
+Project Apache Anakia
+Project Apache Annotator
+Project Apache Ant
+Project Apache AntUnit
+Project Apache Any23
+Project Apache Apex
+Project Apache Archiva
+Project Apache Aries
+Project Apache Arrow
+Project Apache AsterixDB
+Project Apache Atlas
+Project Apache Avro
+Project Apache Axiom
+Project Apache Axis2
+Project Apache BVal
+Project Apache Bahir
+Project Apache Baremaps
+Project Apache Batik
+Project Apache Beam
+Project Apache Beehive
+Project Apache Bigtop
+Project Apache Bloodhound
+Project Apache BookKeeper
+Project Apache Brooklyn
+Project Apache BuildStream
+Project Apache Buildr
+Project Apache CXF
+Project Apache Calcite
+Project Apache Camel
+Project Apache CarbonData
+Project Apache Cassandra
+Project Apache Causeway
+Project Apache Cayenne
+Project Apache Celeborn
+Project Apache Celix
+Project Apache Chainsaw
+Project Apache Chemistry
+Project Apache Chukwa
+Project Apache Clerezza
+Project Apache Click
+Project Apache CloudStack
+Project Apache Cocoon
+Project Apache Commons BCEL
+Project Apache Commons BSF
+Project Apache Commons BeanUtils
+Project Apache Commons CLI
+Project Apache Commons CSV
+Project Apache Commons Chain
+Project Apache Commons Codec
+Project Apache Commons Collections
+Project Apache Commons Compress
+Project Apache Commons Configuration
+Project Apache Commons Crypto
+Project Apache Commons DBCP
+Project Apache Commons Daemon
+Project Apache Commons DbUtils
+Project Apache Commons Digester
+Project Apache Commons Email
+Project Apache Commons Exec
+Project Apache Commons FileUpload
+Project Apache Commons Functor
+Project Apache Commons Geometry
+Project Apache Commons HttpClient
+Project Apache Commons IO
+Project Apache Commons Imaging
+Project Apache Commons JCI
+Project Apache Commons JCS
+Project Apache Commons JEXL
+Project Apache Commons JXPath
+Project Apache Commons Jelly
+Project Apache Commons Lang
+Project Apache Commons Logging
+Project Apache Commons Math
+Project Apache Commons Net
+Project Apache Commons Numbers
+Project Apache Commons OGNL
+Project Apache Commons Pool
+Project Apache Commons Proxy
+Project Apache Commons RDF
+Project Apache Commons RNG
+Project Apache Commons SCXML
+Project Apache Commons Statistics
+Project Apache Commons Text
+Project Apache Commons VFS
+Project Apache Commons Validator
+Project Apache Commons Weaver
+Project Apache Community Development
+Project Apache Compress Ant Library
+Project Apache Continuum
+Project Apache Cordova
+Project Apache CouchDB
+Project Apache Crunch
+Project Apache Curator
+Project Apache Daffodil
+Project Apache DataFu
+Project Apache DataLab
+Project Apache DataSketches
+Project Apache DeltaSpike
+Project Apache Deltacloud
+Project Apache Derby
+Project Apache DevLake
+Project Apache DeviceMap
+Project Apache DirectMemory
+Project Apache Directory
+Project Apache Directory Server
+Project Apache Directory Studio
+Project Apache DolphinScheduler
+Project Apache Doris
+Project Apache Drill
+Project Apache Druid
+Project Apache Dubbo
+Project Apache ECS
+Project Apache ECharts
+Project Apache ESME
+Project Apache Empire-db
+Project Apache Etch
+Project Apache EventMesh
+Project Apache Excalibur
+Project Apache FOP
+Project Apache Falcon
+Project Apache Felix
+Project Apache Fineract
+Project Apache Flagon
+Project Apache Flex
+Project Apache Flink
+Project Apache Flume
+Project Apache Fluo
+Project Apache Fluo Recipes
+Project Apache Fluo YARN
+Project Apache Forrest
+Project Apache Fortress
+Project Apache FreeMarker
+Project Apache FtpServer
+Project Apache Geode
+Project Apache Geronimo
+Project Apache Giraph
+Project Apache Gobblin
+Project Apache Gora
+Project Apache Griffin
+Project Apache Groovy
+Project Apache Guacamole
+Project Apache Gump
+Project Apache HAWQ
+Project Apache HBase
+Project Apache HTTP Server
+Project Apache Hadoop
+Project Apache Hama
+Project Apache Harmony
+Project Apache Helix
+Project Apache Hive
+Project Apache Hivemind
+Project Apache Hop
+Project Apache HttpComponents Client
+Project Apache HttpComponents Core
+Project Apache Hudi
+Project Apache HugeGraph
+Project Apache Iceberg
+Project Apache Ignite
+Project Apache Impala
+Project Apache InLong
+Project Apache IoTDB
+Project Apache Ivy
+Project Apache IvyDE
+Project Apache JAMES
+Project Apache JMeter
+Project Apache JSPWiki
+Project Apache Jackrabbit
+Project Apache Jakarta Cactus
+Project Apache Jena
+Project Apache Johnzon
+Project Apache Juneau
+Project Apache KIE
+Project Apache Kafka
+Project Apache Karaf
+Project Apache Kerby
+Project Apache Kibble
+Project Apache Knox
+Project Apache Kudu
+Project Apache Kvrocks
+Project Apache Kylin
+Project Apache Kyuubi
+Project Apache Lens
+Project Apache Lenya
+Project Apache Libcloud
+Project Apache Liminal
+Project Apache Linkis
+Project Apache Livy
+Project Apache Log4j
+Project Apache Lucene Core
+Project Apache Lucene.Net
+Project Apache Lucy
+Project Apache MADlib
+Project Apache MINA
+Project Apache MRUnit
+Project Apache MXNet
+Project Apache Mahout
+Project Apache ManifoldCF
+Project Apache Marmotta
+Project Apache Maven
+Project Apache Maven Doxia
+Project Apache Mesos
+Project Apache MetaModel
+Project Apache Milagro
+Project Apache Mnemonic
+Project Apache MyFaces
+Project Apache Mynewt
+Project Apache NLPCraft
+Project Apache Nemo
+Project Apache NetBeans
+Project Apache NiFi
+Project Apache Nutch
+Project Apache NuttX
+Project Apache ODE
+Project Apache OFBiz
+Project Apache OODT
+Project Apache ORC
+Project Apache ORO
+Project Apache Olingo
+Project Apache Oltu - Parent
+Project Apache Oozie
+Project Apache Open Climate Workbench
+Project Apache OpenDAL
+Project Apache OpenJPA
+Project Apache OpenMeetings
+Project Apache OpenNLP
+Project Apache OpenOffice
+Project Apache OpenWebBeans
+Project Apache OpenWhisk
+Project Apache Ozone
+Project Apache PDFBox
+Project Apache PLC4X
+Project Apache POI
+Project Apache PageSpeed
+Project Apache Paimon
+Project Apache Parquet
+Project Apache Pegasus
+Project Apache Pekko
+Project Apache Petri
+Project Apache Phoenix
+Project Apache Pig
+Project Apache Pinot
+Project Apache Pivot
+Project Apache Polygene
+Project Apache Pony Mail
+Project Apache Portable Runtime
+Project Apache Portals
+Project Apache PredictionIO
+Project Apache Props Ant Library
+Project Apache Pulsar
+Project Apache PyLucene
+Project Apache Qpid
+Project Apache REEF
+Project Apache Ranger
+Project Apache Rat
+Project Apache Ratis
+Project Apache Regexp
+Project Apache River
+Project Apache RocketMQ
+Project Apache Roller
+Project Apache Royale
+Project Apache Rya
+Project Apache SDAP
+Project Apache SINGA
+Project Apache SSHD
+Project Apache Samza
+Project Apache Sandesha2
+Project Apache Santuario
+Project Apache SeaTunnel
+Project Apache Sedona
+Project Apache Serf
+Project Apache ServiceComb
+Project Apache ServiceMix
+Project Apache Shale
+Project Apache ShardingSphere
+Project Apache ShenYu
+Project Apache Shindig
+Project Apache Shiro
+Project Apache SkyWalking
+Project Apache Sling
+Project Apache Solr
+Project Apache Solr Operator
+Project Apache SpamAssassin
+Project Apache Spark
+Project Apache Spatial Information System
+Project Apache Spot
+Project Apache Sqoop
+Project Apache Stanbol
+Project Apache Steve
+Project Apache Storm
+Project Apache Stratos
+Project Apache StreamPark
+Project Apache StreamPipes
+Project Apache Streams
+Project Apache Struts
+Project Apache Submarine
+Project Apache Subversion
+Project Apache Superset
+Project Apache Synapse
+Project Apache Syncope
+Project Apache SystemDS
+Project Apache TVM
+Project Apache Tajo
+Project Apache Tapestry
+Project Apache Teaclave
+Project Apache Tentacles
+Project Apache Texen
+Project Apache Tez
+Project Apache Thrift
+Project Apache Tika
+Project Apache Tiles
+Project Apache TinkerPop
+Project Apache Tobago
+Project Apache TomEE
+Project Apache Tomcat
+Project Apache Toree
+Project Apache Torque
+Project Apache Traffic Control
+Project Apache Traffic Server
+Project Apache Trafodion
+Project Apache Training
+Project Apache Turbine
+Project Apache Tuscany
+Project Apache Tuweni
+Project Apache UIMA
+Project Apache Uniffle
+Project Apache Unomi
+Project Apache VCL
+Project Apache VSS Ant Library
+Project Apache VXQuery
+Project Apache Velocity
+Project Apache Velocity DVSL
+Project Apache Velocity Tools
+Project Apache Vysper
+Project Apache Wayang
+Project Apache Websh
+Project Apache Whimsy
+Project Apache Whirr
+Project Apache Whisker
+Project Apache Wicket
+Project Apache Wink
+Project Apache Woden
+Project Apache Wookie
+Project Apache XML Commons External
+Project Apache XML Commons Resolver
+Project Apache XML Graphics Commons
+Project Apache XMLBeans
+Project Apache Xalan for C++ XSLT Processor
+Project Apache Xalan for Java XSLT Processor
+Project Apache Xerces for C++ XML Parser
+Project Apache Xerces for Java XML Parser
+Project Apache Xerces for Perl XML Parser
+Project Apache Xindice
+Project Apache Yetus
+Project Apache YuniKorn
+Project Apache Zeppelin
+Project Apache ZooKeeper
+Project Apache bRPC
+Project Apache cTAKES
+Project Apache jclouds
+Project Apache log4cxx
+Project Apache log4net
+Project Apache log4php
+Project Apache mod_ftp
+Project Apache mod_perl
+Project Apache rivet
+Project Baseline
+Project Relate
+Prolog
+Proprietary software
+Protocol Buffers
+PyEmu
+Pylons project
+Python
+Python 3
+Python-based
+Python3
+QEMU
+QNAP
+Qualcomm
+Quickoffice
+Quixote
+R
+RHEL
+RPi
+Radar
+Rapid7
+Raspberry Pi
+Raspberry Pi 4
+RaspberryPi
+Raspbian
+Re4son
+Read Along by Google
+Realtek
+Recorded Future
+Recorded Future ’
+Recorder
+Recovery Drive
+Red Hat
+Red Hat Enterprise
+Red Hat Enterprise Linux
+Red Team
+Redis
+RegEdit
+Registry Editor
+Registry Usage
+Resource Monitor
+Rhino
+Rhino Security Labs
+RingCentral
+Robomongo
+Roku
+Roundcube
+Rubber Ducky
+Ruby
+Ruby on Rails
+Rust
+SANS Institute
+SAP
+SAP Sybase ASE
+SAS
+SIEM
+SIM Manager
+SNMP
+SQL
+SQL Developer
+SQL Server
+SQL Server 2005
+SQLi
+SQLite
+SS&C Technologies
+SSRF
+Sabayon Linux
+Safe Value Management
+Safis
+Salesforce
+Samba
+Samsung
+Sandworm
+Sapphire
+Scala
+Scalatra
+Science Journal
+Scientific Linux
+Scoreboard
+Scratch
+Screenwise Meter
+Scuttle
+Seafile
+Secnesys
+SecondLife
+Secure Boot
+Security Group
+Security Hub
+Sequel PRO
+ServiceNow
+Services
+Settings Services
+Shaderc
+Shopify
+Siduction
+Silverlight
+SimpleHTTPServer
+Sinatra
+Skype
+Slack
+Slackintosh
+Snapseed
+Snowflake Inc.
+Socratic by Google
+Softlanding Linux System
+SolarWinds
+SolarWinds Database Performance Analyzer
+Soli Sandbox
+SolydXK
+Sonar 1.8
+SonarSource
+Sonicwall
+Sony
+Sound Amplifier
+Sounds
+Speech Services by Google
+Splunk
+Spotlight Stories
+Spring Web Flow
+SpringerLink
+Squirrelmail
+Stadia
+Stadia Controller
+StateRAMP
+Strong Crypto Innovations
+SurveyMonkey
+Svelte
+Swift
+Switch Access
+Symantec
+Symfony
+Synopsys
+SysMon
+System Configuration
+System Information
+Systempropertiesadvanced
+Systempropertiescomputername
+Systempropertieshardware
+Systempropertiesperformance
+Systempropertiesprotection
+Systempropertiesremote
+TLS 1.0
+Tahoe Least-Authority File Store
+Talos
+Tango
+Tarlogic
+Task Manager
+Task Scheduler
+TeamThe MITRE CorporationUpdated
+Tenable
+Tencent Cloud
+TensorFlow
+Teradata
+Tesla
+The Honeynet Project
+The MITRE Corporationn
+The OSINTCurious Project
+The Raspberry Pi
+The Tcpdump Group
+Thunderbird
+TiddlyWiki
+TikTok
+Tika
+Tilera
+Tilt Brush
+Tiny Tiny RSS
+Tiny-Teacup
+Titan C
+Titan M
+Titan M2
+Toad
+Tomcat
+Tool Shortcut
+Toontastic 3D
+Trace Labs
+Transact SQL
+Trend Micro
+Trusted Contacts
+TurboGears
+TurnKey Linux Virtual Appliance Library
+Twilio
+Twitter
+TypeScript
+UEFI
+UICC
+Ubuntu
+Ubuntu 12.04
+Ubuntu Kylin
+Ubuntu MATE
+Ubuntu PPA
+Ubuntu Server
+Unicode
+UserAssist
+VBScript
+VLOS
+VMware
+VMware Fusion
+VMware Player
+VMware Tools
+VMware Workstation
+VR180
+Vaadin
+Valkyrie -X Security Research Group
+Vanilla
+Varonis
+Veeva
+Veeva Systems
+Verified Boot
+ViaSat
+Virtual Box
+Virtual Machine
+VirtualBox
+VirtualBox.org
+Virtualbox
+Visual Basic
+Visual Basic .NET
+Visual Basic for Applications
+Visual C#
+Visual C++
+Visual Studio
+Visual Studio Code
+Visual Studio Express
+Vmware
+Voice Access
+Void Linux
+Vue.js
+VyOS
+WASC
+WSDL
+WSL 2
+Wallpapers
+Waze
+Wear OS
+Wear OS Phone
+Wear OS System UI
+Wear OS by Google
+Web Application Firewall
+Web Security Academy
+Web Workers
+WebDAV
+WebKit
+WebView
+Western Digital
+Wget
+WhatsApp
+Wikipedia
+Wikispaces
+Win Sniffer
+Win32
+WinRAR
+WinSCP
+WindowServer
+Windows
+Windows 10
+Windows 10 1809
+Windows 11
+Windows 2.03
+Windows 2.1
+Windows 2.11
+Windows 2000
+Windows 3.0
+Windows 3.1
+Windows 3.2
+Windows 7
+Windows 8
+Windows 8.1
+Windows 95
+Windows 98
+Windows API
+Windows Automotive 4.2
+Windows Automotive 5.0
+Windows CE
+Windows CE 1.0
+Windows CE 2.0
+Windows CE 2.1
+Windows CE 2.11
+Windows CE 2.12
+Windows CE 3.0
+Windows CE 4.0
+Windows CE 4.1
+Windows CE 4.2
+Windows CE 5.0
+Windows Calculator
+Windows Camera
+Windows Chat
+Windows Contacts
+Windows Defender
+Windows Easy Transfer
+Windows Embedded 8 Industry
+Windows Embedded 8.1 Industry
+Windows Embedded Automotive 7
+Windows Embedded CE 6.0
+Windows Embedded Compact 2013
+Windows Embedded Compact 7
+Windows Embedded POSReady 2009
+Windows Embedded POSReady 7
+Windows Embedded for Point of Service
+Windows Essentials
+Windows Explorer
+Windows Firewall with Advanced Security
+Windows Imaging Component
+Windows Installer
+Windows ME
+Windows Media Audio and Video Codec and DSP
+Windows Media Center
+Windows Media Format
+Windows Media Library Sharing Services
+Windows Media Player
+Windows Media Services
+Windows Memory Diagnostic
+Windows Movie Maker
+Windows Multimedia
+Windows NT
+Windows NT 3.1
+Windows NT 3.5
+Windows NT 3.51
+Windows NT 4.0
+Windows NT 4.0 Embedded
+Windows Phone
+Windows Photo Gallery
+Windows Photo Viewer
+Windows RT
+Windows RT 8.1
+Windows SDK
+Windows Server
+Windows Server 2003
+Windows Server 2003 Embedded
+Windows Server 2008
+Windows Server 2012
+Windows Server 2012 R2
+Windows Server 2016
+Windows Server 2019
+Windows Server 2022
+Windows Subsystem for Android
+Windows Subsystem for Linux
+Windows To Go
+Windows Update
+Windows Vista
+Windows Vista Embedded
+Windows XP
+Windows XP Embedded
+Windows XP Media Center Edition
+Windows XP Tablet PC Edition
+Windows XP for Embedded Systems
+Windows-based
+WordPad
+WordPress
+Wordpress
+WorkSpaces
+Workday
+Wt
+XAMPP
+XCode
+XFCE
+XPath
+Xbox Development Kit
+Xbox Game Pass
+Xbox Game Pass Ultimate
+Xbox Live Gold
+Xfce
+Xubuntu
+Yahoo
+Yahoo Groups
+Yammer
+Yandex
+Yesod
+Yggdrasil Linux/GNU/X
+Yii
+YouTube
+YouTube Gaming
+YouTube Go
+YouTube Kids
+YouTube Kids for Android TV
+YouTube Music
+YouTube Music for Android TV
+YouTube Music for Chromebook
+YouTube Remote
+YouTube Studio
+YouTube TV
+YouTube TV for Android TV
+YouTube VR
+YouTube for Android TV
+Zendesk
+Zikula
+ZipSlack
+Zoom
+Zoom Video Communications
+Zuora
+a Raspberry Pi
+addbib
+amd64
+aptosid
+awk
+basename
+bash
+biff
+bitwarden
+blogger.com
+calc
+cb
+charmap
+checkeq
+checknr
+chgrp
+chmod
+cisofy
+cleanmgr
+cmd
+cmp
+colcrt
+colorcpl
+control
+cpio
+cpp
+credwiz
+csh
+ctags
+dbx
+dcomcnfg
+defrag
+deroff
+df
+dfrgui
+dialer
+docker
+dpiscaling
+dxdiag
+eBay
+eCPPT
+eCRE
+eCart
+eGroupware
+eJPT
+eLearnSecurity
+eSIM Manager
+eZeY
+ed, red
+eqn
+eudcedit
+eventvwr
+expr
+firefox
+flickr, Picasa
+fmt
+fonts
+fsquirt
+gedit
+gprof
+grep
+hostname
+i386
+i5
+i7
+iCloud
+iFolder
+iGoogle
+iOS
+iPhone
+iSCSI Initiator
+iTunes
+iexplore
+iexpress
+indent
+inliniac
+jQuery
+kerberos
+last.fm
+ln
+lookbib
+lorder
+lp
+lpksetup
+lpq
+lpr
+lprm
+ls
+macOS
+macOS X
+magnify
+mail, Mail
+mblctr
+mdsched
+mesg
+migwiz
+mkdir
+mkstr
+mmc
+mobsync
+mrt
+msconfig
+msdt
+msinfo32
+mspaint
+msra
+mstsc
+mv
+neqn
+netplwiz
+nginx
+notepad
+nroff
+objdump
+optionalfeatures
+osk
+ownCloud
+passwd
+perfmon
+phpBB
+phpMyAdmin
+powershell
+prefetch
+presentationsettings
+printbrmui
+procmon
+pump.io
+pwd
+python
+ranlib
+rasphone
+rcp
+regedit
+rekeywiz
+rlogin
+rm
+rmdir
+roffbib
+rsh
+rstrui
+rup
+ruptime
+rusers
+rwall
+rwho
+sccs
+shrpubw
+sigverif
+slui
+sndvol
+snippingtool
+sortbib
+stty
+syskey
+system.ini
+tabcal
+tabs
+taskmgr
+tbl
+telnet
+tftp
+the Active Directory
+the Domain Controller
+the Free Software Foundation
+the Honeynet Project
+the Nexus 5x
+the Play Store
+the Raspberry Pi
+the Registry Editor
+the Suricata Forum
+the Tor Browser
+troff
+tsort
+tty
+uncompress
+unexpand
+uniq
+uptime
+utilman
+uucp
+uuencode, uudecode
+uulog
+uuname
+uusend
+uux
+verifier
+vi, vedit
+wab
+wabmig
+wc
+web2py
+whatis
+whereis
+whoami
+wiaacmgr
+win.ini
+winver
+wmplayer
+wordpress
+write
+x64
+x86
+xargs
+xstr
+yacc
+zcat
+algorithm
+analog
+app
+application
+array
+backup
+bandwidth
+binary
+bit
+bite
+bitmap
+blog
+blogger
+bookmark
+boot
+broadband
+browser
+buffer
+bug
+bus
+byte
+cache
+caps lock
+captcha
+CD
+CD-ROM
+client
+clip art
+clip board
+cloud computing
+command
+compile
+compress
+computer
+computer program
+configure
+cookie
+copy
+CPU
+cybercrime
+cyberspace
+dashboard
+data
+data mining
+database
+debug
+decompress
+delete
+desktop
+development
+digital
+disk
+DNS
+document
+domain
+domain name
+dot
+dot matrix
+download
+drag
+DVD
+dynamic
+email
+emoticon
+encrypt
+encryption
+enter
+exabyte
+FAQ
+file
+finder
+firewall
+firmware
+flaming
+flash
+flash drive
+floppy disk
+flowchart
+folder
+font
+format
+frame
+freeware
+gigabyte
+graphics
+hack
+hacker
+hardware
+home page
+host
+html
+hyperlink
+hypertext
+icon
+inbox
+integer
+interface
+Internet
+IP address
+iteration
+Java
+joystick
+junk mail
+kernel
+key
+keyboard
+keyword
+laptop
+laser printer
+link
+Linux
+log out
+logic
+login
+lurking
+Macintosh
+macro
+mainframe
+malware
+media
+memory
+mirror
+modem
+monitor
+motherboard
+mouse
+multimedia
+net
+network
+node
+notebook computer
+offline
+online
+open source
+operating system
+option
+output
+page
+password
+paste
+path
+phishing
+piracy
+pirate
+platform
+plug-in
+podcast
+pop-up
+portal
+print
+printer
+privacy
+process
+program
+programmer
+protocol
+queue
+QWERTY
+RAM
+real-time
+reboot
+resolution
+restore
+ROM
+root
+router
+runtime
+save
+scan
+scanner
+screen
+screenshot
+script
+scroll
+scroll bar
+search engine
+security
+server
+shareware
+shell
+shift
+shift key
+snapshot
+social networking
+software
+spam
+spammer
+spreadsheet
+spyware
+status bar
+storage
+supercomputer
+surf
+syntax
+table
+tag
+terminal
+template
+terabyte
+text editor
+thread
+toolbar
+trash
+Trojan horse
+typeface
+undo
+Unix
+upload
+URL
+user
+user interface
+username
+utility
+version
+virtual
+virtual memory
+virus
+web
+web host
+webmaster
+website
+widget
+wiki
+window
+Windows
+wireless
+word processor
+workstation
+World Wide Web
+worm
+WWW
+XML
+zip
+exit
+fork
+read
+write
+open
+close
+waitpid
+creat
+link
+unlink
+execve
+chdir
+time
+mknod
+chmod
+lchown
+stat
+lseek
+getpid
+mount
+oldumount
+setuid
+getuid
+stime
+ptrace
+alarm
+fstat
+pause
+utime
+access
+nice
+sync
+kill
+rename
+mkdir
+rmdir
+dup
+pipe
+times
+brk
+setgid
+getgid
+signal
+geteuid
+getegid
+acct
+umount
+ioctl
+fcntl
+setpgid
+olduname
+umask
+chroot
+ustat
+dup2
+getppid
+getpgrp
+setsid
+sigaction
+sgetmask
+ssetmask
+setreuid
+setregid
+sigsuspend
+sigpending
+sethostname
+setrlimit
+getrlimit
+getrusage
+gettimeofday
+settimeofday
+getgroups
+setgroups
+select
+symlink
+lstat
+readlink
+uselib
+swapon
+reboot
+readdir
+mmap
+munmap
+truncate
+ftruncate
+fchmod
+fchown
+getpriority
+setpriority
+statfs
+fstatfs
+ioperm
+socketcall
+syslog
+setitimer
+getitimer
+newstat
+newlstat
+newfstat
+uname
+iopl
+vhangup
+idle
+vm86old
+wait4
+swapoff
+sysinfo
+ipc�(*Note)
+fsync
+sigreturn
+clone
+setdomainname
+newuname
+modify_ldt
+adjtimex
+mprotect
+sigprocmask
+create_module
+init_module
+delete_module
+get_kernel_syms
+quotactl
+getpgid
+fchdir
+bdflush
+sysfs
+personality
+setfsuid
+setfsgid
+llseek
+getdents
+select
+flock
+msync
+readv
+writev
+getsid
+fdatasync
+sysctl
+mlock
+munlock
+mlockall
+munlockall
+sched_setparam
+sched_getparam
+sched_setscheduler
+sched_getscheduler
+sched_yield
+sched_get_priority_max
+sched_get_priority_min
+sched_rr_get_interval
+nanosleep
+mremap
+setresuid
+getresuid
+vm86
+query_module
+poll
+nfsservctl
+setresgid
+getresgid
+prctl
+rt_sigreturn
+rt_sigaction
+rt_sigprocmask
+rt_sigpending
+rt_sigtimedwait
+rt_sigqueueinfo
+rt_sigsuspend
+pread
+pwrite
+chown
+getcwd
+capget
+capset
+sigaltstack
+sendfile
+vfork
+taskmgr.exe
+explorer.exe
+svchost.exe
+spoolsv.exe
+lsass.exe
+services.exe
+winlogon.exe
+csrss.exe
+smss
+taskmgr
+explorer
+svchost
+spoolsv
+lsass
+services
+winlogon
+csrss
+smss
+antivirus
+payload
