@@ -3,56 +3,18 @@ Utility functions
 """
 import json
 import os
+import random
 import re
+
 
 PUNCT = ',;:\'‘’"“”()[]{}\\/|'
 PUNCT_PATTERN = rf'({"|".join([re.escape(char) for char in PUNCT])}|[.!?]+$)'
 
 
-def check_term_in_corpus(term, tagged_folder, corpus_summary_path, remove=False):
-    """
-    Displays or all sentences containing specified term for all files in
-    tagged_folder. If remove, removes all sentences containing the term and
-    updates the summary instead.
-    """
-    corpus_summary = json.load(open(corpus_summary_path, encoding='utf-8'))
-    assert term in corpus_summary['totals']['terms']
-    corpus_summary['totals']['terms'].pop(term)
-    for filename, terms in corpus_summary['files'].items():
-        remove_indices = []
-        if term not in terms:
-            continue
-        corpus_summary['files']['filename'].pop(term)
-        if not remove:
-            print(f'{filename} :\n')
-        sents = open(os.path.join(tagged_folder, filename),
-                     encoding='utf-8').read().strip().split('\n\n')
-
-        for index, sent in enumerate(sents):
-            if not re.findall(rf'\b{term}\b', sent):
-                continue
-            if remove:
-                remove_indices.append(index)
-            else:
-                sent = ' '.join([line.split()[0] for line in sent.split('\n')])
-                print(''.join([x for x in sent if ord(x) <= 256]))
-        if remove:
-            for index in remove_indices:
-                del sents[index]
-            with open(os.path.join(tagged_folder, filename), 'w', encoding='utf-8') as f:
-                f.write('\n\n'.join(sents))
-            print(
-                f'Deleted {len(remove_indices)} sentence(s) from {filename}.')
-        print('\n------------------\n')
-    if remove:
-        with open(corpus_summary, 'w', encoding='utf-8') as f:
-            f.write(json.dumps(corpus_summary))
-
-
 def get_alpha_prop(sent):
     total, alnum_count = 0, 0
     for char in sent:
-        if char.split():
+        if char.strip():
             total += 1
             if char.isalnum():
                 alnum_count += 1
@@ -61,9 +23,9 @@ def get_alpha_prop(sent):
     return alnum_count / total
 
 
-def get_terms_from_tagged_sents(sents):
+def get_terms_from_tagged_sents(tagged_sents):
     terms = []
-    for sent in sents:
+    for sent in tagged_sents:
         if type(sent['text']) == str:
             sent['text'] = sent['text'].split()
         if type(sent['labels']) == str:
@@ -122,7 +84,7 @@ def make_term_patterns(terms_ignore_case, terms_keep_case=None):
 
 def match_terms_in_sents(term_patterns, sents, return_terms_only=False):
     """
-    Finds terms in sentences using regex, returning a dictionary of tagged 
+    Finds terms in sentences using regex, returning a dictionary of tagged
     sentences and a list of matched terms.
     """
     tagged_sents = []
@@ -179,58 +141,9 @@ def sent_tokenize_web_doc(text, method):
     return sents
 
 
-def iob_to_json(filepath, output_path):
-    sents = open(filepath, encoding='utf-8').read().split('\n\n')
-    output_dicts = []
-    for sent in sents:
-        output_dict = {'words': [], 'ner': []}
-        for line in sent.split('\n'):
-            word, tag = line.split()
-            output_dict['words'].append(word)
-            output_dict['ner'].append(tag)
-        output_dicts.append(json.dumps(output_dict))
-    open(output_path, 'w', encoding='utf-8').write('\n'.join(output_dicts))
-
-
-def json_to_roster(json_path, roster_dir=None, test=False):
-    roster_text, roster_labels = [], []
-    dicts = open(json_path, encoding='utf-8').read().split('\n')
-    for line in dicts:
-        dict_ = json.loads(line)
-        roster_text.append(' '.join(dict_['words']))
-        roster_labels.append(' '.join(dict_['ner']))
-    text_output_path = 'test_text.txt' if test else 'train_text.txt'
-    label_output_path = 'test_label_true.txt' if test else 'train_label_dist.txt'
-    text_output_path = os.path.join(
-        roster_dir, text_output_path) if roster_dir else text_output_path
-    label_output_path = os.path.join(
-        roster_dir, label_output_path) if roster_dir else label_output_path
-    open(text_output_path, 'w', encoding='utf-8').write('\n'.join(roster_text))
-    open(label_output_path, 'w', encoding='utf-8').write('\n'.join(roster_labels))
-
-
-def reg_iob_to_roster(filepath, roster_dir=None, test=False):
-    roster_text, roster_labels = [], []
-    sents = open(filepath, encoding='utf-8').read().split('\n\n')
-    for sent in sents:
-        sent_text, sent_label = [], []
-        for line in sent.split('\n'):
-            word, tag = line.split()
-            sent_text.append(word)
-            sent_label.append(tag)
-        roster_text.append(' '.join(sent_text))
-        roster_labels.append(' '.join(sent_label))
-    text_output_path = 'test_text.txt' if test else 'train_text.txt'
-    label_output_path = 'test_label_true.txt' if test else 'train_label_dist.txt'
-    text_output_path = os.path.join(
-        roster_dir, text_output_path) if roster_dir else text_output_path
-    label_output_path = os.path.join(
-        roster_dir, label_output_path) if roster_dir else label_output_path
-    open(text_output_path, 'w', encoding='utf-8').write('\n'.join(roster_text))
-    open(label_output_path, 'w', encoding='utf-8').write('\n'.join(roster_labels))
-
-
 def load_json(path):
+    if type(path) != str:
+        path = os.path.join(*[x for x in path])
     return json.load(open(path, encoding='utf-8'))
 
 
@@ -260,10 +173,116 @@ def write_lines(to_write, path):
         f.write('\n'.join(to_write))
 
 
-def read_iob(path):
-    return open(path, encoding='utf-8').read().strip().split('\n\n')
+def remove_terms_from_corpus(terms, folder, output_folder=None, n=None):
+    """
+    Removes n sentences containing each term in terms from train/test sets
+    in folder and updates summary.
+
+    Parameters
+    ----------
+    terms : list
+    folder : str
+    output_folder : str, optional
+        Specify output_folder to avoid overwriting corpus files. 
+    n : int, optional
+        Removes this number of sentences containing each term, for each term. 
+        If None, removes all sentences containing each term. 
+    """
+    terms = set(terms)
+    filenames = os.listdir(folder)
+    if 'corpus_summary.json' in filenames:
+        corpus_summary = load_json((folder, 'corpus_summary.json'))
+    else:
+        corpus_summary = {'corpus': {}}
+    totals = corpus_summary['corpus']['total'] = {
+        'sent_count': 0,
+        'word_count': 0,
+        'terms': {}
+    }
+    remove_counts = {term: 0 for term in terms}
+    prefixes = set([filename.split('_')[0]
+                    for filename in filenames])
+    sets_and_counts = {prefix: 0 for prefix in prefixes if prefix in (
+        'train', 'test', 'dev')}
+
+    if output_folder:
+        os.makedirs(output_folder, exist_ok=True)
+    else:
+        output_folder = folder
+    sent_dicts_to_keep = []
+    for set_name in sets_and_counts:
+        sents = read_lines(os.path.join(folder, set_name + '_text.txt'))
+        labels = read_lines(os.path.join(folder, set_name + '_labels.txt'))
+        for sent, label_line in zip(sents, labels):
+            sets_and_counts[set_name] += 1
+            sent_dict = {'text': sent, 'labels': label_line}
+            terms_from_sent = set(get_terms_from_tagged_sents([sent_dict]))
+            matches = terms & terms_from_sent
+            if matches:
+                for match in matches:
+                    remove_counts[match] += 1
+                    if n and remove_counts[match] >= n:
+                        remove_counts.pop(match)
+            else:
+                totals['sent_count'] += 1
+                totals['word_count'] += len(sent.split())
+                for term in terms_from_sent:
+                    totals['terms'].setdefault(term, 0)
+                    totals['terms'][term] += 1
+                sent_dicts_to_keep.append(sent_dict)
+
+    ranked_term_counts = sorted(
+        totals['terms'].items(), key=lambda x: x[1], reverse=True)
+    totals['terms'] = {
+        term: count for term, count in ranked_term_counts}
+
+    json.dump(corpus_summary, open(os.path.join(output_folder,
+              'corpus_summary.json'), 'w', encoding='utf-8'))
+
+    old_sent_count = sum(sets_and_counts.values())
+    sets_and_proportions = {}
+    for set_name, count in sets_and_counts.items():
+        sets_and_proportions[set_name] = round(count / old_sent_count, 2)
+    random.shuffle(sent_dicts_to_keep)
+    last_index = 0
+    for index, (set_name, proportion) in enumerate(sets_and_proportions.items()):
+        count = round(len(sent_dicts_to_keep) * proportion)
+        sent_dics_for_set = []
+        if index == len(sets_and_proportions) - 1:
+            sent_dics_for_set.extend(sent_dicts_to_keep[last_index:])
+        else:
+            sent_dics_for_set.extend(
+                sent_dicts_to_keep[last_index:last_index + count])
+            last_index += count
+        keep_sents, keep_labels = [], []
+        for sent_dict in sent_dics_for_set:
+            keep_sents.append(' '.join(sent_dict['text']))
+            keep_labels.append(' '.join(sent_dict['labels']))
+        assert len(keep_sents) == len(keep_labels)
+        write_lines(keep_sents, (output_folder, set_name + '_text.txt'))
+        write_lines(keep_labels, (output_folder, set_name + '_labels.txt'))
 
 
-def write_iob(path, to_write=None):
-    with open(path, 'w', encoding='utf-8')as f:
-        f.write('\n\n'.join(to_write))
+def get_term_counts_in_corpus(corpus_dir, case_sensitive=False, print_counts=True):
+    terms_dict = {}
+    prefixes = set([filename.split('_')[0]
+                    for filename in os.listdir(corpus_dir)])
+    sets = [prefix for prefix in prefixes if prefix in (
+        'train', 'test', 'dev')]
+    for set_name in sets:
+        sent_dicts = []
+        sents = read_lines((corpus_dir, f'{set_name}_text.txt'))
+        labels = read_lines((corpus_dir, f'{set_name}_labels.txt'))
+        for sent, label in zip(sents, labels):
+            sent_dicts.append({'text': sent.split(), 'labels': label.split()})
+        terms = get_terms_from_tagged_sents(sent_dicts)
+        for term in terms:
+            if not case_sensitive:
+                term = term.lower()
+            terms_dict[term] = terms_dict.setdefault(term, 0) + 1
+    ranked_terms = sorted(terms_dict.items(), key=lambda x: x[1], reverse=True)
+    if print_counts:
+        print('term\t\tcount')
+        for term, count in ranked_terms:
+            print(term, '\t\t', count)
+    return ranked_terms
