@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="140.78078mm"
+   height="112.49464mm"
+   viewBox="0 0 140.78078 112.49464"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="panel_right_icon.svg"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.57994529"
+     inkscape:cx="231.91843"
+     inkscape:cy="-50.004717"
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-21.766259,-80.618998)">
+    <path
+       id="rect846"
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.4403;stroke-opacity:1"
+       d="m 150.70117,305.42188 c -37.51437,-10e-6 -67.714842,30.20047 -67.714842,67.71484 v 288.30664 c 0,37.51437 30.200472,67.71484 67.714842,67.71484 h 395.21485 c 37.51437,0 67.71484,-30.20047 67.71484,-67.71484 V 373.13672 c 0,-37.51437 -30.20047,-67.71484 -67.71484,-67.71484 z m -24.66015,49.3457 h 268.65625 c 4.88973,0 8.82617,3.93643 8.82617,8.82617 v 307.39258 c 0,4.88973 -3.93644,8.82617 -8.82617,8.82617 H 126.04102 c -4.88974,0 -8.82618,-3.93644 -8.82618,-8.82617 V 363.59375 c 0,-4.88974 3.93644,-8.82617 8.82618,-8.82617 z"
+       transform="scale(0.26458333)" />
+  </g>
+</svg>

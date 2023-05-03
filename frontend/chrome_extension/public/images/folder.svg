@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="0 0 368.76749 291.75269"
+   fill="none"
+   stroke="none"
+   stroke-linecap="square"
+   stroke-miterlimit="10"
+   id="svg15"
+   sodipodi:docname="folder.svg"
+   width="368.76749"
+   height="291.75269"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs19" />
+  <sodipodi:namedview
+     id="namedview17"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="-19"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.33292944"
+     inkscape:cx="713.36436"
+     inkscape:cy="-205.7493"
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg15"
+     inkscape:object-nodes="false"
+     inkscape:snap-others="false" />
+  <clipPath
+     id="p.0">
+    <path
+       d="M 0,0 H 960 V 720 H 0 Z"
+       clip-rule="nonzero"
+       id="path2" />
+  </clipPath>
+  <path
+     fill="#000000"
+     d="m -19,56.36544 v 0 C -19,43.682269 -8.5835666,33.40052 4.2657586,33.40052 H 345.50171 c 6.17046,0 12.0882,2.41951 16.45137,6.726269 4.36318,4.306764 6.81441,10.147977 6.81441,16.238651 v 212.4223 c 0,12.68319 -10.41646,22.96494 -23.26578,22.96494 H 4.2657586 C -8.5835666,291.75268 -19,281.47093 -19,268.78774 Z"
+     fill-rule="evenodd"
+     id="path7"
+     style="stroke-width:0.547896" />
+  <path
+     fill="#000000"
+     d="m -19,36.5739 v 0 C -19,16.37469 -2.62532,0 17.5739,0 h 128.42702 v 0 c 9.69998,0 19.00269,3.85331 25.86163,10.71224 6.85895,6.85894 10.71225,16.16166 10.71225,25.86166 v 44.61598 c 0,20.1992 -16.37469,36.5739 -36.57388,36.5739 H 17.5739 C -2.62532,117.76378 -19,101.38909 -19,81.18988 Z"
+     fill-rule="evenodd"
+     id="path9" />
+  <path
+     fill="#000000"
+     d="m 47.5748,1e-5 h 122.3494 l 33.6506,33.65059 v 85.87697 h -156 z"
+     fill-rule="evenodd"
+     id="path11" />
+</svg>
