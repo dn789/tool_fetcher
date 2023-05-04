@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { TermsAndAuthorSelectContext } from "../MainContent";
 import TwitterFollowButton from "./TwitterButton";
 
-const RepoAuthor = ({ author, action, authorWatchlist, showBio }) => {
+const RepoAuthor = ({ author, action, authorWatchlist, showBio, flat }) => {
 
     const select = useContext(TermsAndAuthorSelectContext);
 

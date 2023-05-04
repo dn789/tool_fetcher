@@ -25,9 +25,6 @@ const TermResultsPanel = ({ show, source, status, termResults, authorWatchlist }
 
     return (
         <div className='panel attached-left' style={{ display: !show && 'none' }} >
-            <div className='panel-header'>
-                <span>Term Results</span>
-            </div>
             {status.loading ?
                 <Loading message={loadingMessage} />
                 :

@@ -12,20 +12,17 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
     const test = `       |      `;
     return (
         <div className='panel attached-left' style={{ display: !show && 'none' }} >
+            {/* {Object.keys(authorWatchlist).length ?
+                <div
+                    className="body-icon body-icon-large"
+                    title='Clear watchlist'
+                    onClick={() => (select(null, 'authorWatchlistRemove'))}
+                >
+                    <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
+                </div>
+                :
+                <div></div>} */}
 
-            <div className='panel-header p-header-1-left-1-center'>
-                {Object.keys(authorWatchlist).length ?
-                    <div
-                        className="body-icon body-icon-large"
-                        title='Clear watchlist'
-                        onClick={() => (select(null, 'authorWatchlistRemove'))}
-                    >
-                        <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
-                    </div>
-                    :
-                    <div></div>}
-                <div>Watchlist</div>
-            </div>
             {Object.keys(authorWatchlist).length ?
                 <div className='table-wrapper'>
                     <table className='table'>
@@ -36,7 +33,16 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                         </colgroup>
                         <thead>
                             <tr>
+
                                 <th>
+                                    <div
+                                        className="body-icon body-icon clear-watchlist"
+                                        title='Clear watchlist'
+                                        onClick={() => (select(null, 'authorWatchlistRemove'))}
+                                    >
+                                        <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
+                                    </div>
+
                                     <div>User</div>
                                 </th>
                                 <th>
@@ -53,9 +59,9 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                 <tr className='author-watchlist-row' key={index}>
 
                                     <td className="relative width-28-percent">
-                                        <div className="top-left flex-row-very-small-gap">
+                                        <div className="watchlist-icons">
                                             <div
-                                                className="body-icon scale-point-8"
+                                                className="body-icon"
                                                 title='Remove from watchlist'
                                                 onClick={() => select([authorName], 'authorWatchlistRemove')}
                                             >

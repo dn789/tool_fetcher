@@ -35,19 +35,17 @@ const TermResultsTable = ({ status, termResults, authorWatchlist, source }) => {
         <div className='table-wrapper'>
             <table className='table'>
                 <colgroup>
-                    <col className='width-half-rem' />
                     <col />
                     <col className='width-37-pct' />
                     <col className='width-37-pct' />
                 </colgroup>
                 <thead>
                     <tr>
-                        <th></th>
                         <th>
                             <div>Term</div>
                         </th>
                         <th >
-                            <div>Repo</div>
+                            <div>Repos</div>
                         </th>
                         <th>
                             <div>Author</div>

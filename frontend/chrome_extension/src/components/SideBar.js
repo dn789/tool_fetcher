@@ -114,7 +114,7 @@ const SideBar = ({ results, serverResponse, tabType }) => {
                             </div>
                         </div>
                         <div id='results-panel-container' style={{ display: (!results.length || !serverResponse) && 'none' }}>
-                            <MainContent termResults={results ? results : []} />
+                            <MainContent termResultsFromServer={results ? results : []} />
                         </div>
                     </div>
                 </div>

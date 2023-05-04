@@ -132,7 +132,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                                             <p className='recent-paragraph'>{repo.description && repo.description}</p>
                                         </div>
                                         <div className='author-row'>
-                                            by <RepoAuthor author={repo.author} />
+                                            by <RepoAuthor author={repo.author} flat={true} />
                                             <span className='bullet'>&#8226;</span>
                                             Updated: {repo.date}
                                         </div>

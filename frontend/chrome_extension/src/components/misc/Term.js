@@ -23,16 +23,16 @@ const Term = ({ index, term, error, bad, fromModel }) => {
     }, [serverResponse])
 
 
-    return <div className='cell-flex-row min-wdt-18'>
-        <div
-            className={`body-icon scale-point-8  ${bad ? 'red' : 'red-on-hover'}`}
+    return <div className='cell-flex-row term'>
+        {/* <div
+            className={`body-icon mark-as-bad-icon  ${bad ? 'red' : 'red-on-hover'}`}
             title={bad ? 'Undo mark as bad' : 'Mark bad term result'}
             onClick={() => {
                 select(index, bad ? 'unMarkBadTermResult' : 'markBadTermResult')
             }}
         >
             <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
-        </div>
+        </div> */}
         {term}
         {error &&
             <div

@@ -54,7 +54,7 @@ module.exports = {
     ],
   }),
   ],
-  mode: 'production',
-  // devtool: 'cheap-module-source-map'
+  mode: 'development',
+  devtool: 'cheap-module-source-map'
 };
 

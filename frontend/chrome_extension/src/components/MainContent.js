@@ -15,12 +15,12 @@ import {
 import { panelSelectLegend } from './utils/panelSelectLegend';
 
 
-const SideBarContent = ({ termResults }) => {
+const SideBarContent = ({ termResultsFromServer }) => {
   const [darkMode, setDarkMode] = useState(true);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [findingFile, setFindingFile] = useState(null)
   const [displayedFile, setDisplayedFile] = useState(null);
-  const [termResultsSource, setTermResultsSource] = useState(null);
+  const [termResults, setTermResults] = useState([]);
   const [authorWatchlist, setAuthorWatchlist] = useState({});
   const [recentActivity, setRecentActivity] = useState({})
   const [recentActivityUpdate, setRecentActivityUpdate] = useState(null);
@@ -38,6 +38,9 @@ const SideBarContent = ({ termResults }) => {
     }));
   }
 
+  useEffect(() => {
+    setTermResults(termResultsFromServer);
+  }, [termResultsFromServer])
   useEffect(() => {
     let darkModeAttr = darkMode ? 'dark' : '';
     document.documentElement.setAttribute('data-theme', darkModeAttr);
@@ -81,9 +84,9 @@ const SideBarContent = ({ termResults }) => {
   }, [recentActivityUpdate])
 
   useEffect(() => {
-    if (termResults) {
+    if (termResultsFromServer) {
       let newAddedToWatchlist = new Array(termResults.length).fill(false);
-      termResults.forEach((result, index) => {
+      termResultsFromServer.forEach((result, index) => {
         if (!result.error && result.repos[0].author.name in authorWatchlist) {
           newAddedToWatchlist[index] = true;
         }
@@ -91,7 +94,7 @@ const SideBarContent = ({ termResults }) => {
       setAddedToWatchlist(newAddedToWatchlist);
     }
     panelStatusSetter('AuthorPanel', 'count', Object.keys(authorWatchlist).length);
-  }, [authorWatchlist, termResults])
+  }, [authorWatchlist, termResultsFromServer])
 
   useEffect(() => {
     if (termResults) {
@@ -102,7 +105,7 @@ const SideBarContent = ({ termResults }) => {
 
   async function handleFindTerms(option, source) {
     source = source ? source : displayedFile ? displayedFile.name : 'DummyResults';
-    setTermResultsSource(source);
+    setTermResults(source);
     if (option == 'file') {
       panelStatusSetter('TermResultsPanel', 'loading', true);
       setFindingFile(uploadedFile.name)
@@ -197,7 +200,7 @@ const SideBarContent = ({ termResults }) => {
       setTermResults(newFoundTerms);
     }
     else if (type == 'markBadTermResult') {
-      serverRequest('rateResults', 'POST', { source: termResultsSource, term: termResults[selection].term, rating: false });
+      serverRequest('rateResults', 'POST', { term: termResults[selection].term, rating: false });
       setTermResults(termResults => {
         let newTermResults = termResults.filter((item, index) => index != selection);
         termResults[selection].bad = true;
@@ -206,7 +209,7 @@ const SideBarContent = ({ termResults }) => {
       })
     }
     else if (type == 'unMarkBadTermResult') {
-      serverRequest('rateResults', 'POST', { source: termResultsSource, term: termResults[selection].term, rating: true });
+      serverRequest('rateResults', 'POST', { source: termResults, term: termResults[selection].term, rating: true });
       setTermResults(termResults => {
         let newTermResults = termResults.filter((item, index) => index != selection);
         termResults[selection].bad = false;
