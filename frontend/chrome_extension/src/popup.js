@@ -1,18 +1,21 @@
+/*
+Popup script
+*/
 import React from 'react';
 import { useState, useEffect } from 'react'
 import { render } from "react-dom";
+import { serializeBlob } from './components/utils/utils';
 import './popup.css';
+import "regenerator-runtime/runtime.js";
 
 function Popup() {
     const [darkTheme, setDarkTheme] = useState(false);
     const [logoOnly, setLogoOnly] = useState(false);
-    const [refresh, setRefresh] = useState(false);
-    const [tabIsProcessedPDF, setTabIsProcessedPDF] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [defaultSideBarLeft, setDefaultSideBarLeft] = useState(true);
 
 
-    useEffect(() => {
+    useEffect(async () => {
         chrome.storage.local.get({ 'darkTheme': false, 'defaultSideBarLeft': true }, (result) => {
             if (result.darkTheme) {
                 setDarkTheme(true);
@@ -22,15 +25,14 @@ function Popup() {
                 setDefaultSideBarLeft(false);
             }
         });
-        chrome.runtime.sendMessage({ type: 'popup_request_tabType' }, function (response) {
-            response = response || {};
-            if (response == 'chrome') {
-                setLogoOnly(true);
-            }
-        });
         chrome.storage.onChanged.addListener(changes => {
             if (changes.darkTheme) {
                 setDarkTheme(changes.darkTheme.newValue);
+            }
+        });
+        chrome.runtime.sendMessage({ type: 'popup_request_tabType' }, function (response) {
+            if (response.tabType == 'chrome') {
+                setLogoOnly(true);
             }
         });
     }, [])
@@ -48,40 +50,39 @@ function Popup() {
     }
 
 
-    chrome.runtime.onMessage.addListener(function (message) {
-        if (message.type == 'content_send_tabType') {
-            if (message.tabType == 'HTML') {
-                // If extension has already been run on tab, displays notification that tab 
-                // will refresh if automatically if extension is run again. 
-                setRefresh(true);
-            }
-            else if (message.tabType == 'PDF') {
-                // If tab is a PDF highlighted by the extension, 'Find terms' 
-                // button is removed. 
-                setTabIsProcessedPDF(true);
-            }
-        }
-    });
-
 
     function runInTab() {
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
-            chrome.runtime.sendMessage({ type: 'popup_request_run_in_tab', refresh: refresh });
+            chrome.runtime.sendMessage({ type: 'popup_request_run_in_tab' });
         });
         // Closing popup stops extension from running in Linux. 
         // window.close();
     }
 
-    function handleUpload(e) {
+    // async function serialize(src) {
+    //     const wasBlob = src instanceof Blob;
+    //     const blob = wasBlob ? src : await new Response(src).blob();
+    //     const reader = new FileReader();
+    //     return new Promise(resolve => {
+    //         reader.onload = () => resolve([
+    //             reader.result,
+    //             blob.type,
+    //             wasBlob,
+    //         ]);
+    //         reader.readAsDataURL(blob);
+    //     });
+    // }
+    async function handleUpload(e) {
         let fileName = e.target.value.split("\\").pop();
-        let fileURL = URL.createObjectURL(e.target.files[0]);
+        let serialized = await serializeBlob(e.target.files[0]);
+
         if (fileName.endsWith('.pdf')) {
-            setSelectedFile({ name: fileName, url: fileURL });
+            setSelectedFile({ name: fileName, serialized: serialized });
         }
     }
 
     function submitFile() {
-        chrome.runtime.sendMessage({ type: 'popup_request_run_on_file', fileType: 'PDF', url: selectedFile.url });
+        chrome.runtime.sendMessage({ type: 'popup_request_run_on_file', fileType: 'PDF', fileName: selectedFile.name, serializedFile: selectedFile.serialized });
         document.write('')
     }
 
@@ -96,13 +97,13 @@ function Popup() {
             <div id="logo"><img src={logoImage} /></div>
             <div id='icons'>
                 <div
-                    className="svg-icon"
+                    className="body-icon"
                     onClick={darkThemeHandle}
                     title="Toggle dark mode">
                     <img src={themeToggleImage}></img>
                 </div>
                 <div
-                    className="svg-icon"
+                    className="body-icon"
                     onClick={() => { setDefaultSideBarLeft(!defaultSideBarLeft) }}
                     title="Toggle default side panel position">
                     <img src={sideBarLeftImage}></img>
@@ -111,22 +112,19 @@ function Popup() {
             <div
                 id="content"
                 style={{ display: logoOnly ? 'none' : '' }}>
-                <div className='notification'
-                    style={{ display: tabIsProcessedPDF ? '' : 'none' }}>
-                    Select original PDF<br /> to run again.
-                </div>
                 <button
                     className="reg-button"
                     onClick={runInTab}
-                    style={{ display: tabIsProcessedPDF ? 'none' : '' }}>
-                    {!refresh ? 'Find on page' : 'Run again'}
+                >
+                    Find on page
                 </button>
                 <label
-                    for="upload-button"
-                    className={'input-label' + (selectedFile ? ' file-selected' : ' no-file-selected')} >
+                    htmlFor="upload-button"
+                    className={'input-label' + (selectedFile ? ' file-selected' : ' no-file-selected')}
+                >
                     {!selectedFile ? "Upload file" : selectedFile.name}
                     <form
-                        enctype="multipart/form-data"
+                        encType="multipart/form-data"
                         method="POST"
                         id="upload-form"
                         className='hidden'>

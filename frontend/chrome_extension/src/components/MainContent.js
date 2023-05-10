@@ -9,14 +9,12 @@ import {
   serverRequest,
   findTerms,
   embedFile,
-  dummyResults,
   formatTextAndHighlightMatches
 } from './utils/utils';
 import { panelSelectLegend } from './utils/panelSelectLegend';
 
 
 const SideBarContent = ({ termResultsFromServer }) => {
-  const [darkMode, setDarkMode] = useState(true);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [findingFile, setFindingFile] = useState(null)
   const [displayedFile, setDisplayedFile] = useState(null);
@@ -41,20 +39,68 @@ const SideBarContent = ({ termResultsFromServer }) => {
   useEffect(() => {
     setTermResults(termResultsFromServer);
   }, [termResultsFromServer])
-  useEffect(() => {
-    let darkModeAttr = darkMode ? 'dark' : '';
-    document.documentElement.setAttribute('data-theme', darkModeAttr);
-  }, [darkMode])
+
 
   useEffect(async () => {
     let update = await serverRequest('recentActivityGet', 'GET');
     setAuthorWatchlist(update.watchlist);
     delete update.watchlist;
     setRecentActivityUpdate(update);
+    chrome.runtime.onMessage.addListener((message) => {
+      if (message.type == 'updateWatchlist_to_content') {
+        if (message.action == 'add') {
+          setAuthorWatchlist(authorWatchlist => ({
+            ...authorWatchlist,
+            [message.author.name]: message.author,
+          }));
+          ['recentPostIndices', 'recentRepoIndices'].forEach(key => {
+            if (message.update[key].length) {
+              panelStatusSetter('RecentPanel', `updated_${key}`, true, true);
+            }
+          })
+          setRecentActivityUpdate(message.update);
+        }
+        else if (message.action == 'remove') {
+          if (message.authorName) {
+            setAuthorWatchlist(authorWatchlist => {
+              let newAuthorWatchlist = { ...authorWatchlist };
+              delete newAuthorWatchlist[message.authorName];
+              return newAuthorWatchlist;
+            });
+          }
+          else {
+            setAuthorWatchlist({});
+          }
+          let newRecentActivityUpdate = { authorName: message.authorName, remove: true };
+          setRecentActivityUpdate(newRecentActivityUpdate);
+          // setAuthorWatchlist(message.watchlist);
+        }
+      }
+    }
+    );
   }, [])
 
   useEffect(() => {
     if (recentActivityUpdate) {
+      if (recentActivityUpdate.remove) {
+        let authorName = recentActivityUpdate.authorName
+        let newRecentActivity = { recentPosts: [], recentRepos: [] };
+        if (authorName) {
+          recentActivity.recentPosts.forEach(post => {
+            if (!authorName.includes(post.author.name)) {
+              newRecentActivity.recentPosts.push(post)
+            }
+          })
+          recentActivity.recentRepos.forEach(repo => {
+            if (!authorName.includes(repo.author.name)) {
+              newRecentActivity.recentRepos.push(repo)
+            }
+          })
+        }
+        setRecentActivity(newRecentActivity);
+        return;
+
+      }
       let recentPosts;
       if (recentActivityUpdate.recentPostIndices) {
         recentPosts = recentActivityUpdate.recentPostIndices;
@@ -144,49 +190,57 @@ const SideBarContent = ({ termResultsFromServer }) => {
     return fileName;
   }
 
-  async function termsAndAuthorSelect(selection, type) {
-    if (type == 'authorWatchlistAdd') {
-      let author = selection;
-      let update = await serverRequest('authorWatchlistAdd', 'POST', author);
-      let newAuthor = update.newAuthor;
-      newAuthor = { ...author, ...newAuthor }
-      setAuthorWatchlist(authorWatchlist => ({
-        ...authorWatchlist,
-        [author.name]: newAuthor,
-      }))
-      delete update.newAuthor;
-      Object.keys(update).forEach(key => {
-        if (update[key]) {
-          panelStatusSetter('RecentPanel', `updated_${key}`, true, true);
-        }
-      })
-      setRecentActivityUpdate(update);
-    }
-    else if (type == 'authorWatchlistRemove') {
-      if (!selection) {
-        serverRequest(type, 'POST', {});
-        setAuthorWatchlist({});
-        setRecentActivity({});
-        return;
+  async function termsAndAuthorSelect(selection, type, action) {
+    if (type == 'updateWatchlist') {
+      let update;
+      let authorName;
+      let author;
+      let newAuthorWatchlist;
+      if (action == 'add') {
+        author = selection;
+        authorName = author.name;
+        update = await serverRequest(type, 'POST', { action: action, author: author });
+        author = update.newAuthor;
+        setAuthorWatchlist(authorWatchlist => ({
+          ...authorWatchlist,
+          [author.name]: author,
+        }))
+        delete update.author;
+        ['recentPostIndices', 'recentRepoIndices'].forEach(key => {
+          if (update[key].length) {
+            panelStatusSetter('RecentPanel', `updated_${key}`, true, true);
+          }
+        })
+        setRecentActivityUpdate(update);
       }
-      let newAuthorWatchlist = { ...authorWatchlist };
-      selection.forEach(authorName =>
-        delete newAuthorWatchlist[authorName]
-      )
-      setAuthorWatchlist(newAuthorWatchlist);
-      serverRequest(type, 'POST', selection);
-      let newRecentActivity = { recentPosts: [], recentRepos: [] };
-      recentActivity.recentPosts.forEach(post => {
-        if (!selection.includes(post.author.name)) {
-          newRecentActivity.recentPosts.push(post)
+      else {
+        authorName = selection;
+        if (authorName) {
+          setAuthorWatchlist(authorWatchlist => {
+            let newAuthorWatchlist = { ...authorWatchlist };
+            delete newAuthorWatchlist[authorName];
+            return newAuthorWatchlist;
+          })
+          // newAuthorWatchlist = { ...authorWatchlist };
+          // delete newAuthorWatchlist[authorName]
         }
-      })
-      recentActivity.recentRepos.forEach(repo => {
-        if (!selection.includes(repo.author.name)) {
-          newRecentActivity.recentRepos.push(repo)
+        else {
+          // newAuthorWatchlist = {}
+          setAuthorWatchlist({});
         }
-      })
-      setRecentActivity(newRecentActivity);
+        let newRecentActivityUpdate = { authorName: authorName, remove: true };
+        setRecentActivityUpdate(newRecentActivityUpdate);
+        // setAuthorWatchlist(newAuthorWatchlist);
+        serverRequest(type, 'POST', { action: action, authorName: authorName })
+      }
+      chrome.runtime.sendMessage({
+        type: 'updateWatchlist_to_background',
+        action: action,
+        update: update,
+        authorName: authorName,
+        author: author,
+        watchlist: newAuthorWatchlist
+      });
     }
 
     else if (type == 'findResultsForTerms') {

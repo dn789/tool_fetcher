@@ -1,11 +1,10 @@
 /*
-Checks if tab is a PDF (first by URL, then by source of embeds/iFrames) or 
-HTML web page.
-
+Checks if tab is a PDF or web page.
 */
 let PDF;
 let url;
 let tabURL = window.location.href.split('?')[0];
+
 if (tabURL.endsWith('.pdf')) {
     PDF = true;
     url = tabURL;
@@ -24,9 +23,12 @@ else {
         };
     }
 }
-if (PDF) {
-    chrome.runtime.sendMessage({ type: 'checkType_send_tabType', tabType: 'PDF', url: url });
-}
-else {
-    chrome.runtime.sendMessage({ type: 'checkType_send_tabType', tabType: 'HTML' });
-}
+let tabType = PDF ? 'PDF' : 'HTML';
+let titleElement = document.querySelector('title');
+let title = titleElement ? titleElement.textContent : url;
+
+chrome.runtime.sendMessage({
+    type: 'getTabInfo_send_tabInfo',
+    tabInfo: { type: tabType, url: url, title: title }
+});
+

@@ -7,7 +7,7 @@ module.exports = {
     popup: "./src/Popup.js",
     background: "./src/background.js",
     content: "./src/content.js",
-    checkType: "./src/checkType.js",
+    getTabInfo: "./src/getTabInfo.js",
   },
   output: {
     path: path.resolve(__dirname, 'build'),

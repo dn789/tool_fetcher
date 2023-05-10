@@ -8,43 +8,36 @@ import { findTerms } from './components/utils/utils';
 import styles from './sidebar.css'
 
 function InjectSideBar() {
-    const [tabInfo, setTabInfo] = useState(null);
+    const [tabInfo, setTabInfo] = useState({ type: null, title: null, url: null });
     const [results, setResults] = useState(null);
     const [serverResponse, setServerResponse] = useState(false);
 
     useEffect(() => {
         chrome.runtime.onMessage.addListener(
-            function fromBackground(message) {
+            async function fromBackground(message) {
                 if (message.type == 'run') {
-
-                    setTabInfo({ type: message.tabType, url: message.url })
+                    setTabInfo(message.tabInfo);
+                    setResults(await findTerms(message.tabInfo.url, message.tabInfo.type, message.tabInfo.serializedFile));
                     chrome.runtime.onMessage.removeListener(fromBackground);
                 }
             }
         );
     }, [])
 
-    useEffect(async () => {
-        if (tabInfo) {
-            chrome.runtime.onMessage.addListener(function sendTabInfo(message) {
-                if (message.type == 'background_request_tabType') {
-                    chrome.runtime.sendMessage({ type: 'content_send_tabType', tabType: tabInfo.type });
-                }
-            })
-            setResults(await findTerms(tabInfo, 'HTML'));
-        }
-    }, [tabInfo])
 
     useEffect(() => {
         if (results) {
             setServerResponse(true);
+            if (tabInfo.type == 'PDF') {
+                document.title = tabInfo.title || 'ToolFetcher - PDF';
+            }
         }
     }, [results])
 
     return (
         <root.div>
             <style type="text/css">{styles}</style>
-            <SideBar results={results ? results : []} serverResponse={serverResponse} tabType={tabInfo ? tabInfo.type : null} />
+            <SideBar results={results ? results : []} serverResponse={serverResponse} tabType={tabInfo.type} />
         </root.div>
     );
 }

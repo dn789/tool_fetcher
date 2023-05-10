@@ -1,22 +1,23 @@
 /*
 Background script
 */
+import "regenerator-runtime/runtime.js";
 
-function executeContentScript(tabId, tabType, url) {
-    if (tabType == 'HTML') {
+function executeContentScript(tabId, tabInfo) {
+    if (tabInfo.type == 'HTML') {
         chrome.scripting.executeScript(
             {
                 target: { tabId: tabId },
                 files: ['content.js']
             }, function () {
-                chrome.tabs.sendMessage(tabId, { type: 'run', tabType: 'HTML', url: null })
+                chrome.tabs.sendMessage(tabId, { type: 'run', tabInfo: tabInfo })
             });
     }
-    else if (tabType == 'PDF') {
+    else if (tabInfo.type == 'PDF') {
         chrome.tabs.create({ url: 'pdf.html' }, function (tab) {
             chrome.tabs.onUpdated.addListener(function checkPDFTab(tabId, changeInfo) {
                 if (tabId === tab.id && changeInfo.status === 'complete') {
-                    chrome.tabs.sendMessage(tabId, { type: 'run', tabType: 'PDF', url: url });
+                    chrome.tabs.sendMessage(tabId, { type: 'run', tabInfo: tabInfo });
                     chrome.tabs.onUpdated.removeListener(checkPDFTab);
                 };
             });
@@ -25,63 +26,46 @@ function executeContentScript(tabId, tabType, url) {
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    // Checks tab status for popup.
+    // Tells popup if tab is a chrome tab.
     if (message.type == 'popup_request_tabType') {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            // Responds directly if tab is a chrome browser URL...
             if (tabs[0].url.startsWith('chrome://')) {
-                sendResponse('chrome');
-            }
-            // Otherwise, sends message to tab requesting status. If tab is 
-            // (1) a web page that's already had the extension run on it or
-            // (2) a PDF highlighted by the extension, a content script 
-            // present in the tab will send a message to the popup.
-            else {
-                chrome.tabs.sendMessage(tabs[0].id, { type: 'background_request_tabType', tabId: tabs[0].id });
+                sendResponse({ tabType: 'chrome' });
             }
         })
     }
-    // Message from popup to find terms in current tab. If refresh is true 
-    // (tab has already had extension run on it), tab will be refreshed before
-    // content.js is injected. 
+    // If popup requests to find terms in current tab, run script to determine
+    // if tab is a web page or PDF.
     else if (message.type == 'popup_request_run_in_tab') {
-        if (message.refresh) {
-            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                chrome.tabs.reload(tabs[0].id);
-                chrome.tabs.onUpdated.addListener(function checkReload(tabId, changeInfo) {
-                    if (tabId === tabs[0].id && changeInfo.status === 'complete') {
-                        executeContentScript(tabs[0].id, 'HTML', null);
-                        chrome.tabs.onUpdated.removeListener(checkReload);
-                    };
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.scripting.executeScript(
+                {
+                    target: { tabId: tabs[0].id },
+                    files: ['getTabInfo.js']
                 });
+        })
+    }
+    // Injects content.js if the tab is a web page or runs in a new tab if it's
+    // a PDF.
+    else if (message.type == 'getTabInfo_send_tabInfo') {
+        executeContentScript(sender.tab.id, message.tabInfo);
+    }
+    // Handles watchlist updates.
+    else if (message.type == 'updateWatchlist_to_background') {
+        chrome.tabs.query({}, function (tabs) {
+            tabs.forEach(tab => {
+                if (sender.tab.id != tab.id) {
+                    message.type = 'updateWatchlist_to_content'
+                    chrome.tabs.sendMessage(tab.id, message);
+                }
             });
-        }
-        // If refresh is false, checkType.js is injected to determine whether 
-        // the tab is a web page or PDF. 
-        else {
-            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                chrome.scripting.executeScript(
-                    {
-                        target: { tabId: tabs[0].id },
-                        files: ['checkType.js']
-                    });
-            })
-        }
+        });
     }
-    // Injects content.js if the tab is a web page or runs in a new tab if it's a PDF.
-    else if (message.type == 'checkType_send_tabType') {
-        if (message.tabType == 'HTML') {
-            executeContentScript(sender.tab.id, 'HTML', null);
-        }
-        else if (message.tabType == 'PDF') {
-            executeContentScript(null, 'PDF', message.url);
-
-        }
-    }
-    // Handles request from popup to run file (opens new tab).
+    // Handles request from popup to run uploaded PDF (runs in new tab).
     else if (message.type == 'popup_request_run_on_file') {
         if (message.fileType == 'PDF') {
-            executeContentScript(null, 'PDF', message.url)
+            let tabInfo = { type: 'PDF', url: null, title: message.fileName, serializedFile: message.serializedFile }
+            executeContentScript(null, tabInfo)
         }
     }
     return true;

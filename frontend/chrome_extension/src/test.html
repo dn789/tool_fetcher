@@ -1,0 +1,23 @@
+<div id="root">
+    <div>
+        <div id="logo"><img src="images/logo_white_text.svg"></div>
+        <div id="icons">
+            <div class="body-icon" title="Toggle dark mode">
+                <img src="images/theme_icon.svg">
+            </div>
+            <div class="body-icon" title="Toggle default side panel position">
+                <img src="images/panel_left_icon.svg">
+            </div>
+        </div>
+        <div id="content">
+            <div class="notification" style="display: none;">Select original PDF<br> to run again.</div><button
+                class="reg-button">Find on page</button>
+            <label for="upload-button" class="input-label no-file-selected">Upload file
+                <form enctype="multipart/form-data" method="POST" id="upload-form" class="hidden"><input type="file"
+                        id="upload-button" class="hidden" accept=".pdf">
+                </form>
+            </label>
+            <button type="button" class="reg-button" style="display: none;">Find in file</button>
+        </div>
+    </div>
+</div>

@@ -54,7 +54,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                 </span>
             </div>
             {showPosts ?
-                !!recentPosts.length ?
+                recentPosts.length ?
 
                     <div className='scrollable-y'>
                         {recentPosts.map((postDict, index) =>
@@ -89,11 +89,12 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                                                     </p>)
                                             }&nbsp;&nbsp;...&nbsp;&nbsp;
                                             <a href={postDict.url} target='_blank'>Full post</a>
-                                        </div>}
+                                        </div>
+                                    }
 
 
                                     <div className='author-row'>
-                                        by <RepoAuthor author={postDict.author} />
+                                        by <RepoAuthor author={postDict.author} flat={true} />
                                         <span className='bullet'>&#8226;</span>
                                         {postDict.date}
                                     </div>
@@ -107,38 +108,35 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                 :
                 recentRepos.length ?
                     <div className='scrollable-y'>
-                        {
-
-                            recentRepos.map((repo, index) =>
-                                <div
-                                    key={index}
-                                    className={`recent-cell-container
+                        {recentRepos.map((repo, index) =>
+                            <div
+                                key={index}
+                                className={`recent-cell-container
                                         ${index % 2 ? ` shaded` : ''}
                                         ${!index ? ` rounded-bottom-left` : index == recentRepos.length - 1 ? ` rounded-top-left` : ` rounded-left-side`}`}
-                                >
-                                    <div className='recent-cell-flex-column'>
-
-                                        <div className='flex-row-small-gap indent-left'>
-                                            <span className='body-icon'
-                                                title='Download this repo'
-                                            >
-                                                <img src={chrome.runtime.getURL('./images/download.svg')} />
-                                            </span>
-                                            <a className='repo-name-larger repo-link repo-title' title={repo.url} target='_blank' href={repo.url}>
-                                                {repo.name}
-                                            </a>
-                                        </div>
-                                        <div className='post-text'>
-                                            <p className='recent-paragraph'>{repo.description && repo.description}</p>
-                                        </div>
-                                        <div className='author-row'>
-                                            by <RepoAuthor author={repo.author} flat={true} />
-                                            <span className='bullet'>&#8226;</span>
-                                            Updated: {repo.date}
-                                        </div>
+                            >
+                                <div className='recent-cell-flex-column'>
+                                    <div className='flex-row-small-gap indent-left'>
+                                        <span className='body-icon'
+                                            title='Download this repo'
+                                        >
+                                            <img src={chrome.runtime.getURL('./images/download.svg')} />
+                                        </span>
+                                        <a className='repo-name-larger repo-link repo-title' title={repo.url} target='_blank' href={repo.url}>
+                                            {repo.name}
+                                        </a>
+                                    </div>
+                                    <div className='post-text'>
+                                        <p className='recent-paragraph'>{repo.description && repo.description}</p>
+                                    </div>
+                                    <div className='author-row'>
+                                        by <RepoAuthor author={repo.author} flat={true} />
+                                        <span className='bullet'>&#8226;</span>
+                                        Updated: {repo.date}
                                     </div>
                                 </div>
-                            )
+                            </div>
+                        )
                         }
                     </div>
                     :
