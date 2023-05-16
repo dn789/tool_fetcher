@@ -52,7 +52,7 @@ const SidebarResizer = ({ parentWidth, parentLeft, handle, tabType }) => {
     });
 
     return <div
-        className='sidebar-resizer'
+        id='sidebar-resizer'
         style={{
             left: !parentLeft && 0,
             right: parentLeft && 0

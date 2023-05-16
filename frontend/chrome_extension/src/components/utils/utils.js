@@ -15,7 +15,7 @@ export function getFileNameAndUrl(e) {
     }
 }
 
-export async function findTerms(fileURL, fileType, serializedFile) {
+export async function findTerms(fileURL, fileType, serializedFile, setError) {
     let contentType;
     let body;
     let paragraphs;
@@ -41,7 +41,7 @@ export async function findTerms(fileURL, fileType, serializedFile) {
         contentType = 'application/pdf'
     }
     // Sends paragraph text, or PDF blob to server.
-    let resultsObj = await serverRequest(fileType, 'POST', body, contentType);
+    let resultsObj = await serverRequest(fileType, 'POST', body, contentType, setError);
     resultsObj['termResults'].forEach(result => {
         result.key = result.term;
     })
@@ -88,19 +88,26 @@ export async function findTerms(fileURL, fileType, serializedFile) {
 }
 
 
-export async function serverRequest(type, method, body, contentType) {
+export async function serverRequest(type, method, body, contentType, setError) {
     if (!contentType) {
         contentType = 'application/json'
     }
     if (body && contentType == 'application/json') {
         body = JSON.stringify(body)
     }
-    let response = await fetch(
-        'http://127.0.0.1:5000/home', {
-        headers: { 'Content-Type': contentType, 'type': type },
-        method: method,
-        body: body
-    });
+    let response;
+    try {
+        response = await fetch(
+            'http://127.0.0.1:5000/home', {
+            headers: { 'Content-Type': contentType, 'type': type },
+            method: method,
+            body: body
+        });
+    }
+    catch (error) {
+        // TypeError: Failed to fetch
+        setError('fetch');
+    }
     let responseObj = JSON.parse(await response.text());
     return responseObj
 }
@@ -124,7 +131,7 @@ export function formatExtractedText(text, lineBreaks) {
         })
 }
 
-
+// Web app only
 export function formatTextAndHighlightMatches(termResults, text) {
     let terms = [];
     termResults.forEach(result => {

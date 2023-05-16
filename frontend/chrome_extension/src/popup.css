@@ -40,12 +40,15 @@ html {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-#content {
+#main-content,
+#error-container {
+    font-size: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 25px;
-    padding: 10px;
+    gap: 1em;
+    margin-top: 2em;
+    padding: 1em;
 }
 
 #logo>img {
@@ -62,8 +65,7 @@ html {
 }
 
 
-.body-icon,
-.body-icon-white {
+.body-icon {
     display: flex;
     align-items: center;
     align-content: center;
@@ -92,10 +94,8 @@ html {
 }
 
 .file-selected {
-    font-size: medium !important;
     width: fit-content !important;
     max-width: 240px;
-    margin-bottom: 0px !important;
     padding-left: 5px;
     padding-right: 5px;
     background-color: transparent !important;
@@ -104,13 +104,11 @@ html {
 }
 
 .input-label {
+    flex-grow: 1;
     color: var(--text-color);
-    font-size: large;
     text-align: center;
-    line-height: 35px;
-    width: 136px;
-    height: 35px;
-    margin: 10px;
+    line-height: 1.95em;
+    height: 1.95em;
     border: 1px solid var(--button-border-color);
     border-radius: 5px;
     background-color: var(--button-color);
@@ -119,11 +117,10 @@ html {
 }
 
 .reg-button {
+    font-size: 1em;
     color: var(--text-color);
-    font-size: large;
-    width: 140px;
-    height: 39px;
-    margin: 10px;
+    width: 10em;
+    height: 2.2em;
     border-radius: 5px;
     border: 1px solid var(--button-border-color);
     background-color: var(--button-color);
@@ -139,8 +136,24 @@ html {
 }
 
 .notification {
+    display: flex;
+    align-items: center;
+    height: 2.2em;
+    width: fit-content;
     color: var(--text-color);
-    font-size: large;
-    margin: 10px;
-    text-align: center;
+    /* text-align: center; */
+}
+
+.upload-div {
+    display: flex;
+    gap: .5em;
+    width: 10em;
+}
+
+#error-div-small {
+    color: #f1f5f5;
+    border-radius: 0.5em;
+    background-color: rgb(121, 37, 37);
+    width: 100%;
+    padding: 1em;
 }

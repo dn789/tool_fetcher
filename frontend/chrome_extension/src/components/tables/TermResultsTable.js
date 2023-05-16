@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import TermResultRow from "../misc/TermResultRow";
 
 
-const TermResultsTable = ({ status, termResults, authorWatchlist, source }) => {
+const TermResultsTable = ({ status, termResults, authorWatchlist }) => {
+
 
     const [expanded, setExpanded] = useState([]);
 
     useEffect(() => {
-        setExpanded(new Array(termResults.length).fill(false));
+        if (termResults) {
+            setExpanded(new Array(termResults.length).fill(false));
+        }
     }, [termResults])
 
     function handleExpand(selected) {
@@ -17,17 +20,16 @@ const TermResultsTable = ({ status, termResults, authorWatchlist, source }) => {
 
     const emptyDisplay =
         <div className='default-panel'>
-            {(source && status.count != null) ?
+            {termResults ?
                 <>
-                    <div className='flex-column-med-gap'>
-                        <span>No terms found in</span>
-                        <span>{source} .</span>
+                    <div>
+                        <span>No terms found.</span>
                     </div>
                 </>
                 :
-                !source
+                !termResults
                 &&
-                'Enter a URL or select a file to find terms.'
+                'Click button in popup to find terms and repos on this page.'
             }
         </div>
 
@@ -53,12 +55,11 @@ const TermResultsTable = ({ status, termResults, authorWatchlist, source }) => {
                     </tr>
                 </thead>
                 <tbody >
-                    {termResults.map((result, index) => (
+                    {termResults && termResults.map((result, index) => (
                         <React.Fragment key={index}>
                             <TermResultRow
                                 index={index}
                                 showAll={expanded[index]}
-                                multipleRepos={result.repos && result.repos.length > 1}
                                 handleExpand={handleExpand}
                                 topResult={true}
                                 term={result.term}
@@ -92,7 +93,7 @@ const TermResultsTable = ({ status, termResults, authorWatchlist, source }) => {
                 </tbody>
             </table>
         </div>
-    return termResults.length ? resultsDisplay : emptyDisplay;
+    return (termResults && termResults.length) ? resultsDisplay : emptyDisplay;
 };
 
 export default TermResultsTable;

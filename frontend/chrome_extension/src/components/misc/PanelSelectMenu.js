@@ -10,32 +10,34 @@ const PanelSelectMenu = ({ panelStatus, panelStatusSetter, selectActive, activeP
     }, [activePanel])
 
     return (
-        <div
-            id='menu-panel'>
 
-            <div id='menu-panel-content'>
-                {
-                    Object.entries(panelStatus).map(([panel, panelProps]) =>
+        <div id='panel-select'>
+            {
+                Object.entries(panelStatus).map(([panel, panelProps]) =>
+                    <div
+                        key={panel}
+                        title={panelProps.title}
+                        className="panel-select-item-wrapper"
+                        onClick={() => {
+                            selectActive(panel);
+                        }}
+                    >
                         <div
-                            key={panel}
-                            title={panelProps.title}
-                            className={`menu-panel-item ${panel == activePanel ? `active-panel-item` : ''}`}
-                            onClick={() => {
-                                selectActive(panel);
-                            }}
+                            className={`panel-select-item ${panel == activePanel ? `active-panel-item` : ''}`}
                         >
                             {
-                                `${panelProps.name} 
-                            ${'count' in panelProps ? `(${panelProps.count}) ` : ''}`}
-                            <div>
-                                <UpdateDot condition={(panel == activePanel && panel != 'RecentPanel') ? false : panelProps.updated} />
-                            </div>
+                                `${panelProps.name}
+                                ${'count' in panelProps ? `(${panelProps.count}) ` : ''}`}
+                        </div>
+                        <div className='update-and-loading'>
+                            <UpdateDot condition={(panel == activePanel && panel != 'RecentPanel') ? false : panelProps.updated} />
                             {panelProps.loading && <div className='loading-spinner'></div>}
                         </div>
-                    )
-                }
-            </div>
-        </div >)
+
+                    </div>
+                )
+            }
+        </div>)
 
 }
 export default PanelSelectMenu;

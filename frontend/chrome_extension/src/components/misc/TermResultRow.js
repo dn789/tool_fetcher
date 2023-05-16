@@ -1,21 +1,22 @@
 import React from 'react';
 import { useContext } from 'react'
-import RepoAuthor from "../misc/RepoAuthor";
-import Term from "../misc/Term";
-import { TermsAndAuthorSelectContext } from "../MainContent";
+import RepoAuthor from "./RepoAuthor";
+import Term from "./Term";
+import { TermsAndAuthorSelectContext } from "../SideBarContent";
 
 
-const TermResultRow = ({ index, showAll, multipleRepos, topResult, term, fromModel, error, bad, repo, authorWatchlist, handleExpand }) => {
+const TermResultRow = ({ index, showAll, topResult, term, fromModel, error, bad, repo, authorWatchlist, handleExpand }) => {
     const select = useContext(TermsAndAuthorSelectContext);
 
     return (
         <tr >
             {topResult ?
 
-                <td className='top-align top-term-result' title={term}>
+
+                <td className='top-align top-term-result padding-top-point-2em' title={term}>
 
                     <div
-                        className={`body-icon mark-as-bad-icon  ${bad ? 'red' : 'red-on-hover'}`}
+                        className={`body-icon small-icon margin-left-point-2em ${bad ? 'red' : 'red-on-hover'}`}
                         title={bad ? 'Undo mark as bad' : 'Mark bad term result'}
                         onClick={() => {
                             select(index, bad ? 'unMarkBadTermResult' : 'markBadTermResult')
@@ -24,58 +25,60 @@ const TermResultRow = ({ index, showAll, multipleRepos, topResult, term, fromMod
                         <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
                     </div>
 
-                    <Term index={index} term={term} error={error} fromModel={fromModel} />
-
+                    <Term term={term} error={error} fromModel={fromModel} />
 
 
                 </td>
 
                 :
-                <td className='top-align'></td>
+                <td className='top-align padding-top-1em'></td>
             }
-            {
-                error ?
-                    <td className='top-align width-35-percent'>
-                        <div>{error}</div>
-                    </td>
-                    :
-                    <td className='top-align  width-35-percent'>
-                        <div className='flex-column'>
-                            {topResult &&
-                                <div
-                                    className='body-icon expand-icon'
-                                    onClick={() => handleExpand(index)}
-                                    title={showAll ? 'Show fewer repos for ' + term : 'Show more repos for ' + term}
-                                >
-                                    <img src={chrome.runtime.getURL(showAll ? './images/expand_icon_down.svg' : './images/expand_icon_right.svg')} />
-                                </div>}
-                            <div className='heading-text-small-gap-div left-margin-1-5em'>
-                                <div className='cell-flex-row repo-name indent-left'>
-                                    <div className='body-icon'
-                                        title='Download this repo'
-                                    >
-                                        <img src={chrome.runtime.getURL('./images/download.svg')} />
-                                    </div>
-                                    <a className='repo-link' target='_blank' href={repo.url} title={repo.url} >{repo.name}</a>
-                                </div>
-                                {repo.description &&
-                                    <div className='small-text'>
-                                        {repo.description}
-                                    </div>}
-                            </div>
+            <td className={`top-align width-35-percent padding-top-point-2em ${!topResult ? 'padding-top-1em' : ''}`}>
+                <div className='flex-column'>
+                    {(topResult && !error) &&
+                        <div
+                            className='body-icon small-icon expand-icon width-point-9em-img'
+                            onClick={() => handleExpand(index)}
+                            title={showAll ? 'Show fewer repos for ' + term : 'Show more repos for ' + term}
+                        >
+                            <img src={chrome.runtime.getURL(showAll ? './images/expand_icon_down.svg' : './images/expand_icon_right.svg')} />
                         </div>
-                    </td>
+                    }
+                    {!error ?
+                        <div className='flex-column-gap-point-5-em margin-left-1-5em'>
+                            <div className='flex-row-align-down-small-gap pull-left-slight'>
+                                <div className='body-icon med-icon'
+                                    title='Download this repo'
+                                >
+                                    <img src={chrome.runtime.getURL('./images/download.svg')} />
+                                </div>
+                                <a className='repo-link' target='_blank' href={repo.url} title={repo.url} >{repo.name}</a>
+                            </div>
+                            {repo.description &&
+                                <div className='content-text-small'>
+                                    {repo.description}
+                                </div>
+                            }
+                        </div>
+                        :
+                        <>
+                            <div className='body-icon small-icon expand-icon width-point-9em-img invisible'>
+                                <img src={chrome.runtime.getURL(
+                                    showAll ? './images/expand_icon_down.svg' : './images/expand_icon_right.svg')} />
+                            </div>
+                            <div className='margin-top-point-2em margin-left-1-5em'>{error}</div>
+                        </>
+                    }
+                </div>
+            </td>
 
-            }
-
-            <td className='top-align  width-35-percent'>
+            <td className={`top-align width-35-percent  ${!topResult ? 'padding-top-1em' : ''}`}>
                 {topResult &&
-                    <div
-                        className='body-icon expand-icon invisible'
-                    >
-                        <img src={chrome.runtime.getURL(showAll ? './images/expand_icon_down.svg' : './images/expand_icon_right.svg')} />
-                    </div>}
-                {/* <div className='top-bottom-margin'> */}
+                    <div className='body-icon small-icon expand-icon width-1em-img invisible'>
+                        <img src={chrome.runtime.getURL(
+                            showAll ? './images/expand_icon_down.svg' : './images/expand_icon_right.svg')} />
+                    </div>
+                }
                 {
                     repo.author &&
                     <RepoAuthor
@@ -85,7 +88,6 @@ const TermResultRow = ({ index, showAll, multipleRepos, topResult, term, fromMod
                         showBio={true}
                     />
                 }
-                {/* </div> */}
             </td>
         </tr>
     )

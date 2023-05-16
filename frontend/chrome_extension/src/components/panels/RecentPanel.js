@@ -2,7 +2,6 @@ import React from 'react';
 import RepoAuthor from '../misc/RepoAuthor';
 import { useState, useEffect } from 'react';
 import UpdateDot from '../misc/UpdateDot';
-import { formatExtractedText } from '../utils/utils';
 
 const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos }) => {
 
@@ -27,7 +26,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
     }, [showPosts, show, recentPosts, recentRepos])
 
     return (
-        <div className='panel attached-left' style={{ display: !show && 'none' }} >
+        <div className='panel' style={{ display: !show && 'none' }} >
             <div className='panel-header p-header-2-center'>
                 <span
                     className={!showPosts ? 'hidden-tab-header' : undefined}
@@ -60,44 +59,39 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                         {recentPosts.map((postDict, index) =>
                             <div
                                 key={index}
-                                className={`recent-cell-container
-                            ${index % 2 ? ` shaded` : ''}
-                            ${!index ? ` rounded-bottom-left` : index == recentPosts.length - 1 ? ` rounded-top-left` : ` rounded-left-side`}`}
+                                className={`latest-cell ${index % 2 ? ` shaded` : ''}`}
                             >
-                                <div className='recent-cell-flex-column'
-                                >
-                                    {postDict.title ?
-                                        <>
-                                            <a href={postDict.url} target='_blank'>
-                                                <div className='post-title'>{postDict.title}</div>
-                                            </a>
-                                            <div className='post-text'>
-                                                {
-                                                    postDict.post.map((line, index) =>
-                                                        <p className='recent-paragraph' key={index}>
-                                                            {line}{index == postDict.post.length - 1 && <>&nbsp;&nbsp;...&nbsp;&nbsp;</>}
-                                                        </p>)
-                                                }
-                                            </div>
-                                        </>
-                                        :
-                                        <div className='post-text'>
+                                {postDict.title ?
+                                    <>
+                                        <a href={postDict.url} target='_blank'>
+                                            {postDict.title}
+                                        </a>
+                                        <div className='line-height-1-3em'>
                                             {
                                                 postDict.post.map((line, index) =>
-                                                    <p className='recent-paragraph' key={index}>
+                                                    <p className='margin-t-b-point-8em' key={index}>
                                                         {line}{index == postDict.post.length - 1 && <>&nbsp;&nbsp;...&nbsp;&nbsp;</>}
                                                     </p>)
-                                            }&nbsp;&nbsp;...&nbsp;&nbsp;
-                                            <a href={postDict.url} target='_blank'>Full post</a>
+                                            }
                                         </div>
-                                    }
-
-
-                                    <div className='author-row'>
-                                        by <RepoAuthor author={postDict.author} flat={true} />
-                                        <span className='bullet'>&#8226;</span>
-                                        {postDict.date}
+                                    </>
+                                    :
+                                    <div className='line-height-1-3em'>
+                                        {
+                                            postDict.post.map((line, index) =>
+                                                <p className='margin-t-b-point-8em' key={index}>
+                                                    {line}{index == postDict.post.length - 1 && <>&nbsp;&nbsp;...&nbsp;&nbsp;</>}
+                                                </p>)
+                                        }&nbsp;&nbsp;...&nbsp;&nbsp;
+                                        <a href={postDict.url} target='_blank'>Full post</a>
                                     </div>
+                                }
+
+
+                                <div className='flex-row-align-down-small-gap'>
+                                    by <RepoAuthor author={postDict.author} flat={true} />
+                                    <span className='bullet'>&#8226;</span>
+                                    <span className='font-point-85em'>{postDict.date}</span>
                                 </div>
                             </div>
                         )}
@@ -111,29 +105,25 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                         {recentRepos.map((repo, index) =>
                             <div
                                 key={index}
-                                className={`recent-cell-container
-                                        ${index % 2 ? ` shaded` : ''}
-                                        ${!index ? ` rounded-bottom-left` : index == recentRepos.length - 1 ? ` rounded-top-left` : ` rounded-left-side`}`}
+                                className={`latest-cell ${index % 2 ? ` shaded` : ''}`}
                             >
-                                <div className='recent-cell-flex-column'>
-                                    <div className='flex-row-small-gap indent-left'>
-                                        <span className='body-icon'
-                                            title='Download this repo'
-                                        >
-                                            <img src={chrome.runtime.getURL('./images/download.svg')} />
-                                        </span>
-                                        <a className='repo-name-larger repo-link repo-title' title={repo.url} target='_blank' href={repo.url}>
-                                            {repo.name}
-                                        </a>
-                                    </div>
-                                    <div className='post-text'>
-                                        <p className='recent-paragraph'>{repo.description && repo.description}</p>
-                                    </div>
-                                    <div className='author-row'>
-                                        by <RepoAuthor author={repo.author} flat={true} />
-                                        <span className='bullet'>&#8226;</span>
-                                        Updated: {repo.date}
-                                    </div>
+                                <div className='flex-row-align-down-small-gap pull-left-slight'>
+                                    <span className='body-icon med-icon'
+                                        title='Download this repo'
+                                    >
+                                        <img src={chrome.runtime.getURL('./images/download.svg')} />
+                                    </span>
+                                    <a className='repo-link' title={repo.url} target='_blank' href={repo.url}>
+                                        {repo.name}
+                                    </a>
+                                </div>
+                                <div className='line-height-1-3em'>
+                                    <p className='margin-t-b-point-8em'>{repo.description && repo.description}</p>
+                                </div>
+                                <div className='flex-row-align-down-small-gap'>
+                                    by <RepoAuthor author={repo.author} flat={true} />
+                                    <span className='bullet'>&#8226;</span>
+                                    <span className='font-point-85em'>Updated: {repo.date}</span>
                                 </div>
                             </div>
                         )
@@ -149,3 +139,4 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
 }
 
 export default RecentPanel;
+

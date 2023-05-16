@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import { TermsAndAuthorSelectContext } from "../MainContent";
+import { TermsAndAuthorSelectContext } from "../SideBarContent";
 import TwitterFollowButton from "./TwitterButton";
 
 const RepoAuthor = ({ author, action, authorWatchlist, showBio }) => {
@@ -32,7 +32,7 @@ const RepoAuthor = ({ author, action, authorWatchlist, showBio }) => {
 
     const actionElement = (loading, action) => {
 
-        let className = loading ? 'loading-spinner' : author.name in authorWatchlist ? 'body-icon no-pointer' : 'body-icon'
+        let className = loading ? 'loading-spinner' : author.name in authorWatchlist ? 'body-icon small-icon no-pointer width-1em-img' : 'body-icon small-icon width-1em-img'
         let onClick;
         let title;
         let imgSrc;
@@ -67,15 +67,19 @@ const RepoAuthor = ({ author, action, authorWatchlist, showBio }) => {
             </div>)
     }
 
-    return <div className='heading-text-small-gap-div' >
-        <div className={`cell-flex-row repo-author flex-wrap ${action ? ` indent-left` : ''}`}>
+    return <div className='flex-column-gap-point-5-em' >
+        <div className={`flex-row-align-down-small-gap flex-wrap ${action ? ` pull-left-slight` : ''}`}>
 
-            {action && actionElement(loading, action)}
+            {action &&
+                <div className="action-element">
+                    {actionElement(loading, action)}
+                </div>
+            }
             <a className='author-link' title={author.url} target='_blank' href={author.url}>{author.name}</a>
 
-            <div className="flex-row-no-gap">
+            <div className="flex-row-small-gap">
                 {author.blogURL && <a title={author.blogURL} target='_blank' href={author.blogURL}>
-                    <div className="body-icon-white">
+                    <div className="globe-link-icon">
                         <img src={chrome.runtime.getURL('./images/globe.svg')} />
                     </div>
                 </a>}
@@ -83,7 +87,7 @@ const RepoAuthor = ({ author, action, authorWatchlist, showBio }) => {
             </div>
 
         </div>
-        {showBio && <div className="small-text">{author.bio}</div>}
+        {showBio && <div className="content-text-small">{author.bio}</div>}
     </div>;
 };
 

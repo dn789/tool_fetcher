@@ -13,6 +13,9 @@ function Popup() {
     const [logoOnly, setLogoOnly] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [defaultSideBarLeft, setDefaultSideBarLeft] = useState(true);
+    const [alreadyRun, setAlreadyRun] = useState(false);
+    const [contentActive, setContentActive] = useState(false);
+    const [error, setError] = useState(false);
 
 
     useEffect(async () => {
@@ -31,8 +34,17 @@ function Popup() {
             }
         });
         chrome.runtime.sendMessage({ type: 'popup_request_tabType' }, function (response) {
-            if (response.tabType == 'chrome') {
+            if (response.tabType == 'error') {
+                setError(response.errorMessage);
+            }
+            else if (response.tabType == 'chrome') {
                 setLogoOnly(true);
+            }
+            else if (response.tabType == 'already_run') {
+                setAlreadyRun(true);
+            }
+            else if (response.tabType == 'content_active') {
+                setContentActive(true);
             }
         });
     }, [])
@@ -51,27 +63,18 @@ function Popup() {
 
 
 
-    function runInTab() {
+    function runInTab(findTerms) {
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
-            chrome.runtime.sendMessage({ type: 'popup_request_run_in_tab' });
+            chrome.runtime.sendMessage({ type: 'popup_request_run_in_tab', findTerms: findTerms }, function (response) {
+                if (response.type == 'already_run') {
+                    setAlreadyRun(true);
+                }
+            });
         });
         // Closing popup stops extension from running in Linux. 
         // window.close();
     }
 
-    // async function serialize(src) {
-    //     const wasBlob = src instanceof Blob;
-    //     const blob = wasBlob ? src : await new Response(src).blob();
-    //     const reader = new FileReader();
-    //     return new Promise(resolve => {
-    //         reader.onload = () => resolve([
-    //             reader.result,
-    //             blob.type,
-    //             wasBlob,
-    //         ]);
-    //         reader.readAsDataURL(blob);
-    //     });
-    // }
     async function handleUpload(e) {
         let fileName = e.target.value.split("\\").pop();
         let serialized = await serializeBlob(e.target.files[0]);
@@ -110,40 +113,66 @@ function Popup() {
                 </div>
             </div>
             <div
-                id="content"
-                style={{ display: logoOnly ? 'none' : '' }}>
-                <button
-                    className="reg-button"
-                    onClick={runInTab}
-                >
-                    Find on page
-                </button>
-                <label
-                    htmlFor="upload-button"
-                    className={'input-label' + (selectedFile ? ' file-selected' : ' no-file-selected')}
-                >
-                    {!selectedFile ? "Upload file" : selectedFile.name}
-                    <form
-                        encType="multipart/form-data"
-                        method="POST"
-                        id="upload-form"
-                        className='hidden'>
-                        <input
-                            type="file"
-                            id="upload-button"
-                            className="hidden"
-                            onChange={(e) => handleUpload(e)}
-                            accept=".pdf" />
-                    </form>
-                </label>
-                <button
-                    type="button"
-                    className="reg-button"
-                    onClick={submitFile}
-                    style={{ display: selectedFile ? "block" : "none" }}>
-                    Find in file
-                </button>
+                id='main-content'
+                style={{ display: (logoOnly || error) ? 'none' : '' }}>
+                {alreadyRun ?
+                    <div className='notification'>
+                        Refresh page to run again.
+                    </div>
+                    :
+                    <button
+                        className='reg-button'
+                        onClick={() => {
+                            runInTab(true);
+                        }}
+                    >
+                        Run on page
+                    </button>
+                }
+                <div className='upload-div'>
+                    <label
+                        htmlFor="upload-button"
+                        className={'input-label' + (selectedFile ? ' file-selected' : ' no-file-selected')}
+                    >
+                        {!selectedFile ? "Upload file" : selectedFile.name}
+                        <form
+                            encType="multipart/form-data"
+                            method="POST"
+                            id="upload-form"
+                            className='hidden'>
+                            <input
+                                type="file"
+                                id="upload-button"
+                                className="hidden"
+                                onChange={(e) => handleUpload(e)}
+                                accept=".pdf" />
+                        </form>
+                    </label>
+                    {selectedFile &&
+                        <div
+                            className="body-icon"
+                            onClick={submitFile}
+                            title={'Find terms in file'}>
+                            <img src='./images/search.svg' />
+                        </div>}
+                </div>
+                {(!contentActive && !alreadyRun)
+                    &&
+                    <button
+                        type="button"
+                        className="reg-button"
+                        onClick={() => { runInTab(false) }}>
+                        Open app
+                    </button>}
+
             </div>
+            {error &&
+                <div id='error-container'>
+                    <div id='error-div-small'>
+                        {error}
+                    </div>
+                </div>
+            }
         </div >
     );
 }

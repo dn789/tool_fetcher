@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useContext, useRef } from "react";
-import { TermsAndAuthorSelectContext } from '../MainContent';
+import { TermsAndAuthorSelectContext } from '../SideBarContent';
 import { SidebarRefContext } from '../SideBar';
 import RepoAuthor from '../misc/RepoAuthor';
 import { listenForOutsideClicks } from '../utils/utils';
@@ -10,7 +10,7 @@ import { listenForOutsideClicks } from '../utils/utils';
 const AuthorPanel = ({ show, authorWatchlist }) => {
 
     const select = useContext(TermsAndAuthorSelectContext);
-    const sidebarRef = useContext(SidebarRefContext);
+    const sidebarRef = useContext(SidebarRefContext).ref;
     const [loading, setLoading] = useState([]);
     const [showConfirmBox, setShowConfirmBox] = useState(false);
 
@@ -26,7 +26,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
     }, [showConfirmBox]);
 
     return (
-        <div className='panel attached-left' style={{ display: !show && 'none' }} >
+        <div className='panel' style={{ display: !show && 'none' }} >
             <div ref={confirmRef} className={`confirm-box ${showConfirmBox ? '' : 'display-none'}`}>
                 <div>Clear watchlist?</div>
                 <button
@@ -58,7 +58,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
 
                                     <th>
                                         <div
-                                            className="body-icon body-icon clear-watchlist"
+                                            className="body-icon med-icon clear-watchlist"
                                             title='Clear watchlist'
                                             onClick={() => setShowConfirmBox(true)}
                                         >
@@ -80,28 +80,30 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                 {Object.entries(authorWatchlist).map(([authorName, author], index) => (
                                     <tr className='author-watchlist-row' key={index}>
 
-                                        <td className="relative width-28-percent">
+                                        <td className="pos-relative width-28-percent">
                                             <div className="watchlist-icons">
                                                 <div
-                                                    className="body-icon"
+                                                    className="body-icon small-icon"
                                                     title='Remove from watchlist'
                                                     onClick={() => select(authorName, 'updateWatchlist', 'remove')}
                                                 >
                                                     <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
                                                 </div>
-                                                <div
-                                                    className={loading.includes(index) ? 'loading-spinner' : 'body-icon'}
-                                                    title={loading.includes(index) ? 'Refreshing' : 'Refresh author info'}
-                                                    onClick={async () => {
-                                                        setLoading([index, ...loading]);
-                                                        await select({ name: authorName, ...author }, 'updateWatchlist', 'add');
-                                                        setLoading(loading.filter(item => item != index));
-                                                    }}
-                                                >
-                                                    {!loading.includes(index) && <img src={chrome.runtime.getURL('./images/refresh.svg')} />}
+                                                <div className='action-element'>
+                                                    <div
+                                                        className={loading.includes(index) ? 'loading-spinner' : 'body-icon small-icon'}
+                                                        title={loading.includes(index) ? 'Refreshing' : 'Refresh author info'}
+                                                        onClick={async () => {
+                                                            setLoading([index, ...loading]);
+                                                            await select({ name: authorName, ...author }, 'updateWatchlist', 'add');
+                                                            setLoading(loading.filter(item => item != index));
+                                                        }}
+                                                    >
+                                                        {!loading.includes(index) && <img src={chrome.runtime.getURL('./images/refresh.svg')} />}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className='left-indented'>
+                                            <div className='margin-1em-except-right'>
                                                 <RepoAuthor author={{ name: authorName, ...author }} action={null} showBio={true} />
                                             </div>
                                         </td>
@@ -109,17 +111,17 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                             author.recentBlog.error
                                                 ?
                                                 <td className='width-35-percent'>
-                                                    <div className='centered-xy'>
-                                                        {author.recentBlog.error}
+                                                    <div className='padding-left-1em'>
+                                                        <i>{author.recentBlog.error}</i>
                                                     </div>
                                                 </td>
                                                 :
                                                 <td className="top-align width-35-percent">
-                                                    <ul className='cell-flex-column padding-right-1rem list-bullet-blue'>
+                                                    <ul className='author-list-cell-wrapper list-bullet-blue'>
                                                         {
                                                             author.recentBlog.method == 'main content'
                                                                 ?
-                                                                <div className='small-text'>
+                                                                <div className='content-text-small'>
                                                                     {
                                                                         author.recentBlog.main_content.map((line, index) =>
                                                                             <span key={index}>
@@ -133,7 +135,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                                                     }
                                                                 </div>
                                                                 :
-                                                                <div className='text-block-flex-column-big-gap'>
+                                                                <div className='author-list-cell'>
                                                                     {
                                                                         author.recentBlog.posts.map((postDict, index) =>
                                                                             <li key={index}>
@@ -163,25 +165,25 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                         {
                                             author.recentRepos.error ?
                                                 <td className='width-35-percent'>
-                                                    <div className='centered-xy'>
-                                                        {author.recentRepos.error}
+                                                    <div className='padding-left-1em'>
+                                                        <i>{author.recentRepos.error}</i>
                                                     </div>
                                                 </td>
                                                 :
-                                                <td className="top-align width-35-percent">
-                                                    <ul className='cell-flex-column padding-right-1rem list-style-none'>
-                                                        <div className='text-block-flex-column-big-gap'>
+                                                <td className="top-align width-35-percent padding-right-point-2em">
+                                                    <ul className='author-list-cell-wrapper padding-right-point-2em list-style-none'>
+                                                        <div className='author-list-cell'>
                                                             {author.recentRepos.map((repo, index) =>
-                                                                <li key={index}>
-                                                                    <div className='flex-row-small-gap indent-left'>
-                                                                        <span className='body-icon'
+                                                                <li className='flex-column-gap-point-5-em' key={index}>
+                                                                    <div className='flex-row-align-down-small-gap pull-left-slight'>
+                                                                        <span className='body-icon med-icon'
                                                                             title='Download this repo'
                                                                         >
                                                                             <img src={chrome.runtime.getURL('./images/download.svg')} />
                                                                         </span>
-                                                                        <a title={repo.url} className='repo-name-small repo-link' target='_blank' href={repo.url}>{repo.name}</a>
+                                                                        <a title={repo.url} className='repo-link' target='_blank' href={repo.url}>{repo.name}</a>
                                                                     </div>
-                                                                    {repo.description && <span>{repo.description}</span>}
+                                                                    {repo.description && <span className='content-text-small'>{repo.description}</span>}
                                                                 </li>
                                                             )}
                                                         </div>

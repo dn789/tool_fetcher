@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import { TermsAndAuthorSelectContext } from "../MainContent";
+import { TermsAndAuthorSelectContext } from "../SideBarContent";
 
-const Term = ({ index, term, error, bad, fromModel }) => {
+const Term = ({ term, error, fromModel }) => {
 
     const select = useContext(TermsAndAuthorSelectContext);
 
@@ -24,19 +24,10 @@ const Term = ({ index, term, error, bad, fromModel }) => {
 
 
     return <div className='cell-flex-row term'>
-        {/* <div
-            className={`body-icon mark-as-bad-icon  ${bad ? 'red' : 'red-on-hover'}`}
-            title={bad ? 'Undo mark as bad' : 'Mark bad term result'}
-            onClick={() => {
-                select(index, bad ? 'unMarkBadTermResult' : 'markBadTermResult')
-            }}
-        >
-            <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
-        </div> */}
         {term}
         {error &&
             <div
-                className={loading ? "loading-spinner" : 'body-icon'}
+                className={loading ? "loading-spinner" : 'body-icon small-icon'}
                 title={loading ? 'Reloading' : 'Reload'}
                 onClick={!loading ? getInfo : undefined}
             >

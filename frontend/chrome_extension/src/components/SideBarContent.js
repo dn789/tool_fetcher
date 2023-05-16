@@ -1,6 +1,7 @@
 import React from 'react';
-import { useEffect, useState, createContext } from 'react';
+import { useEffect, useState, createContext, useContext } from 'react';
 import PanelSelectMenu from './misc/PanelSelectMenu';
+import { SidebarRefContext } from './SideBar';
 import TermResultsPanel from './panels/TermResultsPanel';
 import AuthorPanel from './panels/AuthorPanel';
 import RecentPanel from './panels/RecentPanel';
@@ -15,16 +16,15 @@ import { panelSelectLegend } from './utils/panelSelectLegend';
 
 
 const SideBarContent = ({ termResultsFromServer }) => {
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [findingFile, setFindingFile] = useState(null)
-  const [displayedFile, setDisplayedFile] = useState(null);
-  const [termResults, setTermResults] = useState([]);
+  const [termResults, setTermResults] = useState(null);
   const [authorWatchlist, setAuthorWatchlist] = useState({});
   const [recentActivity, setRecentActivity] = useState({})
   const [recentActivityUpdate, setRecentActivityUpdate] = useState(null);
   const [addedToWatchlist, setAddedToWatchlist] = useState([]);
   const [activePanel, setActivePanel] = useState('TermResultsPanel');
   const [panelStatus, setPanelStatus] = useState(panelSelectLegend)
+  const setError = useContext(SidebarRefContext).setError;
+
   function panelStatusSetter(panel, setting, value, updated) {
     setPanelStatus((panelStatus) => ({
       ...panelStatus,
@@ -42,7 +42,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
 
 
   useEffect(async () => {
-    let update = await serverRequest('recentActivityGet', 'GET');
+    let update = await serverRequest('recentActivityGet', 'GET', null, null, setError);
     setAuthorWatchlist(update.watchlist);
     delete update.watchlist;
     setRecentActivityUpdate(update);
@@ -53,6 +53,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
             ...authorWatchlist,
             [message.author.name]: message.author,
           }));
+          console.log(message);
           ['recentPostIndices', 'recentRepoIndices'].forEach(key => {
             if (message.update[key].length) {
               panelStatusSetter('RecentPanel', `updated_${key}`, true, true);
@@ -73,7 +74,6 @@ const SideBarContent = ({ termResultsFromServer }) => {
           }
           let newRecentActivityUpdate = { authorName: message.authorName, remove: true };
           setRecentActivityUpdate(newRecentActivityUpdate);
-          // setAuthorWatchlist(message.watchlist);
         }
       }
     }
@@ -130,8 +130,8 @@ const SideBarContent = ({ termResultsFromServer }) => {
   }, [recentActivityUpdate])
 
   useEffect(() => {
-    if (termResultsFromServer) {
-      let newAddedToWatchlist = new Array(termResults.length).fill(false);
+    if (Array.isArray(termResultsFromServer)) {
+      let newAddedToWatchlist = new Array(termResultsFromServer.length).fill(false);
       termResultsFromServer.forEach((result, index) => {
         if (!result.error && result.repos[0].author.name in authorWatchlist) {
           newAddedToWatchlist[index] = true;
@@ -143,52 +143,15 @@ const SideBarContent = ({ termResultsFromServer }) => {
   }, [authorWatchlist, termResultsFromServer])
 
   useEffect(() => {
-    if (termResults) {
+    if (termResults == 'loading') {
+      panelStatusSetter('TermResultsPanel', 'loading', true);
+    }
+    else if (Array.isArray(termResults)) {
       panelStatusSetter('TermResultsPanel', 'loading', false);
       panelStatusSetter('TermResultsPanel', 'count', termResults.length, true);
     }
   }, [termResults])
 
-  async function handleFindTerms(option, source) {
-    source = source ? source : displayedFile ? displayedFile.name : 'DummyResults';
-    setTermResults(source);
-    if (option == 'file') {
-      panelStatusSetter('TermResultsPanel', 'loading', true);
-      setFindingFile(uploadedFile.name)
-      let [taggedFile, termsFromServer] = await findTerms(uploadedFile.url, 'PDF');
-      setDisplayedFile({ name: uploadedFile.name, embed: embedFile(taggedFile), type: 'file' });
-      setTermResults(termsFromServer);
-    }
-    else if (option == 'web') {
-      panelStatusSetter('TermResultsPanel', 'loading', true);
-      setFindingFile(source)
-      let results = await serverRequest('findTermsInURL', 'POST', source);
-      let displayedText;
-      if (results.error) {
-        displayedText = results.error;
-      }
-      else {
-        setTermResults(results.termResults);
-        displayedText = formatTextAndHighlightMatches(results.termResults, results.webPageText)
-      }
-      panelStatusSetter('TermResultsPanel', 'loading', false);
-      displayedText = <div className='text-panel'>{displayedText}</div>
-      setDisplayedFile({ name: source, text: displayedText, type: 'web' });
-    }
-    else if (option == 'dummyResults') {
-      dummyResults.forEach(termDict => {
-        termDict.excluded = false;
-      })
-      setTermResults(dummyResults);
-    }
-  }
-
-  function handleUpload(e) {
-    let [fileName, fileURL] = getFileNameAndUrl(e);
-    setUploadedFile({ name: fileName, url: fileURL });
-    setDisplayedFile({ name: fileName, embed: embedFile(fileURL), type: 'file' });
-    return fileName;
-  }
 
   async function termsAndAuthorSelect(selection, type, action) {
     if (type == 'updateWatchlist') {
@@ -199,7 +162,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
       if (action == 'add') {
         author = selection;
         authorName = author.name;
-        update = await serverRequest(type, 'POST', { action: action, author: author });
+        update = await serverRequest(type, 'POST', { action: action, author: author }, null, setError);
         author = update.newAuthor;
         setAuthorWatchlist(authorWatchlist => ({
           ...authorWatchlist,
@@ -221,17 +184,13 @@ const SideBarContent = ({ termResultsFromServer }) => {
             delete newAuthorWatchlist[authorName];
             return newAuthorWatchlist;
           })
-          // newAuthorWatchlist = { ...authorWatchlist };
-          // delete newAuthorWatchlist[authorName]
         }
         else {
-          // newAuthorWatchlist = {}
           setAuthorWatchlist({});
         }
         let newRecentActivityUpdate = { authorName: authorName, remove: true };
         setRecentActivityUpdate(newRecentActivityUpdate);
-        // setAuthorWatchlist(newAuthorWatchlist);
-        serverRequest(type, 'POST', { action: action, authorName: authorName })
+        serverRequest(type, 'POST', { action: action, authorName: authorName }, null, setError)
       }
       chrome.runtime.sendMessage({
         type: 'updateWatchlist_to_background',
@@ -244,7 +203,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
     }
 
     else if (type == 'findResultsForTerms') {
-      let updatedTerms = await serverRequest(type, 'POST', selection);
+      let updatedTerms = await serverRequest(type, 'POST', selection, null, setError);
       let newFoundTerms = [...termResults]
       termResults.forEach((result, index) => {
         if (updatedTerms[result.term]) {
@@ -254,7 +213,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
       setTermResults(newFoundTerms);
     }
     else if (type == 'markBadTermResult') {
-      serverRequest('rateResults', 'POST', { term: termResults[selection].term, rating: false });
+      serverRequest('rateResults', 'POST', { term: termResults[selection].term, rating: false }, null, setError);
       setTermResults(termResults => {
         let newTermResults = termResults.filter((item, index) => index != selection);
         termResults[selection].bad = true;
@@ -263,7 +222,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
       })
     }
     else if (type == 'unMarkBadTermResult') {
-      serverRequest('rateResults', 'POST', { source: termResults, term: termResults[selection].term, rating: true });
+      serverRequest('rateResults', 'POST', { source: termResults, term: termResults[selection].term, rating: true }, null, setError);
       setTermResults(termResults => {
         let newTermResults = termResults.filter((item, index) => index != selection);
         termResults[selection].bad = false;
@@ -293,10 +252,9 @@ const SideBarContent = ({ termResultsFromServer }) => {
           <TermResultsPanel
             show={activePanel == 'TermResultsPanel'}
             status={panelStatus.TermResultsPanel}
-            termResults={termResults || []}
+            termResults={termResults}
             handleSelectMain={termsAndAuthorSelect}
             authorWatchlist={authorWatchlist}
-            source={findingFile ? findingFile : null}
           />
           <RecentPanel
             show={activePanel == 'RecentPanel'}
