@@ -96,7 +96,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                             </div>
                         )}
                     </div> :
-                    <div className='default-panel'>
+                    <div className='empty-panel'>
                         Recent posts and articles from followed authors go here.
                     </div>
                 :
@@ -130,7 +130,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                         }
                     </div>
                     :
-                    <div className='default-panel'>
+                    <div className='empty-panel'>
                         Recently updated repos from followed authors go here.
                     </div>
             }

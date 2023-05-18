@@ -47,11 +47,13 @@ const TermResultRow = ({ index, showAll, topResult, term, fromModel, error, bad,
                     {!error ?
                         <div className='flex-column-gap-point-5-em margin-left-1-5em'>
                             <div className='flex-row-align-down-small-gap pull-left-slight'>
-                                <div className='body-icon med-icon'
-                                    title='Download this repo'
-                                >
-                                    <img src={chrome.runtime.getURL('./images/download.svg')} />
-                                </div>
+                                <a href={repo.downloadLink}>
+                                    <div className='body-icon med-icon'
+                                        title='Download this repo'
+                                    >
+                                        <img src={chrome.runtime.getURL('./images/download.svg')} />
+                                    </div>
+                                </a>
                                 <a className='repo-link' target='_blank' href={repo.url} title={repo.url} >{repo.name}</a>
                             </div>
                             {repo.description &&

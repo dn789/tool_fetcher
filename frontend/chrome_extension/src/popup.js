@@ -153,7 +153,8 @@ function Popup() {
                             className="body-icon"
                             onClick={submitFile}
                             title={'Find terms in file'}>
-                            <img src='./images/search.svg' />
+                            <img src='./images/find_file.svg' />
+
                         </div>}
                 </div>
                 {(!contentActive && !alreadyRun)

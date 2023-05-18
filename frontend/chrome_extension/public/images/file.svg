@@ -1,105 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-
 <svg
+   viewBox="0 0 65 85"
+   fill="#ffffff"
    version="1.1"
-   id="Capa_1"
-   x="0px"
-   y="0px"
-   viewBox="0 0 162.78262 206.46453"
-   xml:space="preserve"
+   id="svg6"
    sodipodi:docname="file.svg"
-   width="162.78262"
-   height="206.46454"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   width="65"
+   height="85"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs37" /><sodipodi:namedview
-   id="namedview35"
-   pagecolor="#505050"
-   bordercolor="#eeeeee"
-   borderopacity="1"
-   inkscape:pageshadow="0"
-   inkscape:pageopacity="0"
-   inkscape:pagecheckerboard="0"
-   showgrid="false"
-   fit-margin-top="0"
-   fit-margin-left="0"
-   fit-margin-right="0"
-   fit-margin-bottom="0"
-   inkscape:zoom="2.0536212"
-   inkscape:cx="115.16242"
-   inkscape:cy="119.7884"
-   inkscape:window-width="1600"
-   inkscape:window-height="837"
-   inkscape:window-x="-8"
-   inkscape:window-y="-8"
-   inkscape:window-maximized="1"
-   inkscape:current-layer="Capa_1" />
-<path
-   d="M 160.89561,45.949615 119.37908,2.3837788 C 117.93514,0.86884174 115.85206,0 113.66209,0 H 8.798775 C 3.939664,0 0,3.6251673 0,8.0963808 V 198.36817 c 0,4.47186 3.939664,8.09637 8.798775,8.09637 H 153.98315 c 4.85982,0 8.79948,-3.62516 8.79948,-8.09702 V 50.562813 c 0,-1.697302 -0.67029,-3.336639 -1.88702,-4.613198 z M 8.798775,198.69577 V 8.0970322 H 110.72257 V 49.520725 c 0,2.234629 1.96771,4.048515 4.39974,4.048515 h 38.86084 l 0.004,145.12653 z"
-   id="path2"
-   style="stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none" />
-<g
-   id="g4"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g6"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g8"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g10"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g12"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g14"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g16"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g18"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g20"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g22"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g24"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g26"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g28"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g30"
-   transform="translate(-43.51)">
-</g>
-<g
-   id="g32"
-   transform="translate(-43.51)">
-</g>
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="7.0520833"
+     inkscape:cx="32.543575"
+     inkscape:cy="42.540621"
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <path
+     d="M 45.4579,2.5 H 2.7699 C 2.0685,2.5 1.5,3.0685 1.5,3.7698 V 81.2301 C 1.5,81.9315 2.0685,82.5 2.7698,82.5 h 59.6825 c 0.7013,0 1.2698,-0.5685 1.2698,-1.2698 V 20.7643 c 0,-0.7858 -0.3122,-1.5395 -0.8678,-2.0951 L 47.553,3.3678 C 46.9974,2.8122 46.2437,2.5 45.4579,2.5 Z"
+     id="path2"
+     style="fill:#27627d;fill-opacity:1" />
+  <path
+     fill="#979593"
+     d="M 63.6211,19.207 45.793,1.3789 C 45.2266,0.812 44.4736,0.5 43.6719,0.5 H 3.5 c -1.6543,0 -3,1.3457 -3,3 v 78 c 0,1.6543 1.3457,3 3,3 h 58 c 1.6543,0 3,-1.3457 3,-3 V 21.3281 c 0,-0.8008 -0.3125,-1.5542 -0.8789,-2.1211 z M 44.5,2.9141 62.0857,20.5 H 45.5 c -0.5518,0 -1,-0.4482 -1,-1 z M 61.5,82.5 h -58 c -0.5518,0 -1,-0.4482 -1,-1 v -78 c 0,-0.5518 0.4482,-1 1,-1 h 39 v 17 c 0,1.6543 1.3457,3 3,3 h 17 v 59 c 0,0.5518 -0.4482,1 -1,1 z"
+     id="path4"
+     style="fill:#686868;fill-opacity:1;stroke:#686868;stroke-opacity:1" />
 </svg>

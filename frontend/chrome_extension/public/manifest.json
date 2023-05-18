@@ -2,7 +2,7 @@
   "name": "Tool Fetcher React In Development",
   "action": {
     "default_icon": {
-      "32": "images/icon.png"
+      "32": "images/ext_icon.png"
     },
     "default_popup": "popup.html"
   },
@@ -10,7 +10,7 @@
   "version": "0.1",
   "description": "Highlights tool names on web pages and PDFs.",
   "icons": {
-    "128": "images/icon.png"
+    "128": "images/ext_icon.png"
   },
   "permissions": [
     "activeTab",

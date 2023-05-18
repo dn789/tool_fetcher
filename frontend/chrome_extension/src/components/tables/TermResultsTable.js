@@ -18,20 +18,37 @@ const TermResultsTable = ({ status, termResults, authorWatchlist }) => {
             index === selected ? !item : item));
     }
 
+
     const emptyDisplay =
-        <div className='default-panel'>
-            {termResults ?
-                <>
-                    <div>
-                        <span>No terms found.</span>
-                    </div>
-                </>
-                :
-                !termResults
-                &&
-                'Click button in popup to find terms and repos on this page.'
-            }
+        <div className='empty-panel-container'>
+            <div className='empty-panel'>
+                {
+                    termResults ?
+                        'No terms found.'
+                        :
+                        'Click button in popup to find terms and repos on this page.'
+                }
+
+            </div>
         </div>
+
+    // const emptyDisplay =
+    //     <div className='empty-panel-container'>
+    //         <div className='empty-panel'>
+
+    //             {termResults ?
+    //                 <>
+    //                     <div>
+    //                         <span>No terms found.</span>
+    //                     </div>
+    //                 </>
+    //                 :
+    //                 !termResults
+    //                 &&
+    //                 'Click button in popup to find terms and repos on this page.'
+    //             }
+    //         </div>
+    //     </div>
 
     const resultsDisplay =
         <div className='table-wrapper'>

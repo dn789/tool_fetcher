@@ -176,11 +176,13 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                                             {author.recentRepos.map((repo, index) =>
                                                                 <li className='flex-column-gap-point-5-em' key={index}>
                                                                     <div className='flex-row-align-down-small-gap pull-left-slight'>
-                                                                        <span className='body-icon med-icon'
-                                                                            title='Download this repo'
-                                                                        >
-                                                                            <img src={chrome.runtime.getURL('./images/download.svg')} />
-                                                                        </span>
+                                                                        <a href={repo.download_link}>
+                                                                            <span className='body-icon med-icon'
+                                                                                title='Download this repo'
+                                                                            >
+                                                                                <img src={chrome.runtime.getURL('./images/download.svg')} />
+                                                                            </span>
+                                                                        </a>
                                                                         <a title={repo.url} className='repo-link' target='_blank' href={repo.url}>{repo.name}</a>
                                                                     </div>
                                                                     {repo.description && <span className='content-text-small'>{repo.description}</span>}
@@ -194,7 +196,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                             </tbody>
                         </table>
                     </div> :
-                    <div className="default-panel">
+                    <div className="empty-panel">
                         <div>No authors added to watch list.</div>
                     </div>
             }
