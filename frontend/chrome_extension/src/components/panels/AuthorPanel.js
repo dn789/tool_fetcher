@@ -68,11 +68,11 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                         <div>User</div>
                                     </th>
                                     <th>
-                                        <div>Recent posts</div>
+                                        <div>Latest posts</div>
                                     </th>
 
                                     <th>
-                                        <div>Recent repos</div>
+                                        <div>Latest repos</div>
                                     </th>
                                 </tr>
                             </thead>
@@ -176,7 +176,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                                             {author.recentRepos.map((repo, index) =>
                                                                 <li className='flex-column-gap-point-5-em' key={index}>
                                                                     <div className='flex-row-align-down-small-gap pull-left-slight'>
-                                                                        <a href={repo.download_link}>
+                                                                        <a href={repo.downloadLink}>
                                                                             <span className='body-icon med-icon'
                                                                                 title='Download this repo'
                                                                             >
@@ -197,7 +197,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                         </table>
                     </div> :
                     <div className="empty-panel">
-                        <div>No authors added to watch list.</div>
+                        <div>Not following any users.</div>
                     </div>
             }
         </div >
