@@ -4,6 +4,7 @@ import re
 from bs4 import BeautifulSoup
 from difflib import SequenceMatcher
 from nltk import sent_tokenize, word_tokenize as nltk_word_tokenize
+import pandas as pd
 from statistics import StatisticsError, mean, stdev
 from uniseg import wordbreak
 

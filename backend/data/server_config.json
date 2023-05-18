@@ -6,11 +6,12 @@
                 "Term"
             ]
         },
-        "use_roster": true,
+        "use_roster": false,
         "roster_model_path": "find_terms/roster_models/_.75_neg_2_2_3_updated_corpus_best_py_38/final_model.pt",
-        "use_flair": true,
+        "use_flair": false,
         "sent_tokenize_method": "nltk",
         "excluded_words_file": "data/find_terms/excluded_words.txt",
+        "excluded_words_by_user_file": "data/find_terms/excluded_words_by_user.txt",
         "terms_ignore_case_file": "data/find_terms/tool_names_ignore_case.txt",
         "terms_keep_case_file": "data/find_terms/tool_names_keep_case.txt"
     },
@@ -28,6 +29,7 @@
         "n_recent_activity": 100,
         "n_recent_repos": 3,
         "n_repo_results": 5,
-        "token": "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"
+        "token": "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",
+        "sort_by_relevance": false
     }
 }
