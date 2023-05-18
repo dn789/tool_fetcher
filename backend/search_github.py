@@ -266,7 +266,7 @@ class GithubAPI():
             #                 'updated_at': repo['updated_at'],
             #             })
             repos = self.api.search_repositories(
-                query=f'user:{user_login}', sort='updated')
+                query=f'user:{user_login}', sort='updated')[:self.n_recent_repos]
             if repos:
                 recent_repos = []
                 for repo in repos:
