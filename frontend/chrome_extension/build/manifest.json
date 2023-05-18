@@ -1,0 +1,40 @@
+{
+  "name": "Tool Fetcher React In Development",
+  "action": {
+    "default_icon": {
+      "32": "images/ext_icon.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3,
+  "version": "0.1",
+  "description": "Highlights tool names on web pages and PDFs.",
+  "icons": {
+    "128": "images/ext_icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "downloads",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "*.ttf",
+        "*.css",
+        "images/*",
+        "fonts/*"
+      ],
+      "matches": [
+        "<all_urls>",
+        "file://*/*"
+      ]
+    }
+  ]
+}
