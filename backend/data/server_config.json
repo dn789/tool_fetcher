@@ -8,9 +8,9 @@
                 "Term"
             ]
         },
-        "use_roster": false,
+        "use_roster": true,
         "roster_model_path": "find_terms/roster_models/_.75_neg_2_2_3_updated_corpus_best_py_38/final_model.pt",
-        "use_flair": false,
+        "use_flair": true,
         "sent_tokenize_method": "nltk",
         "excluded_words_file": "data/find_terms/excluded_words.txt",
         "excluded_words_by_user_file": "data/find_terms/excluded_words_by_user.txt",
