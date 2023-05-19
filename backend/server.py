@@ -104,6 +104,17 @@ def main():
                     'recentPostIndices': recent['recentPostIndices'],
                     'recentRepoIndices': recent['recentRepoIndices']
                 })
+            elif action == 'update_all':
+                for author in AUTHOR_WATCHLIST:
+                    AUTHOR_WATCHLIST[author] = GITHUB.get_user_recent(
+                        author, get_posts_args=GET_POSTS_ARGS, return_all_info=True)
+                recent = GITHUB.get_recent_from_watchlist(
+                    AUTHOR_WATCHLIST)
+                response = jsonify({
+                    'watchlist': AUTHOR_WATCHLIST,
+                    'recentPostIndices': recent['recentPostIndices'],
+                    'recentRepoIndices': recent['recentRepoIndices']
+                })
             else:
                 author_name = request_obj['authorName']
                 if author_name:
