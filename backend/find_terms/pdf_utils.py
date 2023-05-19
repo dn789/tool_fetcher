@@ -128,6 +128,8 @@ def pdf_to_txt(doc, output_path=None):
     """
     if type(doc) == str:
         fp = open(doc, 'rb')
+    elif type(doc) == bytes:
+        fp = io.BytesIO(doc)
     else:
         fp = doc
     text = high_level.extract_text(fp, laparams=LAParams())
@@ -159,7 +161,7 @@ def process_word_obj(word_obj):
 
 def pdf_highlight(pdf_or_path,
                   terms,
-                  return_pdf=False,
+                  return_pdf=True,
                   output_path=None,
                   fast=False,
                   ):
@@ -288,10 +290,6 @@ def pdf_highlight(pdf_or_path,
         doc.save(output_path, garbage=4, deflate=True, clean=True)
     if return_pdf:
         return doc.tobytes(garbage=4, deflate=True, clean=True)
-
-
-def find_terms_func():
-    pass
 
 
 def make_terms_tree(terms):

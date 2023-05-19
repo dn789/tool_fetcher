@@ -1,6 +1,8 @@
 """
 Finds terms in documents using NER models and regex matching. 
 """
+import re
+
 from bs4 import BeautifulSoup
 from flair.data import Sentence
 from flair.models import SequenceTagger
@@ -20,6 +22,7 @@ from find_terms.roster_ner.predict import RoSTerPredictor
 class FindTerms():
     def __init__(self,
                  excluded_words_file=None,
+                 excluded_words_by_user_file=None,
                  terms_ignore_case_file=None,
                  terms_keep_case_file=None,
                  use_roster=False,
@@ -40,8 +43,13 @@ class FindTerms():
                 terms_ignore_case, terms_keep_case)
         else:
             self.term_patterns = None
+        self.excluded_words_file = excluded_words_file
+        self.excluded_words_by_user_file = excluded_words_by_user_file
         self.excluded_words = set([x.lower()
                                   for x in read_lines(excluded_words_file)])
+        if excluded_words_by_user_file:
+            self.excluded_words = self.excluded_words | set([x.lower()
+                                                             for x in read_lines(excluded_words_by_user_file)])
 
         self.use_roster = use_roster
         self.roster = None
@@ -96,6 +104,20 @@ class FindTerms():
                     terms.add(entity.text)
         return terms
 
+    def filter_terms(self, terms):
+        filtered_terms = set()
+        for term in terms:
+            term = re.sub(r'^[^a-z0-9]*|[^a-z0-9]*$|\'s$',
+                          '', term, flags=re.IGNORECASE)
+            if term.lower() in self.excluded_words:
+                continue
+            if term.replace('-', ' ') in self.excluded_words or \
+                    term.replace(' ', '-') in self.excluded_words:
+                continue
+            if term.strip():
+                filtered_terms.add(term.strip())
+        return filtered_terms
+
     def find_terms_in_doc(self,
                           doc,
                           pdf=False,
@@ -128,10 +150,8 @@ class FindTerms():
         if self.use_flair:
             terms_from_flair = self.predict_flair(sents)
 
-        terms_from_roster = [
-            term for term in terms_from_roster if term.lower() not in self.excluded_words]
-        terms_from_flair = [
-            term for term in terms_from_flair if term.lower() not in self.excluded_words]
+        terms_from_roster = self.filter_terms(terms_from_roster)
+        terms_from_flair = self.filter_terms(terms_from_flair)
 
         terms = {
             'from_re': terms_from_regex,
@@ -139,3 +159,7 @@ class FindTerms():
             'from_flair': terms_from_flair
         }
         return terms
+
+    def update_excluded(self):
+        self.excluded_words = set([x.lower() for x in read_lines(self.excluded_words_file)]) | set([x.lower()
+                                                                                                    for x in read_lines(self.excluded_words_by_user_file)])
