@@ -6,11 +6,11 @@ export const panelSelectLegend = {
         title: 'Terms found in current file',
     },
     AuthorPanel: {
-        name: 'Watchlist',
-        title: 'Watchlist',
+        name: 'Following',
+        title: 'Users you\'re following',
     },
     RecentPanel: {
-        name: 'Recent updates',
-        title: 'Recent updates',
+        name: 'Latest',
+        title: 'Latest articles and repos from users you\'re following',
     },
 }

@@ -32,24 +32,6 @@ const TermResultsTable = ({ status, termResults, authorWatchlist }) => {
             </div>
         </div>
 
-    // const emptyDisplay =
-    //     <div className='empty-panel-container'>
-    //         <div className='empty-panel'>
-
-    //             {termResults ?
-    //                 <>
-    //                     <div>
-    //                         <span>No terms found.</span>
-    //                     </div>
-    //                 </>
-    //                 :
-    //                 !termResults
-    //                 &&
-    //                 'Click button in popup to find terms and repos on this page.'
-    //             }
-    //         </div>
-    //     </div>
-
     const resultsDisplay =
         <div className='table-wrapper'>
             <table className='table'>
@@ -64,10 +46,10 @@ const TermResultsTable = ({ status, termResults, authorWatchlist }) => {
                             <div>Term</div>
                         </th>
                         <th >
-                            <div>Repos</div>
+                            <div>Repo</div>
                         </th>
                         <th>
-                            <div>Author</div>
+                            <div>User</div>
                         </th>
                     </tr>
                 </thead>

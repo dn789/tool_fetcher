@@ -4,14 +4,14 @@ import { TermsAndAuthorSelectContext } from '../SideBarContent';
 import { SidebarRefContext } from '../SideBar';
 import RepoAuthor from '../misc/RepoAuthor';
 import { listenForOutsideClicks } from '../utils/utils';
-// import { formatExtractedText } from '../utils/utils';
-
+import Loading from '../misc/Loading';
 
 const AuthorPanel = ({ show, authorWatchlist }) => {
 
     const select = useContext(TermsAndAuthorSelectContext);
     const sidebarRef = useContext(SidebarRefContext).ref;
     const [loading, setLoading] = useState([]);
+    const [loadingMain, setLoadingMain] = useState(false);
     const [showConfirmBox, setShowConfirmBox] = useState(false);
 
     const confirmRef = useRef();
@@ -45,7 +45,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                 </button>
             </div>
             {
-                Object.keys(authorWatchlist).length ?
+                Object.keys(authorWatchlist).length && !loadingMain ?
                     <div className='table-wrapper'>
                         <table className='table'>
                             <colgroup>
@@ -57,12 +57,28 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                 <tr>
 
                                     <th>
-                                        <div
-                                            className="body-icon med-icon clear-watchlist"
-                                            title='Clear watchlist'
-                                            onClick={() => setShowConfirmBox(true)}
-                                        >
-                                            <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
+                                        <div className='watchlist-icons'>
+                                            <div
+                                                className="body-icon small-icon"
+                                                title='Clear watchlist'
+                                                onClick={() => setShowConfirmBox(true)}
+                                            >
+                                                <img src={chrome.runtime.getURL('./images/close_icon.svg')} />
+                                            </div>
+                                            <div className='action-element'>
+                                                <div
+                                                    className={loadingMain ? 'loading-spinner' : 'body-icon small-icon'}
+                                                    title={loadingMain ? 'Updating' : 'Update all'}
+                                                    onClick={async () => {
+                                                        setLoadingMain(true);
+                                                        await select(null, 'updateWatchlist', 'update_all');
+                                                        setLoadingMain(false);
+                                                    }}
+                                                >
+                                                    {!loadingMain && <img src={chrome.runtime.getURL('./images/refresh.svg')} />}
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <div>User</div>
@@ -92,7 +108,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                                 <div className='action-element'>
                                                     <div
                                                         className={loading.includes(index) ? 'loading-spinner' : 'body-icon small-icon'}
-                                                        title={loading.includes(index) ? 'Refreshing' : 'Refresh author info'}
+                                                        title={loading.includes(index) ? 'Updating' : 'Update user info'}
                                                         onClick={async () => {
                                                             setLoading([index, ...loading]);
                                                             await select({ name: authorName, ...author }, 'updateWatchlist', 'add');
@@ -195,10 +211,14 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                 }
                             </tbody>
                         </table>
-                    </div> :
-                    <div className="empty-panel">
-                        <div>Not following any users.</div>
                     </div>
+                    :
+                    !loadingMain ?
+                        <div className="empty-panel">
+                            <div>Not following any users.</div>
+                        </div>
+                        :
+                        <Loading message={'Updating follower info...'} />
             }
         </div >
     )

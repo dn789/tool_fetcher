@@ -33,7 +33,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                     onClick={() => setShowPosts(true)}
                 >
                     <span className='header-title'>
-                        Recent posts
+                        Latest posts
                         <span>
                             <UpdateDot condition={status.updated_recentPostIndices} />
                         </span>
@@ -45,7 +45,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                     onClick={() => setShowPosts(false)}
                 >
                     <span className='header-title'>
-                        Recent repos
+                        Latest repos
                         <span >
                             <UpdateDot condition={status.updated_recentRepoIndices} />
                         </span>
@@ -97,7 +97,10 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                         )}
                     </div> :
                     <div className='empty-panel'>
-                        Recent posts and articles from followed authors go here.
+                        {showPosts ?
+                            ' Latest posts from users you\'re following go here.'
+                            :
+                            ' Latest repos from users you\'re following go here.'}
                     </div>
                 :
                 recentRepos.length ?
@@ -108,11 +111,13 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                                 className={`latest-cell ${index % 2 ? ` shaded` : ''}`}
                             >
                                 <div className='flex-row-align-down-small-gap pull-left-slight'>
-                                    <span className='body-icon med-icon'
-                                        title='Download this repo'
-                                    >
-                                        <img src={chrome.runtime.getURL('./images/download.svg')} />
-                                    </span>
+                                    <a href={repo.downloadLink}>
+                                        <span className='body-icon med-icon'
+                                            title='Download this repo'
+                                        >
+                                            <img src={chrome.runtime.getURL('./images/download.svg')} />
+                                        </span>
+                                    </a>
                                     <a className='repo-link' title={repo.url} target='_blank' href={repo.url}>
                                         {repo.name}
                                     </a>
@@ -131,7 +136,7 @@ const RecentPanel = ({ show, status, panelStatusSetter, recentPosts, recentRepos
                     </div>
                     :
                     <div className='empty-panel'>
-                        Recently updated repos from followed authors go here.
+                        Most recently updated repos from users your'e following go here.
                     </div>
             }
         </div >

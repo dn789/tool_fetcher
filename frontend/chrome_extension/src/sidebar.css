@@ -353,22 +353,13 @@ th {
 }
 
 .watchlist-icons {
+  text-align: initial;
   display: flex;
   align-items: center;
   position: absolute;
   top: 0.2em;
   left: 0.23em;
   gap: 0.5em;
-}
-
-
-.clear-watchlist {
-  position: absolute;
-  margin: -0.5em 0.1em;
-}
-
-.clear-watchlist>img {
-  height: .9em;
 }
 
 .loading-div-container,

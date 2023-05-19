@@ -44,9 +44,6 @@ function InjectSideBar() {
 
     useEffect(() => {
         if (tabInfo.type == 'PDF') {
-            let div = document.createElement('DIV');
-            div.id = 'blank-fill'
-            document.body.append(div);
         }
     }, [tabInfo])
 

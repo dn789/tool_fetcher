@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useState, createContext, useContext } from 'react';
+import { useEffect, useState, createContext, useContext, useRef } from 'react';
 import PanelSelectMenu from './misc/PanelSelectMenu';
 import { SidebarRefContext } from './SideBar';
 import TermResultsPanel from './panels/TermResultsPanel';
@@ -25,16 +25,27 @@ const SideBarContent = ({ termResultsFromServer }) => {
   const [panelStatus, setPanelStatus] = useState(panelSelectLegend)
   const setError = useContext(SidebarRefContext).setError;
 
+
   function panelStatusSetter(panel, setting, value, updated) {
+    const panelStatusUpdate = {
+      [setting]: value,
+    };
+    if (updated !== undefined) {
+      panelStatusUpdate.updated = updated;
+    };
     setPanelStatus((panelStatus) => ({
       ...panelStatus,
       [panel]: {
         ...panelStatus[panel],
-        [setting]: value,
-        updated: (updated && activePanel != panel) && true
+        ...panelStatusUpdate
+        // [setting]: value,
+        // updated: updated
+        // updated: (updated && activePanelRef.current != panel) && true,
       },
     }));
   }
+
+
 
   useEffect(() => {
     setTermResults(termResultsFromServer);
@@ -53,7 +64,6 @@ const SideBarContent = ({ termResultsFromServer }) => {
             ...authorWatchlist,
             [message.author.name]: message.author,
           }));
-          console.log(message);
           ['recentPostIndices', 'recentRepoIndices'].forEach(key => {
             if (message.update[key].length) {
               panelStatusSetter('RecentPanel', `updated_${key}`, true, true);
@@ -149,6 +159,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
     else if (Array.isArray(termResults)) {
       panelStatusSetter('TermResultsPanel', 'loading', false);
       panelStatusSetter('TermResultsPanel', 'count', termResults.length, true);
+
     }
   }, [termResults])
 
@@ -174,6 +185,14 @@ const SideBarContent = ({ termResultsFromServer }) => {
             panelStatusSetter('RecentPanel', `updated_${key}`, true, true);
           }
         })
+        setRecentActivityUpdate(update);
+      }
+      else if (action == 'update_all') {
+        panelStatusSetter('AuthorPanel', 'loading', true);
+        update = await serverRequest(type, 'POST', { action: action }, null, setError);
+        setAuthorWatchlist(update.watchlist);
+        panelStatusSetter('AuthorPanel', 'loading', false, true);
+        delete update.watchlist;
         setRecentActivityUpdate(update);
       }
       else {

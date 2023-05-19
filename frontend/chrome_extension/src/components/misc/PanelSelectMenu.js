@@ -7,7 +7,7 @@ const PanelSelectMenu = ({ panelStatus, panelStatusSetter, selectActive, activeP
         if (panelStatus[activePanel].updated && activePanel != 'RecentPanel') {
             panelStatusSetter(activePanel, 'updated', false);
         }
-    }, [activePanel])
+    }, [activePanel, panelStatus])
 
     return (
 
