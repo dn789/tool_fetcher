@@ -217,18 +217,12 @@ class GithubAPI():
 
             results.append(results_dict)
 
-            # except RateLimitExceededException:
-            #     for term in terms[index:]:
-            #         results.append(
-            #             {'term': term, 'error': 'Rate limit exceeded'})
-            # break
-
         if self.relevance_classifier:
             results.sort(key=lambda x: x['relevance'], reverse=True)
 
         return results
 
-    def get_user_recent(self, user_login, get_posts_args):
+    def get_user_recent(self, user_login, get_posts_args, return_all_info=False):
         try:
             user = self.api.search_users(f'{user_login} in:login')[0]
             if user.blog and 'classifier' in get_posts_args:
@@ -236,8 +230,6 @@ class GithubAPI():
                     blog_url = 'http://' + user.blog
                 else:
                     blog_url = user.blog
-                # recent_blog = post_extract.post_extract(
-                #     blog_url, **post_extract_args)
                 try:
                     recent_blog = func_timeout(100, get_posts, args=(
                         blog_url,), kwargs=get_posts_args)
@@ -245,6 +237,7 @@ class GithubAPI():
                     recent_blog = {'error': 'Getting posts timed out.'}
 
             else:
+                blog_url = None
                 recent_blog = {'error': 'No blog page listed on Github.'}
             # Old method using requests and user.repos_url. Now using
             # user.get_repos to get archive link
@@ -276,11 +269,22 @@ class GithubAPI():
                         'downloadLink': repo.get_archive_link('zipball'),
                         'description': repo.description,
                         'topics': repo.topics,
-                        'pushed_at': repo.pushed_at,
+                        'pushed_at': str(repo.pushed_at),
                     })
             else:
                 recent_repos = {'error': 'No repos found.'}
-            return {'recentBlog': recent_blog, 'recentRepos': recent_repos}
+            user_recent = {'recentBlog': recent_blog,
+                           'recentRepos': recent_repos}
+            if return_all_info:
+                user_recent.update({
+                    'name': user.login,
+                    'bio': user.bio,
+                    'url': user.html_url,
+                    'blogURL': blog_url,
+                    'twitter': user.twitter_username,
+                })
+            return user_recent
+
         except RateLimitExceededException:
             return {'recentBlog': {'error': 'Rate limit exceded.'}, 'recentRepos': {'error': 'Rate limit exceded.'}}
 
