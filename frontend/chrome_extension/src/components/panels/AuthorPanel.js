@@ -6,7 +6,7 @@ import RepoAuthor from '../misc/RepoAuthor';
 import { listenForOutsideClicks } from '../utils/utils';
 import Loading from '../misc/Loading';
 
-const AuthorPanel = ({ show, authorWatchlist }) => {
+const AuthorPanel = ({ show, authorWatchlist, lastUpdated }) => {
 
     const select = useContext(TermsAndAuthorSelectContext);
     const sidebarRef = useContext(SidebarRefContext).ref;
@@ -68,7 +68,7 @@ const AuthorPanel = ({ show, authorWatchlist }) => {
                                             <div className='action-element'>
                                                 <div
                                                     className={loadingMain ? 'loading-spinner' : 'body-icon small-icon'}
-                                                    title={loadingMain ? 'Updating' : 'Update all'}
+                                                    title={loadingMain ? 'Updating' : `Update all (last updated: ${lastUpdated})`}
                                                     onClick={async () => {
                                                         setLoadingMain(true);
                                                         await select(null, 'updateWatchlist', 'update_all');

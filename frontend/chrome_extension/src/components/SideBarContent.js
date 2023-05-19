@@ -21,6 +21,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
   const [recentActivity, setRecentActivity] = useState({})
   const [recentActivityUpdate, setRecentActivityUpdate] = useState(null);
   const [addedToWatchlist, setAddedToWatchlist] = useState([]);
+  const [watchlistUpdatedTime, setWatchlistUpdatedTime] = useState(null);
   const [activePanel, setActivePanel] = useState('TermResultsPanel');
   const [panelStatus, setPanelStatus] = useState(panelSelectLegend)
   const setError = useContext(SidebarRefContext).setError;
@@ -38,9 +39,6 @@ const SideBarContent = ({ termResultsFromServer }) => {
       [panel]: {
         ...panelStatus[panel],
         ...panelStatusUpdate
-        // [setting]: value,
-        // updated: updated
-        // updated: (updated && activePanelRef.current != panel) && true,
       },
     }));
   }
@@ -53,8 +51,9 @@ const SideBarContent = ({ termResultsFromServer }) => {
 
 
   useEffect(async () => {
-    let update = await serverRequest('recentActivityGet', 'GET', null, null, setError);
+    let update = await serverRequest('recentActivityGet', 'POST', null, null, setError);
     setAuthorWatchlist(update.watchlist);
+    setWatchlistUpdatedTime(update.updated);
     delete update.watchlist;
     setRecentActivityUpdate(update);
     chrome.runtime.onMessage.addListener((message) => {
@@ -191,6 +190,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
         panelStatusSetter('AuthorPanel', 'loading', true);
         update = await serverRequest(type, 'POST', { action: action }, null, setError);
         setAuthorWatchlist(update.watchlist);
+        setWatchlistUpdatedTime(update.updated);
         panelStatusSetter('AuthorPanel', 'loading', false, true);
         delete update.watchlist;
         setRecentActivityUpdate(update);
@@ -267,6 +267,7 @@ const SideBarContent = ({ termResultsFromServer }) => {
           <AuthorPanel
             show={activePanel == 'AuthorPanel'}
             authorWatchlist={authorWatchlist}
+            lastUpdated={watchlistUpdatedTime}
           />
           <TermResultsPanel
             show={activePanel == 'TermResultsPanel'}

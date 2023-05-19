@@ -326,15 +326,20 @@ var SideBarContent = function SideBarContent(_ref) {
       addedToWatchlist = _useState10[0],
       setAddedToWatchlist = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('TermResultsPanel'),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState12 = _slicedToArray(_useState11, 2),
-      activePanel = _useState12[0],
-      setActivePanel = _useState12[1];
+      watchlistUpdatedTime = _useState12[0],
+      setWatchlistUpdatedTime = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_utils_panelSelectLegend__WEBPACK_IMPORTED_MODULE_7__.panelSelectLegend),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('TermResultsPanel'),
       _useState14 = _slicedToArray(_useState13, 2),
-      panelStatus = _useState14[0],
-      setPanelStatus = _useState14[1];
+      activePanel = _useState14[0],
+      setActivePanel = _useState14[1];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_utils_panelSelectLegend__WEBPACK_IMPORTED_MODULE_7__.panelSelectLegend),
+      _useState16 = _slicedToArray(_useState15, 2),
+      panelStatus = _useState16[0],
+      setPanelStatus = _useState16[1];
 
   var setError = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_SideBar__WEBPACK_IMPORTED_MODULE_2__.SidebarRefContext).setError;
 
@@ -361,11 +366,12 @@ var SideBarContent = function SideBarContent(_ref) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0,_utils_utils__WEBPACK_IMPORTED_MODULE_6__.serverRequest)('recentActivityGet', 'GET', null, null, setError);
+            return (0,_utils_utils__WEBPACK_IMPORTED_MODULE_6__.serverRequest)('recentActivityGet', 'POST', null, null, setError);
 
           case 2:
             update = _context.sent;
             setAuthorWatchlist(update.watchlist);
+            setWatchlistUpdatedTime(update.updated);
             delete update.watchlist;
             setRecentActivityUpdate(update);
             chrome.runtime.onMessage.addListener(function (message) {
@@ -401,7 +407,7 @@ var SideBarContent = function SideBarContent(_ref) {
               }
             });
 
-          case 7:
+          case 8:
           case "end":
             return _context.stop();
         }
@@ -495,7 +501,7 @@ var SideBarContent = function SideBarContent(_ref) {
           switch (_context2.prev = _context2.next) {
             case 0:
               if (!(type == 'updateWatchlist')) {
-                _context2.next = 33;
+                _context2.next = 34;
                 break;
               }
 
@@ -525,12 +531,12 @@ var SideBarContent = function SideBarContent(_ref) {
                 }
               });
               setRecentActivityUpdate(update);
-              _context2.next = 30;
+              _context2.next = 31;
               break;
 
             case 14:
               if (!(action == 'update_all')) {
-                _context2.next = 25;
+                _context2.next = 26;
                 break;
               }
 
@@ -543,13 +549,14 @@ var SideBarContent = function SideBarContent(_ref) {
             case 18:
               update = _context2.sent;
               setAuthorWatchlist(update.watchlist);
+              setWatchlistUpdatedTime(update.updated);
               panelStatusSetter('AuthorPanel', 'loading', false, true);
               delete update.watchlist;
               setRecentActivityUpdate(update);
-              _context2.next = 30;
+              _context2.next = 31;
               break;
 
-            case 25:
+            case 26:
               authorName = selection;
 
               if (authorName) {
@@ -573,7 +580,7 @@ var SideBarContent = function SideBarContent(_ref) {
                 authorName: authorName
               }, null, setError);
 
-            case 30:
+            case 31:
               chrome.runtime.sendMessage({
                 type: 'updateWatchlist_to_background',
                 action: action,
@@ -582,19 +589,19 @@ var SideBarContent = function SideBarContent(_ref) {
                 author: author,
                 watchlist: newAuthorWatchlist
               });
-              _context2.next = 43;
+              _context2.next = 44;
               break;
 
-            case 33:
+            case 34:
               if (!(type == 'findResultsForTerms')) {
-                _context2.next = 42;
+                _context2.next = 43;
                 break;
               }
 
-              _context2.next = 36;
+              _context2.next = 37;
               return (0,_utils_utils__WEBPACK_IMPORTED_MODULE_6__.serverRequest)(type, 'POST', selection, null, setError);
 
-            case 36:
+            case 37:
               updatedTerms = _context2.sent;
               newFoundTerms = _toConsumableArray(termResults);
               termResults.forEach(function (result, index) {
@@ -603,10 +610,10 @@ var SideBarContent = function SideBarContent(_ref) {
                 }
               });
               setTermResults(newFoundTerms);
-              _context2.next = 43;
+              _context2.next = 44;
               break;
 
-            case 42:
+            case 43:
               if (type == 'markBadTermResult') {
                 (0,_utils_utils__WEBPACK_IMPORTED_MODULE_6__.serverRequest)('rateResults', 'POST', {
                   term: termResults[selection].term,
@@ -636,10 +643,10 @@ var SideBarContent = function SideBarContent(_ref) {
                 });
               }
 
-            case 43:
+            case 44:
               return _context2.abrupt("return", true);
 
-            case 44:
+            case 45:
             case "end":
               return _context2.stop();
           }
@@ -664,7 +671,8 @@ var SideBarContent = function SideBarContent(_ref) {
     id: "panel-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panels_AuthorPanel__WEBPACK_IMPORTED_MODULE_4__["default"], {
     show: activePanel == 'AuthorPanel',
-    authorWatchlist: authorWatchlist
+    authorWatchlist: authorWatchlist,
+    lastUpdated: watchlistUpdatedTime
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panels_TermResultsPanel__WEBPACK_IMPORTED_MODULE_3__["default"], {
     show: activePanel == 'TermResultsPanel',
     status: panelStatus.TermResultsPanel,
@@ -1347,7 +1355,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var AuthorPanel = function AuthorPanel(_ref) {
   var show = _ref.show,
-      authorWatchlist = _ref.authorWatchlist;
+      authorWatchlist = _ref.authorWatchlist,
+      lastUpdated = _ref.lastUpdated;
   var select = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_SideBarContent__WEBPACK_IMPORTED_MODULE_1__.TermsAndAuthorSelectContext);
   var sidebarRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_SideBar__WEBPACK_IMPORTED_MODULE_2__.SidebarRefContext).ref;
 
@@ -1415,7 +1424,7 @@ var AuthorPanel = function AuthorPanel(_ref) {
     className: "action-element"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: loadingMain ? 'loading-spinner' : 'body-icon small-icon',
-    title: loadingMain ? 'Updating' : 'Update all',
+    title: loadingMain ? 'Updating' : "Update all (last updated: ".concat(lastUpdated, ")"),
     onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
