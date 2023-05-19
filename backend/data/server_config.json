@@ -1,5 +1,7 @@
 {
     "author_watchlist_file": "data/author_watchlist.json",
+    "flask_key": "thisismysecretkey",
+    "update_followers_interval": 12,
     "find_terms_args": {
         "roster_args": {
             "entity_types": [
@@ -15,7 +17,6 @@
         "terms_ignore_case_file": "data/find_terms/tool_names_ignore_case.txt",
         "terms_keep_case_file": "data/find_terms/tool_names_keep_case.txt"
     },
-    "flask_key": "thisismysecretkey",
     "get_posts_args": {
         "max_posts": 5,
         "trim": 30,

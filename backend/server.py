@@ -5,6 +5,7 @@ Server for Tool Fetcher Web App/Extension
 import base64
 import json
 import requests
+from datetime import datetime
 
 from bs4 import BeautifulSoup
 from flask import Flask, jsonify, json, Response, request
@@ -21,8 +22,14 @@ from search_github import GithubAPI
 
 CONFIG = json.load(open('data/server_config.json'))
 
+
 AUTHOR_WATCHLIST = json.load(
     open(CONFIG['author_watchlist_file'], encoding='utf-8'))
+AUTHOR_WATCHLIST.setdefault('users', {})
+FOLLOWING_USERS = AUTHOR_WATCHLIST['users']
+AUTHOR_WATCHLIST.setdefault('updated', str(
+    datetime.now().replace(second=0, microsecond=0)))
+
 
 FIND_TERMS = FindTerms(**CONFIG['find_terms_args'])
 EXCLUDED_BY_USER_FILE = CONFIG['find_terms_args']['excluded_words_by_user_file']
@@ -52,6 +59,16 @@ def get_html(url):
     else:
         html = r.text
     return html
+
+
+def is_update_tme(last_updated_time_str, interval):
+    format = "%Y-%m-%d %H:%M:%S"
+    current_time = datetime.now()
+    last_update_time = datetime.strptime(last_updated_time_str, format)
+    delta = current_time - last_update_time
+    elapsed = delta.total_seconds() / 3600
+    if elapsed >= interval:
+        return True
 
 
 @app.route('/home', methods=['GET', 'POST'])
@@ -95,32 +112,35 @@ def main():
                     get_posts_args=GET_POSTS_ARGS
                 )
                 author_info.update(new_author)
-                AUTHOR_WATCHLIST.setdefault(author_name, {})
-                AUTHOR_WATCHLIST[author_name].update(author_info)
+                FOLLOWING_USERS.setdefault(author_name, {})
+                FOLLOWING_USERS[author_name].update(author_info)
                 recent = GITHUB.get_recent_from_watchlist(
-                    AUTHOR_WATCHLIST, author_to_match=author_name)
+                    FOLLOWING_USERS, author_to_match=author_name)
                 response = jsonify({
                     'newAuthor': author_info,
                     'recentPostIndices': recent['recentPostIndices'],
                     'recentRepoIndices': recent['recentRepoIndices']
                 })
             elif action == 'update_all':
-                for author in AUTHOR_WATCHLIST:
-                    AUTHOR_WATCHLIST[author] = GITHUB.get_user_recent(
+                AUTHOR_WATCHLIST['updated'] = str(
+                    datetime.now().replace(second=0, microsecond=0))
+                for author in FOLLOWING_USERS:
+                    FOLLOWING_USERS[author] = GITHUB.get_user_recent(
                         author, get_posts_args=GET_POSTS_ARGS, return_all_info=True)
                 recent = GITHUB.get_recent_from_watchlist(
-                    AUTHOR_WATCHLIST)
+                    FOLLOWING_USERS)
                 response = jsonify({
-                    'watchlist': AUTHOR_WATCHLIST,
+                    'updated': AUTHOR_WATCHLIST['updated'] ,
+                    'watchlist': FOLLOWING_USERS,
                     'recentPostIndices': recent['recentPostIndices'],
                     'recentRepoIndices': recent['recentRepoIndices']
                 })
             else:
                 author_name = request_obj['authorName']
                 if author_name:
-                    AUTHOR_WATCHLIST.pop(author_name)
+                    FOLLOWING_USERS.pop(author_name)
                 else:
-                    AUTHOR_WATCHLIST.clear()
+                    FOLLOWING_USERS.clear()
                 response = jsonify('success')
 
             with open(CONFIG['author_watchlist_file'], 'w') as w:
@@ -159,12 +179,20 @@ def main():
 
             return jsonify('success')
 
-    elif request.method == 'GET':
-        if request.headers['type'] == 'recentActivityGet':
+        elif request.headers['type'] == 'recentActivityGet':
+            if is_update_tme(AUTHOR_WATCHLIST['updated'], CONFIG['update_followers_interval']):
+                AUTHOR_WATCHLIST['updated'] = str(
+                    datetime.now().replace(second=0, microsecond=0))
+                for user in FOLLOWING_USERS:
+                    FOLLOWING_USERS[user] = GITHUB.get_user_recent(
+                        user, get_posts_args=GET_POSTS_ARGS, return_all_info=True)
+                with open(CONFIG['author_watchlist_file'], 'w') as w:
+                    w.write(json.dumps(AUTHOR_WATCHLIST))
             recent = GITHUB.get_recent_from_watchlist(
-                AUTHOR_WATCHLIST)
+                FOLLOWING_USERS)
             response = jsonify({
-                'watchlist': AUTHOR_WATCHLIST,
+                'updated': AUTHOR_WATCHLIST['updated'],
+                'watchlist': FOLLOWING_USERS,
                 'recentPostIndices': recent['recentPostIndices'],
                 'recentRepoIndices': recent['recentRepoIndices']
             })
