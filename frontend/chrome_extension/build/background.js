@@ -15,7 +15,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "findTerms": function() { return /* binding */ findTerms; },
 /* harmony export */   "serverRequest": function() { return /* binding */ serverRequest; },
 /* harmony export */   "formatExtractedText": function() { return /* binding */ formatExtractedText; },
-/* harmony export */   "formatTextAndHighlightMatches": function() { return /* binding */ formatTextAndHighlightMatches; },
 /* harmony export */   "listenForOutsideClicks": function() { return /* binding */ listenForOutsideClicks; },
 /* harmony export */   "serializeBlob": function() { return /* binding */ serializeBlob; },
 /* harmony export */   "deserializeBlob": function() { return /* binding */ deserializeBlob; }
@@ -32,10 +31,6 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
@@ -44,12 +39,18 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function embedFile(fileURL) {
   return /*#__PURE__*/React.createElement("embed", {
     src: fileURL,
     style: {
-      height: '100%',
-      width: '100%'
+      height: "100%",
+      width: "100%"
     }
   });
 }
@@ -57,105 +58,183 @@ function getFileNameAndUrl(e) {
   var fileName = e.target.value.split("\\").pop();
   var fileURL = URL.createObjectURL(e.target.files[0]);
 
-  if (fileName.endsWith('.pdf')) {
+  if (fileName.endsWith(".pdf")) {
     return [fileName, fileURL];
   }
 }
+
+function replaceInText(element, pattern, replacement) {
+  var _iterator = _createForOfIteratorHelper(element.childNodes),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var node = _step.value;
+
+      switch (node.nodeType) {
+        case Node.ELEMENT_NODE:
+          replaceInText(node, pattern, replacement);
+          break;
+
+        case Node.TEXT_NODE:
+          var oldText = node.textContent;
+          var newText = oldText.replace(pattern, replacement);
+
+          if (oldText != newText) {
+            var newElement = document.createElement("span");
+            newElement.innerHTML = newText;
+            node.parentNode.insertBefore(newElement, node);
+            node.parentNode.removeChild(node);
+          }
+
+          break;
+      }
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+}
+
 function findTerms(_x, _x2, _x3, _x4) {
   return _findTerms.apply(this, arguments);
 }
 
 function _findTerms() {
-  _findTerms = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(fileURL, fileType, serializedFile, setError) {
-    var contentType, body, paragraphs, parasInner, objectURL, blob, resultsObj, pattern, styleString, binary, len, buffer, view, i, _blob, _objectURL, embed;
+  _findTerms = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(fileURL, fileType, serializedFile, setError) {
+    var contentType, body, paragraphs, searchWholeBody, termsHighlightColor, readLocalStorage, result, parasInner, objectURL, blob, resultsObj, pattern, styleString, re, elements, binary, len, buffer, view, i, _blob, _objectURL, embed;
 
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
-            if (!(fileType == 'HTML')) {
-              _context.next = 8;
+            if (!(fileType == "HTML")) {
+              _context2.next = 11;
               break;
             }
 
-            paragraphs = Array.from(document.getElementsByTagName("p"));
-            parasInner = [];
-            paragraphs.forEach(function (item) {
-              parasInner.push(item.innerHTML);
-            });
-            body = parasInner;
-            contentType = 'application/json';
-            _context.next = 21;
+            readLocalStorage = /*#__PURE__*/function () {
+              var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(keys) {
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                  while (1) {
+                    switch (_context.prev = _context.next) {
+                      case 0:
+                        return _context.abrupt("return", new Promise(function (resolve, reject) {
+                          chrome.storage.local.get(keys, function (result) {
+                            resolve(result);
+                          });
+                        }));
+
+                      case 1:
+                      case "end":
+                        return _context.stop();
+                    }
+                  }
+                }, _callee);
+              }));
+
+              return function readLocalStorage(_x11) {
+                return _ref3.apply(this, arguments);
+              };
+            }();
+
+            _context2.next = 4;
+            return readLocalStorage(["searchWholeBody", "termsHighlightColor"]);
+
+          case 4:
+            result = _context2.sent;
+            searchWholeBody = result.searchWholeBody;
+            termsHighlightColor = result.termsHighlightColor;
+
+            if (searchWholeBody) {
+              body = [document.body.innerText];
+            } else {
+              paragraphs = Array.from(document.getElementsByTagName("p"));
+              parasInner = [];
+              paragraphs.forEach(function (item) {
+                parasInner.push(item.innerHTML);
+              });
+              body = parasInner;
+            }
+
+            contentType = "application/json";
+            _context2.next = 24;
             break;
 
-          case 8:
-            if (!(fileType == 'PDF')) {
-              _context.next = 21;
+          case 11:
+            if (!(fileType == "PDF")) {
+              _context2.next = 24;
               break;
             }
 
             if (serializedFile) {
-              _context.next = 19;
+              _context2.next = 22;
               break;
             }
 
-            _context.next = 12;
+            _context2.next = 15;
             return fetch(fileURL);
 
-          case 12:
-            objectURL = _context.sent;
-            _context.next = 15;
+          case 15:
+            objectURL = _context2.sent;
+            _context2.next = 18;
             return objectURL.blob();
 
-          case 15:
-            blob = _context.sent;
+          case 18:
+            blob = _context2.sent;
             body = blob;
-            _context.next = 20;
+            _context2.next = 23;
             break;
 
-          case 19:
+          case 22:
             body = new Blob(deserializeBlob(serializedFile));
 
-          case 20:
-            contentType = 'application/pdf';
-
-          case 21:
-            _context.next = 23;
-            return serverRequest(fileType, 'POST', body, contentType, setError);
-
           case 23:
-            resultsObj = _context.sent;
-            resultsObj['termResults'].forEach(function (result) {
+            contentType = "application/pdf";
+
+          case 24:
+            _context2.next = 26;
+            return serverRequest(fileType, "POST", body, contentType, setError);
+
+          case 26:
+            resultsObj = _context2.sent;
+            resultsObj["termResults"].forEach(function (result) {
               result.key = result.term;
             }); // For web pages, highlights terms on page.
 
-            if (!(fileType == 'HTML')) {
-              _context.next = 35;
+            if (!(fileType == "HTML")) {
+              _context2.next = 33;
               break;
             }
 
-            pattern = [];
-            resultsObj['termResults'].forEach(function (result) {
-              pattern.push(result.term);
-            });
-            pattern = pattern.join('|');
-            styleString = '<span style="font-weight:bold; background-color:orange; color:black">'; // Excludes already highlighted matches and subsets; excludes html; 
-            // matches whole term only.
+            if (resultsObj["termResults"].length) {
+              pattern = [];
+              resultsObj["termResults"].forEach(function (result) {
+                pattern.push(result.term);
+              });
+              pattern = pattern.join("|");
+              styleString = "<span style=\"font-weight:bold; background-color:".concat(termsHighlightColor, "; color:black\">");
+              pattern = "\\b(" + pattern + ")\\b";
+              re = new RegExp(pattern, "gi");
 
-            pattern = '(?<!' + styleString + '[^<]*)' + '(?<!<[^>]*)' + '\\b(' + pattern + ')\\b';
-            paragraphs.forEach(function (paragraph) {
-              // g to match all instances, i for case-insensitive.
-              var re = new RegExp(pattern, "gi");
-              var text = paragraph.innerHTML;
-              var newText = text.replace(re, styleString + "$&</span>");
-              paragraph.innerHTML = newText;
-            });
-            return _context.abrupt("return", resultsObj['termResults']);
+              if (searchWholeBody) {
+                elements = document.body.querySelectorAll(":not(:last-child)");
+              } else {
+                elements = paragraphs;
+              }
 
-          case 35:
-            // Converts base64 response to PDF object URL and embeds it into 
-            // <embed>. 
-            binary = atob(resultsObj['encodedPDF'].replace(/\s/g, ''));
+              elements.forEach(function (element) {
+                replaceInText(element, re, styleString + "$&</span>");
+              });
+            }
+
+            return _context2.abrupt("return", resultsObj["termResults"]);
+
+          case 33:
+            // Converts base64 response to PDF object URL and embeds it into
+            // <embed>.
+            binary = atob(resultsObj["encodedPDF"].replace(/\s/g, ""));
             len = binary.length;
             buffer = new ArrayBuffer(len);
             view = new Uint8Array(buffer);
@@ -168,18 +247,18 @@ function _findTerms() {
               type: "application/pdf"
             });
             _objectURL = URL.createObjectURL(_blob);
-            embed = document.createElement('embed');
+            embed = document.createElement("embed");
             embed.src = _objectURL;
-            embed.style.cssText = 'position: absolute; top: 0; left: 0; height: 100%; width: 100%;';
+            embed.style.cssText = "position: absolute; top: 0; left: 0; height: 100%; width: 100%;";
             document.body.appendChild(embed);
-            return _context.abrupt("return", resultsObj['termResults']);
+            return _context2.abrupt("return", resultsObj["termResults"]);
 
-          case 47:
+          case 45:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
       }
-    }, _callee);
+    }, _callee2);
   }));
   return _findTerms.apply(this, arguments);
 }
@@ -189,58 +268,58 @@ function serverRequest(_x5, _x6, _x7, _x8, _x9) {
 }
 
 function _serverRequest() {
-  _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(type, method, body, contentType, setError) {
+  _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(type, method, body, contentType, setError) {
     var response, responseObj;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
             if (!contentType) {
-              contentType = 'application/json';
+              contentType = "application/json";
             }
 
-            if (body && contentType == 'application/json') {
+            if (body && contentType == "application/json") {
               body = JSON.stringify(body);
             }
 
-            _context2.prev = 2;
-            _context2.next = 5;
-            return fetch('http://127.0.0.1:5000/home', {
+            _context3.prev = 2;
+            _context3.next = 5;
+            return fetch("http://127.0.0.1:5000/home", {
               headers: {
-                'Content-Type': contentType,
-                'type': type
+                "Content-Type": contentType,
+                type: type
               },
               method: method,
               body: body
             });
 
           case 5:
-            response = _context2.sent;
-            _context2.next = 11;
+            response = _context3.sent;
+            _context3.next = 11;
             break;
 
           case 8:
-            _context2.prev = 8;
-            _context2.t0 = _context2["catch"](2);
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](2);
             // TypeError: Failed to fetch
-            setError('fetch');
+            setError("fetch");
 
           case 11:
-            _context2.t1 = JSON;
-            _context2.next = 14;
+            _context3.t1 = JSON;
+            _context3.next = 14;
             return response.text();
 
           case 14:
-            _context2.t2 = _context2.sent;
-            responseObj = _context2.t1.parse.call(_context2.t1, _context2.t2);
-            return _context2.abrupt("return", responseObj);
+            _context3.t2 = _context3.sent;
+            responseObj = _context3.t1.parse.call(_context3.t1, _context3.t2);
+            return _context3.abrupt("return", responseObj);
 
           case 17:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2, null, [[2, 8]]);
+    }, _callee3, null, [[2, 8]]);
   }));
   return _serverRequest.apply(this, arguments);
 }
@@ -264,99 +343,53 @@ function formatExtractedText(text, lineBreaks) {
       return segment;
     }
   });
-} // Web app only
-
-function formatTextAndHighlightMatches(termResults, text) {
-  var terms = [];
-  termResults.forEach(function (result) {
-    terms.push(result['term']);
-  });
-  var lineBreakPattern = new RegExp("(\n{1,})|(\r{1,})", "g");
-  var termsPattern;
-  var segments;
-
-  if (terms.length) {
-    terms = terms.join('|');
-    termsPattern = new RegExp("\\b(".concat(terms, ")\\b|(\n{1,})|(\r{1,})"), "gi");
-    segments = text.split(termsPattern);
-    return /*#__PURE__*/React.createElement(React.Fragment, null, segments.map(function (segment, index) {
-      if (lineBreakPattern.test(segment)) {
-        return /*#__PURE__*/React.createElement("span", {
-          key: index
-        }, " ", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null));
-      } else if (termsPattern.test(segment)) {
-        return /*#__PURE__*/React.createElement("span", {
-          key: index,
-          className: "highlight"
-        }, segment);
-      } else if (segment) {
-        return /*#__PURE__*/React.createElement("span", {
-          key: index
-        }, segment);
-      }
-    }));
-  } else {
-    segments = text.split(lineBreakPattern);
-    return segments.map(function (segment, index) {
-      if (lineBreakPattern.test(segment)) {
-        return /*#__PURE__*/React.createElement("span", {
-          key: index
-        }, " ", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null));
-      } else {
-        return segment;
-      }
-    });
-  }
 }
 function listenForOutsideClicks(sideBarRef, menuRef, setIsOpen) {
   var sidebar = sideBarRef.current;
-  console.log(sidebar);
   if (!menuRef.current || !sideBarRef.current) return;
 
   var clickListener = function clickListener(evt) {
     if (!menuRef.current.contains(evt.target)) {
-      console.log(evt.target);
-      console.log('outside click');
       setIsOpen(false);
-      sidebar.removeEventListener('click', clickListener);
+      sidebar.removeEventListener("click", clickListener);
     }
   };
 
-  sidebar.addEventListener('click', clickListener);
+  sidebar.addEventListener("click", clickListener);
 }
 function serializeBlob(_x10) {
   return _serializeBlob.apply(this, arguments);
 }
 
 function _serializeBlob() {
-  _serializeBlob = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(src) {
+  _serializeBlob = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(src) {
     var wasBlob, blob, reader;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             wasBlob = src instanceof Blob;
 
             if (!wasBlob) {
-              _context3.next = 5;
+              _context4.next = 5;
               break;
             }
 
-            _context3.t0 = src;
-            _context3.next = 8;
+            _context4.t0 = src;
+            _context4.next = 8;
             break;
 
           case 5:
-            _context3.next = 7;
+            _context4.next = 7;
             return new Response(src).blob();
 
           case 7:
-            _context3.t0 = _context3.sent;
+            _context4.t0 = _context4.sent;
 
           case 8:
-            blob = _context3.t0;
+            blob = _context4.t0;
             reader = new FileReader();
-            return _context3.abrupt("return", new Promise(function (resolve) {
+            return _context4.abrupt("return", new Promise(function (resolve) {
               reader.onload = function () {
                 return resolve([reader.result, blob.type, wasBlob]);
               };
@@ -366,10 +399,10 @@ function _serializeBlob() {
 
           case 11:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3);
+    }, _callee4);
   }));
   return _serializeBlob.apply(this, arguments);
 }
@@ -380,7 +413,7 @@ function deserializeBlob(_ref) {
       type = _ref2[1],
       wasBlob = _ref2[2];
 
-  var str = atob(base64.slice(base64.indexOf(',') + 1));
+  var str = atob(base64.slice(base64.indexOf(",") + 1));
   var len = str.length;
   var arr = new Uint8Array(len);
 

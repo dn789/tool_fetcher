@@ -1,5 +1,5 @@
 {
-  "name": "Tool Fetcher React In Development",
+  "name": "Tool Fetcher",
   "action": {
     "default_icon": {
       "32": "images/ext_icon.png"
@@ -8,7 +8,7 @@
   },
   "manifest_version": 3,
   "version": "0.1",
-  "description": "Highlights tool names on web pages and PDFs.",
+  "description": "Finds (cybersecurity) software names on webpages and fetches relevant github repositories",
   "icons": {
     "128": "images/ext_icon.png"
   },
