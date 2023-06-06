@@ -38,7 +38,7 @@ export async function findTerms(fileURL, fileType) {
     }
     // Sends paragraph text, or PDF blob to server.
     let termsObj = await serverRequest(fileType, 'POST', body, contentType);
-    termsObj['terms_and_links'].forEach(result => {
+    termsObj['termResults'].forEach(result => {
         result.key = result.term;
     })
 
@@ -65,7 +65,7 @@ export async function findTerms(fileURL, fileType) {
     else {
         // Converts base64 response to PDF object URL and embeds it into 
         // <embed>. 
-        let binary = atob(termsObj['encoded_pdf'].replace(/\s/g, ''));
+        let binary = atob(termsObj['encodedPDF'].replace(/\s/g, ''));
         let len = binary.length;
         let buffer = new ArrayBuffer(len);
         let view = new Uint8Array(buffer);
@@ -74,7 +74,7 @@ export async function findTerms(fileURL, fileType) {
         }
         let blob = new Blob([view], { type: "application/pdf" });
         let objectURL = URL.createObjectURL(blob);
-        return [objectURL, termsObj['terms_and_links']];
+        return [objectURL, termsObj['termResults']];
     }
 }
 

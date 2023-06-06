@@ -22,6 +22,7 @@ const App = () => {
 
   const [darkMode, setDarkMode] = useState(true);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [findingFile, setFindingFile] = useState(null)
   const [displayedFile, setDisplayedFile] = useState(null);
   const [termResults, setTermResults] = useState(null);
   const [termResultsSource, setTermResultsSource] = useState(null);
@@ -110,12 +111,14 @@ const App = () => {
     setTermResultsSource(source);
     if (option == 'file') {
       panelStatusSetter('TermResultsPanel', 'loading', true);
+      setFindingFile(uploadedFile.name)
       let [taggedFile, termsFromServer] = await findTerms(uploadedFile.url, 'PDF');
       setDisplayedFile({ name: uploadedFile.name, embed: embedFile(taggedFile), type: 'file' });
       setTermResults(termsFromServer);
     }
     else if (option == 'web') {
       panelStatusSetter('TermResultsPanel', 'loading', true);
+      setFindingFile(source)
       let results = await serverRequest('findTermsInURL', 'POST', source);
       let displayedText;
       if (results.error) {
@@ -270,7 +273,7 @@ const App = () => {
               termResults={termResults || []}
               handleSelectMain={termsAndAuthorSelect}
               authorWatchlist={authorWatchlist}
-              source={displayedFile ? displayedFile.name : null}
+              source={findingFile ? findingFile : null}
             />
             <RecentPanel
               show={activePanel == 'RecentPanel'}
