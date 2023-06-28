@@ -130,7 +130,7 @@ def main():
                 recent = GITHUB.get_recent_from_watchlist(
                     FOLLOWING_USERS)
                 response = jsonify({
-                    'updated': AUTHOR_WATCHLIST['updated'] ,
+                    'updated': AUTHOR_WATCHLIST['updated'],
                     'watchlist': FOLLOWING_USERS,
                     'recentPostIndices': recent['recentPostIndices'],
                     'recentRepoIndices': recent['recentRepoIndices']

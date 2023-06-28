@@ -98,10 +98,27 @@ class FindTerms():
         terms = set()
         for sent in sents:
             sent = Sentence(sent)
-            self.flair.predict(sent)
+            predicted = False
+            mini_batch_size = 32
+            while not predicted and mini_batch_size >= 1:
+                try:
+                    self.flair.predict(sent, mini_batch_size=mini_batch_size)
+                    predicted = True
+                except RuntimeError as e:
+                    if 'out of memory' in str(e):
+                        mini_batch_size = int(mini_batch_size / 2)
+                    else:
+                        raise RuntimeError(e)
             for entity in sent.get_spans('ner'):
                 if entity.tag in ('PRODUCT'):
                     terms.add(entity.text)
+
+            # sent = Sentence(sent)
+            # self.flair.predict(sent)
+            # for entity in sent.get_spans('ner'):
+            #     if entity.tag in ('PRODUCT'):
+            #         terms.add(entity.text)
+
         return terms
 
     def filter_terms(self, terms):
