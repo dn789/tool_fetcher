@@ -41,7 +41,7 @@ class GithubAPI():
         else:
             self.relevance_classifier = None
 
-    def search_repos(self, terms, resume_after_rate_limiting=False):
+    def search_repos(self, terms):
         """
         Github Search
 
@@ -154,68 +154,58 @@ class GithubAPI():
 
         terms = list(terms)
         for index, term in enumerate(terms):
-            results_dict = {'term': term, 'repos': [], 'relevance': 0}
-            repos = None
-            while repos is None:
-                try:
-                    repos = self.api.search_repositories(
-                        query=f'{term} in:name')
-                except RateLimitExceededException:
-                    if resume_after_rate_limiting:
-                        print(f'rate limit exceeded getting repos for {term}')
-                        limit = self.api.get_rate_limit().core
-                        if not limit.remaining:
-                            reset = limit.core.reset
-                            current = datetime.datetime.today()
-                            time_to_wait = (reset - current).seconds + 10
-                            time.sleep(time_to_wait)
-                    else:
-                        for term in terms[index:]:
-                            results.append(
-                                {'term': term, 'error': 'Rate limit exceeded'})
-                            break
+            try:
+                results_dict = {'term': term, 'repos': [], 'relevance': 0}
+                repos = self.api.search_repositories(
+                    query=f'{term} in:name')
 
-            if repos.totalCount:
-                for repo in repos[:self.n_repo_results]:
-                    description = repo.description
-                    if self.relevance_classifier and description:
-                        relevance = self.relevance_classifier.classify_text(
-                            repo.description)
-                    else:
-                        relevance = {'label': None, 'score': None}
-                    results_dict['repos'].append(
-                        {
-                            'url': repo.html_url,
-                            'name': repo.name,
-                            'description': repo.description,
-                            'downloadLink': repo.get_archive_link('zipball'),
-                            'author': {
-                                'name': repo.owner.login,
-                                'blogURL': repo.owner.blog,
-                                'bio': repo.owner.bio,
-                                'url': repo.owner.html_url,
-                                'twitter': repo.owner.twitter_username
-                            },
-                            'relevance': {
-                                'label': relevance['label'],
-                                'score': relevance['score']
+                if repos.totalCount:
+                    for repo in repos[:self.n_repo_results]:
+                        description = repo.description
+                        if self.relevance_classifier and description:
+                            relevance = self.relevance_classifier.classify_text(
+                                repo.description)
+                        else:
+                            relevance = {'label': None, 'score': None}
+                        results_dict['repos'].append(
+                            {
+                                'url': repo.html_url,
+                                'name': repo.name,
+                                'description': repo.description,
+                                'downloadLink': repo.get_archive_link('zipball'),
+                                'author': {
+                                    'name': repo.owner.login,
+                                    'blogURL': repo.owner.blog,
+                                    'bio': repo.owner.bio,
+                                    'url': repo.owner.html_url,
+                                    'twitter': repo.owner.twitter_username
+                                },
+                                'relevance': {
+                                    'label': relevance['label'],
+                                    'score': relevance['score']
+                                }
                             }
-                        }
-                    )
+                        )
 
-                if self.exclude_terms_without_relevant_repo:
-                    if not any([repo['relevance']['label'] for repo in results_dict['repos']]):
-                        continue
+                    if self.exclude_terms_without_relevant_repo:
+                        if not any([repo['relevance']['label'] for repo in results_dict['repos']]):
+                            continue
 
-                for repo in results_dict['repos']:
-                    if repo['relevance']['label'] is True:
-                        results_dict['relevance'] += repo['relevance']['score']
+                    for repo in results_dict['repos']:
+                        if repo['relevance']['label'] is True:
+                            results_dict['relevance'] += repo['relevance']['score']
 
-            elif not self.filter_no_links:
-                results_dict['error'] = 'No repos found'
-                results_dict['relevance'] = -1
+                elif not self.filter_no_links:
+                    results_dict['error'] = 'No repos found'
+                    results_dict['relevance'] = -1
 
-            results.append(results_dict)
+                results.append(results_dict)
+
+            except RateLimitExceededException:
+                for term in terms[index:]:
+                    results.append(
+                        {'term': term, 'error': 'Rate limit exceeded'})
+                break
 
         if self.relevance_classifier:
             results.sort(key=lambda x: x['relevance'], reverse=True)
@@ -239,25 +229,7 @@ class GithubAPI():
             else:
                 blog_url = None
                 recent_blog = {'error': 'No blog page listed on Github.'}
-            # Old method using requests and user.repos_url. Now using
-            # user.get_repos to get archive link
 
-            # r = requests.get(user.repos_url)
-            # repos = r.json()
-            # if repos:
-            #     repos = sorted(repos, key=lambda x: x['updated_at'], reverse=True)[
-            #         :self.n_recent_repos]
-            #     recent_repos = []
-            #     for repo in repos:
-            #         if type(repo) == dict:
-            #             recent_repos.append({
-            #                 'name': repo['name'],
-            #                 'url': repo['html_url'],
-            #                 'downloadLink': repo.get_archive_link('zipball'),
-            #                 'description': repo['description'],
-            #                 'topics': repo['topics'],
-            #                 'updated_at': repo['updated_at'],
-            #             })
             repos = self.api.search_repositories(
                 query=f'user:{user_login}', sort='updated')[:self.n_recent_repos]
             if repos:
