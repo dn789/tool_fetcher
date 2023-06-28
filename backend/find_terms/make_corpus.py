@@ -438,3 +438,5 @@ def make_corpus(input,
         json.dump(summary, open(os.path.join(
             folders['train_test'], 'corpus_summary.json'), 'w', encoding='utf-8'))
         print('\nCorpus complete.')
+    else:
+        print('\nNo terms found in input files. Corpus not created.')

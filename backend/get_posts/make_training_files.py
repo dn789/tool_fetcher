@@ -4,15 +4,14 @@ import json
 import os
 import re
 from statistics import StatisticsError, mean, stdev
-from bs4 import BeautifulSoup
 
+from bs4 import BeautifulSoup
 from nltk import sent_tokenize, word_tokenize as nltk_word_tokenize
 import pandas as pd
 
 from get_posts.utils import get_post_set_features, get_web_page_features
 
 FORBIDDEN_CHARS = '<>:"/\\|?*'
-# TOP_WORDS = set(open('../../data/topwords.txt').read().split('\n')[:1000])
 
 
 def add_samples_to_json(url_json=None):
