@@ -20,8 +20,10 @@ from get_posts.classifier import Classifier
 from search_github import GithubAPI
 
 
-CONFIG = json.load(open('data/server_config.json'))
-
+config_text = read_lines('data/server_config.json')
+config_text = '\n'.join(
+    line for line in config_text if not line.startswith('/'))
+CONFIG = json.loads(config_text)
 
 AUTHOR_WATCHLIST = json.load(
     open(CONFIG['author_watchlist_file'], encoding='utf-8'))

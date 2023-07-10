@@ -1,0 +1,60 @@
+{
+    // Path to file containing latest post/repo info for GitHub users you're following.
+    "author_watchlist_file": "data/author_watchlist.json",
+    "flask_key": "thisismysecretkey",
+    // Update follower info after this number of hours. 
+    "update_followers_interval": 12,
+    // Finding software terms in text.
+    "find_terms_args": {
+        // Args for RoSTER NER model. See init method of RoSTerPredictor in find_terms/roster_ner/predict.py for full list. 
+        "roster_args": {
+            "entity_types": [
+                "Term"
+            ]
+        },
+        // Whether to use RoSTER NER model for finding terms.  
+        "use_roster": false,
+        // Path to RoSTER NER model .pt file. 
+        "roster_model_path": "find_terms/roster_models/_.75_neg_2_2_3_updated_corpus_best_py_38/final_model.pt",
+        // Whether to use product tags from Flair NER model for finding terms. 
+        "use_flair": false,
+        // Use "ntlk" or "spacy" for sentence tokenization. 
+        "sent_tokenize_method": "nltk",
+        // List of words to be excluded from term results (common non-target software terms like Windows or Photoshop).
+        "excluded_words_file": "data/find_terms/excluded_words.txt",
+        // List of false-positive terms marked by user while using the extension. 
+        "excluded_words_by_user_file": "data/find_terms/excluded_words_by_user.txt",
+        // Terms to match with regular expressions case-insensitively.
+        "terms_ignore_case_file": "data/find_terms/tool_names_ignore_case.txt",
+        // Terms to match with regular expressions case-sensitively.
+        "terms_keep_case_file": "data/find_terms/tool_names_keep_case.txt"
+    },
+    // Getting latest posts/articles from GitHub users you're following. 
+    "get_posts_args": {
+        // Maximum number of posts to retrieve.
+        "max_posts": 5,
+        // Number of words for post preview. 
+        "trim": 30,
+        // Gets rid of extraneous spaces and newlines in posts. 
+        "clean_posts": true,
+        // CSV file containing feature vectors for post set classifier. 
+        "post-set-classifier-csv": "data/get_posts/features_post_set.csv"
+    },
+    // GitHub API.
+    "github_args": {
+        // Uses dummy results without accessin GitHub API (for testing).
+        "dummy_results": false,
+        // Filter term results without any associated GitHub repos. 
+        "filter_no_links": false,
+        // Number of pooled recent posts/repos to include in Latest panel in extension. 
+        "n_recent_activity": 100,
+        // Number of latest repos for each user you're following to include in Following panel in extension.
+        "n_recent_repos": 3,
+        // Number of repo results for each found term to include in Term Results panel in extension.
+        "n_repo_results": 5,
+        // Github API token.
+        "token": "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",
+        // Uses zero-shot classifier to sort term results by relevance (experimental/might not work well).
+        "sort_by_relevance": false
+    }
+}
