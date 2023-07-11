@@ -8,7 +8,7 @@ Chrome extension and Python backend for finding (1) software names in web pages/
 
 - Trains a RoSTER named entity recognition model (https://arxiv.org/abs/2109.05003) using an auto-labeled corpus generated from relevant texts (articles, web pages, textbooks) and a list of software names to match in them.
 
-- Also uses the "product" tag in a Flair NER model fine-tuned on the Ontonotes dataset (https://huggingface.co/flair/ner-english-ontonotes-large).
+- Also uses the "product" tag in a Flair NER model fine-tuned on the Ontonotes dataset (https://huggingface.co/flair/ner-english-ontonotes-large) to find software names.
 
   <em>See full documentation in find_terms_train_pipeline.py.</em>
 
@@ -65,9 +65,9 @@ Chrome extension and Python backend for finding (1) software names in web pages/
    <em>auto label with terms from lists </em>\
     ↓ \
    **corpus** (default: find_terms/corpus) \
-   **train/test sets** (default: <em>find_terms/corpus/train_test_dir/set_1</em>)\
+   └─ **train/test set** (default: <em>find_terms/corpus/train_test_dir/set_1</em>)\
     ↓ \
-   <em>train RoSTER on corpus training sets</em> \
+   <em>train RoSTER on corpus training set</em> \
     ↓ \
    **trained RoSTER model** (default: <em>find_terms/models/model_1</em>) \
    \+ **Flair Ontonotes model** \
@@ -78,10 +78,10 @@ Chrome extension and Python backend for finding (1) software names in web pages/
 
 ### Frontend
 
-1. Activate developer mode in Chrome and load chrome_extension/build as an unpacked extension.
+1. Activate developer mode in Chrome and load <em>chrome_extension/build</em> as an unpacked extension.
 
 ## Usage
 
-1. Run server.py with arguments specified in <em>server_config.jsonc</em>. See file for documentation of arguments.
+1. Run <em>server.py</em> with arguments specified in <em>server_config.jsonc</em>. Only the GitHub token needs to be specified if using defaults (see above). See file for documentation of arguments.
 
-2. Run extension on a page or selected PDF to find software names and related repos/other resources.
+2. Run extension on a web page or uploaded PDF.
