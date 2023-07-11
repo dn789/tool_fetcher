@@ -1,6 +1,6 @@
 # Tool Fetcher
 
-Chrome extension and Python backend for finding (1) software names in web pages/PDFs, and (2) associated resources from GitHub/the web.
+Chrome extension and Python backend for finding **(1)** software names in web pages/PDFs, and **(2)** associated resources from GitHub/the web.
 
 ## Overview
 
@@ -43,13 +43,13 @@ Chrome extension and Python backend for finding (1) software names in web pages/
 
 (requires Python 3.9+)
 
-1. **Install** required packages
+1. **Install required packages**
    ```
    pip install -r requirements.txt
    ```
-2. **Add files** (PDF, HTML and .txt files) to the input folder to make a corpus (default is <em>find_terms/corpus_input</em>).
+2. **Add files (PDF, HTML and .txt files) to the input folder** to make a corpus (default is <em>find_terms/corpus_input</em>).
 
-3. **Run** <em>find_terms_train_pipeline.py </em> with or without any arguments, or with -<em>-config</em> and the path to a config file. Default parameters should result in a good model.
+3. **Run <em>find_terms_train_pipeline.py</em>** with or without any arguments, or with -<em>-config</em> and the path to a config file. Default parameters should result in a good model.
 
    ```
    python find_terms_train_pipline.py --<arg>
@@ -78,10 +78,11 @@ Chrome extension and Python backend for finding (1) software names in web pages/
 
 ### Frontend
 
-1. Activate developer mode in Chrome and load <em>chrome_extension/build</em> as an unpacked extension.
+1. **Activate developer mode** in Chrome
+2. **Load <em>chrome_extension/build</em>** as an unpacked extension.
 
 ## Usage
 
-1. Run <em>server.py</em> with arguments specified in <em>server_config.jsonc</em>. Only the GitHub token needs to be specified if using defaults (see above). See file for documentation of arguments.
+1. **Run <em>server.py</em>** with arguments specified in <em>server_config.jsonc</em>. Only the GitHub token needs to be specified if using defaults (see above). See file for documentation of arguments.
 
-2. Run extension on a web page or uploaded PDF.
+2. **Run extension** on a web page or uploaded PDF.
