@@ -24,16 +24,14 @@ Chrome extension and Python backend for finding **(1)** software names in web pa
 
 ```
 .
-├── backend/
+├── backend
 │   ├── data
-│   ├── find_terms (find software names in text)
-│   │   ├── corpus_input (files to make training corpus)
-│   │   ├── roster_models (trained NER models)
-│   │   └── roster_ner (NER model code)
-│   ├── get_posts (get posts/articles from GitHub accounts' blog pages)
-│   ├── search_github.py (get repos, etc. for found software names)
-│   └── server.py
-└── frontend/
+│   ├── find_terms
+│   ├── get_posts
+│   ├── find_terms_train_pipeline.py (train RoSTER model)
+│   ├── search_github.py
+│   └── server.py (backend for chrome extension)
+└── frontend
     └── chrome extension
 ```
 
@@ -60,19 +58,18 @@ Chrome extension and Python backend for finding **(1)** software names in web pa
 
    **Pipeline**:
 
-   **corpus input** (default: <em>find_terms/corpus_input</em>) \
+   **corpus_input** (PDFs, HTML and text files to tag. Default: <em>find_terms/corpus_input</em>) \
     ↓ \
    <em>auto label with terms from lists </em>\
     ↓ \
-   **corpus** (default: find_terms/corpus) \
-   └─ **train/test set** (default: <em>find_terms/corpus/train_test_dir/set_1</em>)\
+   **corpus_output** (Default: <em>find_terms/corpus</em>) \
+   └─ **train_test_dir** (Tagged training/test sets. Default: <em>find_terms/corpus/train_test_dir/set_1</em>)\
     ↓ \
    <em>train RoSTER on corpus training set</em> \
     ↓ \
-   **trained RoSTER model** (default: <em>find_terms/models/model_1</em>) \
-   \+ **Flair Ontonotes model** \
+   **roster_model_dir** (Trained RoSTER model. Default: <em>find_terms/models/model_1</em>) \
     ↓ \
-   <em>use to find software mentions in text</em>
+   <em>use with **Flair Ontonotes model** to find software mentions in text</em>
 
 4. **Get a GitHub token** (https://github.com/settings/tokens/new) and add it to <em>server_config.jsonc</em> (<em>token</em> in <em>github_args</em>) to access the GitHub API.
 
