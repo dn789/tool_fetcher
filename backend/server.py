@@ -22,7 +22,7 @@ from search_github import GithubAPI
 
 config_text = read_lines('server_config.jsonc')
 config_text = '\n'.join(
-    line for line in config_text if not line.startswith('/'))
+    line for line in config_text if not line.strip().startswith('/'))
 CONFIG = json.loads(config_text)
 
 AUTHOR_WATCHLIST = json.load(
