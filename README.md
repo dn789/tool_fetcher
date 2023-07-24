@@ -47,7 +47,7 @@ Chrome extension and Python backend for finding **(1)** software names in web pa
    ```
 2. **Add files (PDF, HTML and .txt files) to the input folder** to make a corpus (default is <em>find_terms/corpus_input</em>).
 
-3. **Run <em>find_terms_train_pipeline.py</em>** with or without any arguments, or with -<em>-config</em> and the path to a config file. Default parameters should result in a good model.
+3. **Run <em>find_terms_train_pipeline.py</em>** with or without any arguments, or with -<em>-config</em> and the path to a config file. Default parameters (in python file and <em>find_terms_pipeline_config.json</em>) should result in a good model.
 
    ```
    python find_terms_train_pipline.py --<arg>
@@ -80,6 +80,10 @@ Chrome extension and Python backend for finding **(1)** software names in web pa
 
 ## Usage
 
-1. **Run <em>server.py</em>** with arguments specified in <em>server_config.jsonc</em>. Only the GitHub token needs to be specified if using defaults (see above). See file for documentation of arguments.
+1. **Run <em>server.py</em>** with arguments specified in <em>server_config.jsonc</em>. Only the GitHub token needs to be specified if using defaults. See <em>server_config.jsonc</em> for documentation of arguments (<em>server_config_default.jsonc</em> for defaults).
 
 2. **Run extension** on a web page or uploaded PDF.
+
+### Notes
+
+- To switch to a different RoSTER model run, set <em>roster_model_path</em> in <em>server_config.jsonc</em> to the path to the desired model's .pt file.
