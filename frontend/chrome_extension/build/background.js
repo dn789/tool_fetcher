@@ -265,61 +265,69 @@ function _findTerms() {
 
 function serverRequest(_x5, _x6, _x7, _x8, _x9) {
   return _serverRequest.apply(this, arguments);
-}
+} // export async function serverRequest(type, method, body, contentType, setError) {
+//   if (!contentType) {
+//     contentType = "application/json";
+//   }
+//   if (body && contentType == "application/json") {
+//     body = JSON.stringify(body);
+//   }
+//   let response;
+//   try {
+//     response = await fetch("http://127.0.0.1:5000/home", {
+//       headers: { "Content-Type": contentType, type: type },
+//       method: method,
+//       body: body,
+//     });
+//   } catch (error) {
+//     // TypeError: Failed to fetch
+//     setError("fetch");
+//   }
+//   let responseObj = JSON.parse(await response.text());
+//   return responseObj;
+// }
 
 function _serverRequest() {
   _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(type, method, body, contentType, setError) {
-    var response, responseObj;
+    var serverResponse, sendToBackground;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!contentType) {
-              contentType = "application/json";
-            }
+            sendToBackground = function sendToBackground() {
+              return new Promise(function (resolve) {
+                // chrome.scripting.executeScript(
+                //   { target: { tabId: tab.id }, files: ["getParagraphs.js"] },
+                //   () => {
+                //     chrome.tabs.sendMessage(tab.id, { type: "get" }, (response) => {
+                //       pageInfo.paragraphs = response.paragraphs;
+                //       resolve();
+                //     });
+                //   }
+                // );
+                chrome.runtime.sendMessage({
+                  type: "server_request_from_content",
+                  args: [type, method, body, contentType, setError]
+                }, function (response) {
+                  console.log(response);
+                  serverResponse = response.serverResponse;
+                  resolve();
+                });
+              });
+            };
 
-            if (body && contentType == "application/json") {
-              body = JSON.stringify(body);
-            }
+            _context3.next = 3;
+            return sendToBackground();
 
-            _context3.prev = 2;
-            _context3.next = 5;
-            return fetch("http://127.0.0.1:5000/home", {
-              headers: {
-                "Content-Type": contentType,
-                type: type
-              },
-              method: method,
-              body: body
-            });
+          case 3:
+            return _context3.abrupt("return", serverResponse);
 
-          case 5:
-            response = _context3.sent;
-            _context3.next = 11;
-            break;
-
-          case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3["catch"](2);
-            // TypeError: Failed to fetch
-            setError("fetch");
-
-          case 11:
-            _context3.t1 = JSON;
-            _context3.next = 14;
-            return response.text();
-
-          case 14:
-            _context3.t2 = _context3.sent;
-            responseObj = _context3.t1.parse.call(_context3.t1, _context3.t2);
-            return _context3.abrupt("return", responseObj);
-
-          case 17:
+          case 4:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 8]]);
+    }, _callee3);
   }));
   return _serverRequest.apply(this, arguments);
 }
@@ -1275,41 +1283,116 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! regenerator-runtime/runtime.js */ "./node_modules/regenerator-runtime/runtime.js");
 /* harmony import */ var regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_utils_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/utils/utils */ "./src/components/utils/utils.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 /*
 Background script
 */
 
- // import { findTerms } from "./components/utils/utils";
+
+
+function serverRequest(_x, _x2, _x3, _x4, _x5) {
+  return _serverRequest.apply(this, arguments);
+}
+
+function _serverRequest() {
+  _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(type, method, body, contentType, setError) {
+    var response, responseObj;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!contentType) {
+              contentType = "application/json";
+            }
+
+            if (body && contentType == "application/json") {
+              body = JSON.stringify(body);
+            }
+
+            _context2.prev = 2;
+            _context2.next = 5;
+            return fetch("http://127.0.0.1:5000/home", {
+              headers: {
+                "Content-Type": contentType,
+                type: type
+              },
+              method: method,
+              body: body
+            });
+
+          case 5:
+            response = _context2.sent;
+            _context2.next = 11;
+            break;
+
+          case 8:
+            _context2.prev = 8;
+            _context2.t0 = _context2["catch"](2);
+            // TypeError: Failed to fetch
+            setError("fetch");
+
+          case 11:
+            _context2.t1 = JSON;
+            _context2.next = 14;
+            return response.text();
+
+          case 14:
+            _context2.t2 = _context2.sent;
+            responseObj = _context2.t1.parse.call(_context2.t1, _context2.t2);
+            return _context2.abrupt("return", responseObj);
+
+          case 17:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[2, 8]]);
+  }));
+  return _serverRequest.apply(this, arguments);
+}
 
 function executeContentScript(tabId, tabInfo, findTerms) {
-  if (tabInfo.type == 'HTML' || !tabInfo.type || !findTerms) {
+  if (tabInfo.type == "HTML" || !tabInfo.type || !findTerms) {
     chrome.scripting.executeScript({
       target: {
         tabId: tabId
       },
-      files: ['content.js']
+      files: ["content.js"]
     }, function () {
       chrome.tabs.sendMessage(tabId, {
-        type: 'run',
+        type: "run",
         tabInfo: tabInfo,
         findTerms: findTerms
       });
     });
-  } else if (tabInfo.type == 'PDF') {
+  } else if (tabInfo.type == "PDF") {
     chrome.tabs.create({
-      url: 'pdf.html'
+      url: "pdf.html"
     }, function (tab) {
       chrome.tabs.onUpdated.addListener(function checkPDFTab(tabId, changeInfo) {
-        if (tabId === tab.id && changeInfo.status === 'complete') {
+        if (tabId === tab.id && changeInfo.status === "complete") {
           chrome.tabs.sendMessage(tabId, {
-            type: 'run',
+            type: "run",
             tabInfo: tabInfo,
             findTerms: findTerms
           });
           chrome.tabs.onUpdated.removeListener(checkPDFTab);
         }
-
-        ;
       });
     });
   }
@@ -1317,18 +1400,18 @@ function executeContentScript(tabId, tabInfo, findTerms) {
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Tells popup if tab is a chrome tab.
-  if (message.type == 'popup_request_tabType') {
+  if (message.type == "popup_request_tabType") {
     chrome.tabs.query({
       active: true,
       currentWindow: true
     }, function (tabs) {
-      if (tabs[0].url.startsWith('chrome://')) {
+      if (tabs[0].url.startsWith("chrome://")) {
         sendResponse({
-          tabType: 'chrome'
+          tabType: "chrome"
         });
       } else {
         chrome.tabs.sendMessage(tabs[0].id, {
-          type: 'checkContentScript'
+          type: "checkContentScript"
         }, function (response) {
           if (response) {
             sendResponse({
@@ -1343,33 +1426,33 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     });
   } // If popup requests to find terms in current tab, run script to determine
   // if tab is a web page or PDF.
-  else if (message.type == 'popup_request_run_in_tab') {
+  else if (message.type == "popup_request_run_in_tab") {
     chrome.tabs.query({
       active: true,
       currentWindow: true
     }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
-        type: 'checkContentScript'
+        type: "checkContentScript"
       }, function (response) {
         if (response) {
-          if (response.type != 'content_active') {
+          if (response.type != "content_active") {
             sendResponse({
               tabType: response.type,
               errorMessage: response.errorMessage
             });
-          } else if (response.type == 'content_active') {
+          } else if (response.type == "content_active") {
             chrome.tabs.sendMessage(tabs[0].id, {
-              type: 'getTabInfo'
+              type: "getTabInfo"
             }, function (response) {
               var tabInfo = response;
 
-              if (tabInfo.type == 'HTML') {
+              if (tabInfo.type == "HTML") {
                 chrome.tabs.sendMessage(tabs[0].id, {
-                  type: 'run',
+                  type: "run",
                   tabInfo: tabInfo,
                   findTerms: true
                 });
-              } else if (tabInfo.type == 'PDF') {
+              } else if (tabInfo.type == "PDF") {
                 executeContentScript(tabs[0].id, tabInfo, true);
               }
             });
@@ -1379,10 +1462,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             target: {
               tabId: tabs[0].id
             },
-            files: ['getTabInfo.js']
+            files: ["getTabInfo.js"]
           }, function () {
             chrome.tabs.sendMessage(tabs[0].id, {
-              type: 'getTabInfo'
+              type: "getTabInfo"
             }, function (response) {
               var tabInfo = response;
               executeContentScript(tabs[0].id, tabInfo, message.findTerms);
@@ -1393,20 +1476,20 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         chrome.runtime.lastError;
       });
     });
-  } else if (message.type == 'updateWatchlist_to_background') {
+  } else if (message.type == "updateWatchlist_to_background") {
     chrome.tabs.query({}, function (tabs) {
       tabs.forEach(function (tab) {
         if (sender.tab.id != tab.id) {
-          message.type = 'updateWatchlist_to_content';
+          message.type = "updateWatchlist_to_content";
           chrome.tabs.sendMessage(tab.id, message);
         }
       });
     });
   } // Handles request from popup to run uploaded PDF (runs in new tab).
-  else if (message.type == 'popup_request_run_on_file') {
-    if (message.fileType == 'PDF') {
+  else if (message.type == "popup_request_run_on_file") {
+    if (message.fileType == "PDF") {
       var tabInfo = {
-        type: 'PDF',
+        type: "PDF",
         url: null,
         title: message.fileName,
         serializedFile: message.serializedFile
@@ -1417,6 +1500,53 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   return true;
 });
+chrome.runtime.onMessage.addListener( /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(message, sender, sendResponse) {
+    var tabInfo, serverResponse;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (message.fileType == "PDF") {
+              tabInfo = {
+                type: "PDF",
+                url: null,
+                title: message.fileName,
+                serializedFile: message.serializedFile
+              };
+              executeContentScript(null, tabInfo, true);
+            }
+
+            if (!(message.type == "server_request_from_content")) {
+              _context.next = 7;
+              break;
+            }
+
+            _context.next = 4;
+            return serverRequest.apply(void 0, _toConsumableArray(message.args));
+
+          case 4:
+            serverResponse = _context.sent;
+            console.log(serverResponse);
+            sendResponse({
+              serverResponse: serverResponse
+            });
+
+          case 7:
+            return _context.abrupt("return", true);
+
+          case 8:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function (_x6, _x7, _x8) {
+    return _ref.apply(this, arguments);
+  };
+}());
 }();
 /******/ })()
 ;

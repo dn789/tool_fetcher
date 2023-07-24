@@ -75,6 +75,7 @@ export async function findTerms(fileURL, fileType, serializedFile, setError) {
     contentType = "application/pdf";
   }
   // Sends paragraph text, or PDF blob to server.
+
   let resultsObj = await serverRequest(
     fileType,
     "POST",
@@ -132,25 +133,23 @@ export async function findTerms(fileURL, fileType, serializedFile, setError) {
 }
 
 export async function serverRequest(type, method, body, contentType, setError) {
-  if (!contentType) {
-    contentType = "application/json";
-  }
-  if (body && contentType == "application/json") {
-    body = JSON.stringify(body);
-  }
-  let response;
-  try {
-    response = await fetch("http://127.0.0.1:5000/home", {
-      headers: { "Content-Type": contentType, type: type },
-      method: method,
-      body: body,
+  let serverResponse;
+  const sendToBackground = () =>
+    new Promise((resolve) => {
+      chrome.runtime.sendMessage(
+        {
+          type: "server_request_from_content",
+          args: [type, method, body, contentType, setError],
+        },
+        (response) => {
+          console.log(response);
+          serverResponse = response.serverResponse;
+          resolve();
+        }
+      );
     });
-  } catch (error) {
-    // TypeError: Failed to fetch
-    setError("fetch");
-  }
-  let responseObj = JSON.parse(await response.text());
-  return responseObj;
+  await sendToBackground();
+  return serverResponse;
 }
 
 export function formatExtractedText(text, lineBreaks) {

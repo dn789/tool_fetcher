@@ -2173,61 +2173,69 @@ function _findTerms() {
 
 function serverRequest(_x5, _x6, _x7, _x8, _x9) {
   return _serverRequest.apply(this, arguments);
-}
+} // export async function serverRequest(type, method, body, contentType, setError) {
+//   if (!contentType) {
+//     contentType = "application/json";
+//   }
+//   if (body && contentType == "application/json") {
+//     body = JSON.stringify(body);
+//   }
+//   let response;
+//   try {
+//     response = await fetch("http://127.0.0.1:5000/home", {
+//       headers: { "Content-Type": contentType, type: type },
+//       method: method,
+//       body: body,
+//     });
+//   } catch (error) {
+//     // TypeError: Failed to fetch
+//     setError("fetch");
+//   }
+//   let responseObj = JSON.parse(await response.text());
+//   return responseObj;
+// }
 
 function _serverRequest() {
   _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(type, method, body, contentType, setError) {
-    var response, responseObj;
+    var serverResponse, sendToBackground;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!contentType) {
-              contentType = "application/json";
-            }
+            sendToBackground = function sendToBackground() {
+              return new Promise(function (resolve) {
+                // chrome.scripting.executeScript(
+                //   { target: { tabId: tab.id }, files: ["getParagraphs.js"] },
+                //   () => {
+                //     chrome.tabs.sendMessage(tab.id, { type: "get" }, (response) => {
+                //       pageInfo.paragraphs = response.paragraphs;
+                //       resolve();
+                //     });
+                //   }
+                // );
+                chrome.runtime.sendMessage({
+                  type: "server_request_from_content",
+                  args: [type, method, body, contentType, setError]
+                }, function (response) {
+                  console.log(response);
+                  serverResponse = response.serverResponse;
+                  resolve();
+                });
+              });
+            };
 
-            if (body && contentType == "application/json") {
-              body = JSON.stringify(body);
-            }
+            _context3.next = 3;
+            return sendToBackground();
 
-            _context3.prev = 2;
-            _context3.next = 5;
-            return fetch("http://127.0.0.1:5000/home", {
-              headers: {
-                "Content-Type": contentType,
-                type: type
-              },
-              method: method,
-              body: body
-            });
+          case 3:
+            return _context3.abrupt("return", serverResponse);
 
-          case 5:
-            response = _context3.sent;
-            _context3.next = 11;
-            break;
-
-          case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3["catch"](2);
-            // TypeError: Failed to fetch
-            setError("fetch");
-
-          case 11:
-            _context3.t1 = JSON;
-            _context3.next = 14;
-            return response.text();
-
-          case 14:
-            _context3.t2 = _context3.sent;
-            responseObj = _context3.t1.parse.call(_context3.t1, _context3.t2);
-            return _context3.abrupt("return", responseObj);
-
-          case 17:
+          case 4:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 8]]);
+    }, _callee3);
   }));
   return _serverRequest.apply(this, arguments);
 }
