@@ -68,9 +68,9 @@ export async function findTerms(fileURL, fileType, serializedFile, setError) {
     if (!serializedFile) {
       let objectURL = await fetch(fileURL);
       let blob = await objectURL.blob();
-      body = blob;
+      body = await serializeBlob(blob);
     } else {
-      body = new Blob(deserializeBlob(serializedFile));
+      body = serializedFile;
     }
     contentType = "application/pdf";
   }
@@ -142,7 +142,6 @@ export async function serverRequest(type, method, body, contentType, setError) {
           args: [type, method, body, contentType, setError],
         },
         (response) => {
-          console.log(response);
           serverResponse = response.serverResponse;
           resolve();
         }

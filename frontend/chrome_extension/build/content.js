@@ -1383,15 +1383,15 @@ var AuthorPanel = function AuthorPanel(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "panel",
     style: {
-      display: !show && 'none'
+      display: !show && "none"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     ref: confirmRef,
-    className: "confirm-box ".concat(showConfirmBox ? '' : 'display-none')
+    className: "confirm-box ".concat(showConfirmBox ? "" : "display-none")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Clear watchlist?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     className: "reg-button",
     onClick: function onClick() {
-      select(null, 'updateWatchlist', 'remove');
+      select(null, "updateWatchlist", "remove");
       setShowConfirmBox(false);
     }
   }, "Confirm"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
@@ -1418,12 +1418,12 @@ var AuthorPanel = function AuthorPanel(_ref) {
       return setShowConfirmBox(true);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: chrome.runtime.getURL('./images/close_icon.svg')
+    src: chrome.runtime.getURL("./images/close_icon.svg")
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "action-element"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: loadingMain ? 'loading-spinner' : 'body-icon small-icon',
-    title: loadingMain ? 'Updating' : "Update all (last updated: ".concat(lastUpdated, ")"),
+    className: loadingMain ? "loading-spinner" : "body-icon small-icon",
+    title: loadingMain ? "Updating" : "Update all (last updated: ".concat(lastUpdated, ")"),
     onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -1431,7 +1431,7 @@ var AuthorPanel = function AuthorPanel(_ref) {
             case 0:
               setLoadingMain(true);
               _context.next = 3;
-              return select(null, 'updateWatchlist', 'update_all');
+              return select(null, "updateWatchlist", "update_all");
 
             case 3:
               setLoadingMain(false);
@@ -1444,10 +1444,10 @@ var AuthorPanel = function AuthorPanel(_ref) {
       }, _callee);
     }))
   }, !loadingMain && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: chrome.runtime.getURL('./images/refresh.svg')
+    src: chrome.runtime.getURL("./images/refresh.svg")
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "User")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Latest posts")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Latest repos")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", {
     style: {
-      overflowY: 'scroll'
+      overflowY: "scroll"
     }
   }, Object.entries(authorWatchlist).map(function (_ref3, index) {
     var _ref4 = _slicedToArray(_ref3, 2),
@@ -1465,15 +1465,15 @@ var AuthorPanel = function AuthorPanel(_ref) {
       className: "body-icon small-icon",
       title: "Remove from watchlist",
       onClick: function onClick() {
-        return select(authorName, 'updateWatchlist', 'remove');
+        return select(authorName, "updateWatchlist", "remove");
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-      src: chrome.runtime.getURL('./images/close_icon.svg')
+      src: chrome.runtime.getURL("./images/close_icon.svg")
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "action-element"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: loading.includes(index) ? 'loading-spinner' : 'body-icon small-icon',
-      title: loading.includes(index) ? 'Updating' : 'Update user info',
+      className: loading.includes(index) ? "loading-spinner" : "body-icon small-icon",
+      title: loading.includes(index) ? "Updating" : "Update user info",
       onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -1483,7 +1483,7 @@ var AuthorPanel = function AuthorPanel(_ref) {
                 _context2.next = 3;
                 return select(_objectSpread({
                   name: authorName
-                }, author), 'updateWatchlist', 'add');
+                }, author), "updateWatchlist", "add");
 
               case 3:
                 setLoading(loading.filter(function (item) {
@@ -1498,7 +1498,7 @@ var AuthorPanel = function AuthorPanel(_ref) {
         }, _callee2);
       }))
     }, !loading.includes(index) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-      src: chrome.runtime.getURL('./images/refresh.svg')
+      src: chrome.runtime.getURL("./images/refresh.svg")
     })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "margin-1em-except-right"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_misc_RepoAuthor__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -1515,7 +1515,7 @@ var AuthorPanel = function AuthorPanel(_ref) {
       className: "top-align width-35-percent"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
       className: "author-list-cell-wrapper list-bullet-blue"
-    }, author.recentBlog.method == 'main content' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    }, author.recentBlog.method == "main content" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "content-text-small"
     }, author.recentBlog.main_content.map(function (line, index) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
@@ -1561,7 +1561,7 @@ var AuthorPanel = function AuthorPanel(_ref) {
         className: "body-icon med-icon",
         title: "Download this repo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-        src: chrome.runtime.getURL('./images/download.svg')
+        src: chrome.runtime.getURL("./images/download.svg")
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
         title: repo.url,
         className: "repo-link",
@@ -1574,7 +1574,7 @@ var AuthorPanel = function AuthorPanel(_ref) {
   })))) : !loadingMain ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "empty-panel"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Not following any users.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_misc_Loading__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    message: 'Updating follower info...'
+    message: "Updating follower info..."
   }));
 };
 
@@ -2067,17 +2067,17 @@ function _findTerms() {
             }
 
             contentType = "application/json";
-            _context2.next = 24;
+            _context2.next = 26;
             break;
 
           case 11:
             if (!(fileType == "PDF")) {
-              _context2.next = 24;
+              _context2.next = 26;
               break;
             }
 
             if (serializedFile) {
-              _context2.next = 22;
+              _context2.next = 24;
               break;
             }
 
@@ -2091,28 +2091,32 @@ function _findTerms() {
 
           case 18:
             blob = _context2.sent;
-            body = blob;
-            _context2.next = 23;
+            _context2.next = 21;
+            return serializeBlob(blob);
+
+          case 21:
+            body = _context2.sent;
+            _context2.next = 25;
             break;
 
-          case 22:
-            body = new Blob(deserializeBlob(serializedFile));
+          case 24:
+            body = serializedFile;
 
-          case 23:
+          case 25:
             contentType = "application/pdf";
 
-          case 24:
-            _context2.next = 26;
+          case 26:
+            _context2.next = 28;
             return serverRequest(fileType, "POST", body, contentType, setError);
 
-          case 26:
+          case 28:
             resultsObj = _context2.sent;
             resultsObj["termResults"].forEach(function (result) {
               result.key = result.term;
             }); // For web pages, highlights terms on page.
 
             if (!(fileType == "HTML")) {
-              _context2.next = 33;
+              _context2.next = 35;
               break;
             }
 
@@ -2139,7 +2143,7 @@ function _findTerms() {
 
             return _context2.abrupt("return", resultsObj["termResults"]);
 
-          case 33:
+          case 35:
             // Converts base64 response to PDF object URL and embeds it into
             // <embed>.
             binary = atob(resultsObj["encodedPDF"].replace(/\s/g, ""));
@@ -2161,7 +2165,7 @@ function _findTerms() {
             document.body.appendChild(embed);
             return _context2.abrupt("return", resultsObj["termResults"]);
 
-          case 45:
+          case 47:
           case "end":
             return _context2.stop();
         }
@@ -2173,27 +2177,7 @@ function _findTerms() {
 
 function serverRequest(_x5, _x6, _x7, _x8, _x9) {
   return _serverRequest.apply(this, arguments);
-} // export async function serverRequest(type, method, body, contentType, setError) {
-//   if (!contentType) {
-//     contentType = "application/json";
-//   }
-//   if (body && contentType == "application/json") {
-//     body = JSON.stringify(body);
-//   }
-//   let response;
-//   try {
-//     response = await fetch("http://127.0.0.1:5000/home", {
-//       headers: { "Content-Type": contentType, type: type },
-//       method: method,
-//       body: body,
-//     });
-//   } catch (error) {
-//     // TypeError: Failed to fetch
-//     setError("fetch");
-//   }
-//   let responseObj = JSON.parse(await response.text());
-//   return responseObj;
-// }
+}
 
 function _serverRequest() {
   _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(type, method, body, contentType, setError) {
@@ -2204,20 +2188,10 @@ function _serverRequest() {
           case 0:
             sendToBackground = function sendToBackground() {
               return new Promise(function (resolve) {
-                // chrome.scripting.executeScript(
-                //   { target: { tabId: tab.id }, files: ["getParagraphs.js"] },
-                //   () => {
-                //     chrome.tabs.sendMessage(tab.id, { type: "get" }, (response) => {
-                //       pageInfo.paragraphs = response.paragraphs;
-                //       resolve();
-                //     });
-                //   }
-                // );
                 chrome.runtime.sendMessage({
                   type: "server_request_from_content",
                   args: [type, method, body, contentType, setError]
                 }, function (response) {
-                  console.log(response);
                   serverResponse = response.serverResponse;
                   resolve();
                 });

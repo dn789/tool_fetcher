@@ -2,7 +2,7 @@
 Background script
 */
 import "regenerator-runtime/runtime.js";
-import { findTerms } from "./components/utils/utils";
+import { deserializeBlob } from "./components/utils/utils";
 
 async function serverRequest(type, method, body, contentType, setError) {
   if (!contentType) {
@@ -10,7 +10,10 @@ async function serverRequest(type, method, body, contentType, setError) {
   }
   if (body && contentType == "application/json") {
     body = JSON.stringify(body);
+  } else if (contentType == "application/pdf") {
+    body = new Blob(deserializeBlob(body));
   }
+
   let response;
   try {
     response = await fetch("http://127.0.0.1:5000/home", {
@@ -171,18 +174,8 @@ chrome.runtime.onMessage.addListener(async function (
   sender,
   sendResponse
 ) {
-  if (message.fileType == "PDF") {
-    let tabInfo = {
-      type: "PDF",
-      url: null,
-      title: message.fileName,
-      serializedFile: message.serializedFile,
-    };
-    executeContentScript(null, tabInfo, true);
-  }
   if (message.type == "server_request_from_content") {
     let serverResponse = await serverRequest(...message.args);
-    console.log(serverResponse);
     sendResponse({ serverResponse: serverResponse });
   }
   return true;

@@ -159,17 +159,17 @@ function _findTerms() {
             }
 
             contentType = "application/json";
-            _context2.next = 24;
+            _context2.next = 26;
             break;
 
           case 11:
             if (!(fileType == "PDF")) {
-              _context2.next = 24;
+              _context2.next = 26;
               break;
             }
 
             if (serializedFile) {
-              _context2.next = 22;
+              _context2.next = 24;
               break;
             }
 
@@ -183,28 +183,32 @@ function _findTerms() {
 
           case 18:
             blob = _context2.sent;
-            body = blob;
-            _context2.next = 23;
+            _context2.next = 21;
+            return serializeBlob(blob);
+
+          case 21:
+            body = _context2.sent;
+            _context2.next = 25;
             break;
 
-          case 22:
-            body = new Blob(deserializeBlob(serializedFile));
+          case 24:
+            body = serializedFile;
 
-          case 23:
+          case 25:
             contentType = "application/pdf";
 
-          case 24:
-            _context2.next = 26;
+          case 26:
+            _context2.next = 28;
             return serverRequest(fileType, "POST", body, contentType, setError);
 
-          case 26:
+          case 28:
             resultsObj = _context2.sent;
             resultsObj["termResults"].forEach(function (result) {
               result.key = result.term;
             }); // For web pages, highlights terms on page.
 
             if (!(fileType == "HTML")) {
-              _context2.next = 33;
+              _context2.next = 35;
               break;
             }
 
@@ -231,7 +235,7 @@ function _findTerms() {
 
             return _context2.abrupt("return", resultsObj["termResults"]);
 
-          case 33:
+          case 35:
             // Converts base64 response to PDF object URL and embeds it into
             // <embed>.
             binary = atob(resultsObj["encodedPDF"].replace(/\s/g, ""));
@@ -253,7 +257,7 @@ function _findTerms() {
             document.body.appendChild(embed);
             return _context2.abrupt("return", resultsObj["termResults"]);
 
-          case 45:
+          case 47:
           case "end":
             return _context2.stop();
         }
@@ -265,27 +269,7 @@ function _findTerms() {
 
 function serverRequest(_x5, _x6, _x7, _x8, _x9) {
   return _serverRequest.apply(this, arguments);
-} // export async function serverRequest(type, method, body, contentType, setError) {
-//   if (!contentType) {
-//     contentType = "application/json";
-//   }
-//   if (body && contentType == "application/json") {
-//     body = JSON.stringify(body);
-//   }
-//   let response;
-//   try {
-//     response = await fetch("http://127.0.0.1:5000/home", {
-//       headers: { "Content-Type": contentType, type: type },
-//       method: method,
-//       body: body,
-//     });
-//   } catch (error) {
-//     // TypeError: Failed to fetch
-//     setError("fetch");
-//   }
-//   let responseObj = JSON.parse(await response.text());
-//   return responseObj;
-// }
+}
 
 function _serverRequest() {
   _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(type, method, body, contentType, setError) {
@@ -296,20 +280,10 @@ function _serverRequest() {
           case 0:
             sendToBackground = function sendToBackground() {
               return new Promise(function (resolve) {
-                // chrome.scripting.executeScript(
-                //   { target: { tabId: tab.id }, files: ["getParagraphs.js"] },
-                //   () => {
-                //     chrome.tabs.sendMessage(tab.id, { type: "get" }, (response) => {
-                //       pageInfo.paragraphs = response.paragraphs;
-                //       resolve();
-                //     });
-                //   }
-                // );
                 chrome.runtime.sendMessage({
                   type: "server_request_from_content",
                   args: [type, method, body, contentType, setError]
                 }, function (response) {
-                  console.log(response);
                   serverResponse = response.serverResponse;
                   resolve();
                 });
