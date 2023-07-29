@@ -113,12 +113,6 @@ class FindTerms():
                 if entity.tag in ('PRODUCT'):
                     terms.add(entity.text)
 
-            # sent = Sentence(sent)
-            # self.flair.predict(sent)
-            # for entity in sent.get_spans('ner'):
-            #     if entity.tag in ('PRODUCT'):
-            #         terms.add(entity.text)
-
         return terms
 
     def filter_terms(self, terms):
