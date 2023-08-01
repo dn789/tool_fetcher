@@ -242,7 +242,8 @@ function _findTerms() {
             if (resultsObj["termResults"].length) {
               pattern = [];
               resultsObj["termResults"].forEach(function (result) {
-                pattern.push(result.term);
+                var termPattern = result.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                pattern.push(termPattern);
               });
               pattern = pattern.join("|");
               styleString = "<span style=\"font-weight:bold; background-color:".concat(termsHighlightColor, "; color:black\">");
@@ -309,9 +310,15 @@ function _serverRequest() {
               return new Promise(function (resolve) {
                 chrome.runtime.sendMessage({
                   type: "server_request_from_content",
-                  args: [type, method, body, contentType, setError]
+                  args: [type, method, body, contentType]
                 }, function (response) {
                   serverResponse = response.serverResponse;
+
+                  if (serverResponse == "error") {
+                    setError("fetch");
+                    return;
+                  }
+
                   resolve();
                 });
               });
@@ -1306,12 +1313,12 @@ Background script
 
 
 
-function serverRequest(_x, _x2, _x3, _x4, _x5) {
+function serverRequest(_x, _x2, _x3, _x4) {
   return _serverRequest.apply(this, arguments);
 }
 
 function _serverRequest() {
-  _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(type, method, body, contentType, setError) {
+  _serverRequest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(type, method, body, contentType) {
     var response, responseObj;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -1346,8 +1353,7 @@ function _serverRequest() {
           case 8:
             _context2.prev = 8;
             _context2.t0 = _context2["catch"](2);
-            // TypeError: Failed to fetch
-            setError("fetch");
+            return _context2.abrupt("return", "error");
 
           case 11:
             _context2.t1 = JSON;
@@ -1535,7 +1541,7 @@ chrome.runtime.onMessage.addListener( /*#__PURE__*/function () {
     }, _callee);
   }));
 
-  return function (_x6, _x7, _x8) {
+  return function (_x5, _x6, _x7) {
     return _ref.apply(this, arguments);
   };
 }());

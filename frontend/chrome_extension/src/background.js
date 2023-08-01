@@ -4,7 +4,7 @@ Background script
 import "regenerator-runtime/runtime.js";
 import { deserializeBlob } from "./components/utils/utils";
 
-async function serverRequest(type, method, body, contentType, setError) {
+async function serverRequest(type, method, body, contentType) {
   if (!contentType) {
     contentType = "application/json";
   }
@@ -13,7 +13,6 @@ async function serverRequest(type, method, body, contentType, setError) {
   } else if (contentType == "application/pdf") {
     body = new Blob(deserializeBlob(body));
   }
-
   let response;
   try {
     response = await fetch("http://127.0.0.1:5000/home", {
@@ -23,7 +22,7 @@ async function serverRequest(type, method, body, contentType, setError) {
     });
   } catch (error) {
     // TypeError: Failed to fetch
-    setError("fetch");
+    return "error";
   }
   let responseObj = JSON.parse(await response.text());
   return responseObj;

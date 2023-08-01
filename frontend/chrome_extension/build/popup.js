@@ -242,7 +242,8 @@ function _findTerms() {
             if (resultsObj["termResults"].length) {
               pattern = [];
               resultsObj["termResults"].forEach(function (result) {
-                pattern.push(result.term);
+                var termPattern = result.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                pattern.push(termPattern);
               });
               pattern = pattern.join("|");
               styleString = "<span style=\"font-weight:bold; background-color:".concat(termsHighlightColor, "; color:black\">");
@@ -309,9 +310,15 @@ function _serverRequest() {
               return new Promise(function (resolve) {
                 chrome.runtime.sendMessage({
                   type: "server_request_from_content",
-                  args: [type, method, body, contentType, setError]
+                  args: [type, method, body, contentType]
                 }, function (response) {
                   serverResponse = response.serverResponse;
+
+                  if (serverResponse == "error") {
+                    setError("fetch");
+                    return;
+                  }
+
                   resolve();
                 });
               });

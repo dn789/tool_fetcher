@@ -103,7 +103,8 @@ export async function findTerms(fileURL, fileType, serializedFile, setError) {
     if (resultsObj["termResults"].length) {
       let pattern = [];
       resultsObj["termResults"].forEach((result) => {
-        pattern.push(result.term);
+        let termPattern = result.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        pattern.push(termPattern);
       });
       pattern = pattern.join("|");
       let styleString = `<span style="font-weight:bold; background-color:${termsHighlightColor}; color:black">`;
@@ -150,10 +151,14 @@ export async function serverRequest(type, method, body, contentType, setError) {
       chrome.runtime.sendMessage(
         {
           type: "server_request_from_content",
-          args: [type, method, body, contentType, setError],
+          args: [type, method, body, contentType],
         },
         (response) => {
           serverResponse = response.serverResponse;
+          if (serverResponse == "error") {
+            setError("fetch");
+            return;
+          }
           resolve();
         }
       );
