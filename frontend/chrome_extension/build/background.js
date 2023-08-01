@@ -110,7 +110,7 @@ function _findTerms() {
         switch (_context2.prev = _context2.next) {
           case 0:
             if (!(fileType == "HTML")) {
-              _context2.next = 11;
+              _context2.next = 22;
               break;
             }
 
@@ -147,68 +147,95 @@ function _findTerms() {
             searchWholeBody = result.searchWholeBody;
             termsHighlightColor = result.termsHighlightColor;
 
-            if (searchWholeBody) {
-              body = [document.body.innerText];
-            } else {
-              paragraphs = Array.from(document.getElementsByTagName("p"));
-              parasInner = [];
-              paragraphs.forEach(function (item) {
-                parasInner.push(item.innerHTML);
-              });
-              body = parasInner;
+            if (!searchWholeBody) {
+              _context2.next = 13;
+              break;
             }
 
-            contentType = "application/json";
-            _context2.next = 26;
-            break;
+            body = [document.body.innerText];
+
+            if (body.length) {
+              _context2.next = 11;
+              break;
+            }
+
+            return _context2.abrupt("return", {
+              error: "No text found on page."
+            });
 
           case 11:
+            _context2.next = 19;
+            break;
+
+          case 13:
+            paragraphs = Array.from(document.getElementsByTagName("p"));
+            parasInner = [];
+            paragraphs.forEach(function (item) {
+              parasInner.push(item.innerHTML);
+            });
+            body = parasInner;
+
+            if (body.length) {
+              _context2.next = 19;
+              break;
+            }
+
+            return _context2.abrupt("return", {
+              error: "No text found in paragraph elements. Try searching all body text instead."
+            });
+
+          case 19:
+            contentType = "application/json";
+            _context2.next = 37;
+            break;
+
+          case 22:
             if (!(fileType == "PDF")) {
-              _context2.next = 26;
+              _context2.next = 37;
               break;
             }
 
             if (serializedFile) {
-              _context2.next = 24;
+              _context2.next = 35;
               break;
             }
 
-            _context2.next = 15;
+            _context2.next = 26;
             return fetch(fileURL);
 
-          case 15:
+          case 26:
             objectURL = _context2.sent;
-            _context2.next = 18;
+            _context2.next = 29;
             return objectURL.blob();
 
-          case 18:
+          case 29:
             blob = _context2.sent;
-            _context2.next = 21;
+            _context2.next = 32;
             return serializeBlob(blob);
 
-          case 21:
+          case 32:
             body = _context2.sent;
-            _context2.next = 25;
+            _context2.next = 36;
             break;
 
-          case 24:
+          case 35:
             body = serializedFile;
 
-          case 25:
+          case 36:
             contentType = "application/pdf";
 
-          case 26:
-            _context2.next = 28;
+          case 37:
+            _context2.next = 39;
             return serverRequest(fileType, "POST", body, contentType, setError);
 
-          case 28:
+          case 39:
             resultsObj = _context2.sent;
             resultsObj["termResults"].forEach(function (result) {
               result.key = result.term;
             }); // For web pages, highlights terms on page.
 
             if (!(fileType == "HTML")) {
-              _context2.next = 35;
+              _context2.next = 46;
               break;
             }
 
@@ -235,7 +262,7 @@ function _findTerms() {
 
             return _context2.abrupt("return", resultsObj["termResults"]);
 
-          case 35:
+          case 46:
             // Converts base64 response to PDF object URL and embeds it into
             // <embed>.
             binary = atob(resultsObj["encodedPDF"].replace(/\s/g, ""));
@@ -257,7 +284,7 @@ function _findTerms() {
             document.body.appendChild(embed);
             return _context2.abrupt("return", resultsObj["termResults"]);
 
-          case 47:
+          case 58:
           case "end":
             return _context2.stop();
         }
