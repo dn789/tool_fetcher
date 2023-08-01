@@ -55,6 +55,11 @@ export async function findTerms(fileURL, fileType, serializedFile, setError) {
     termsHighlightColor = result.termsHighlightColor;
     if (searchWholeBody) {
       body = [document.body.innerText];
+      if (!body.length) {
+        return {
+          error: "No text found on page.",
+        };
+      }
     } else {
       paragraphs = Array.from(document.getElementsByTagName("p"));
       let parasInner = [];
@@ -62,6 +67,12 @@ export async function findTerms(fileURL, fileType, serializedFile, setError) {
         parasInner.push(item.innerHTML);
       });
       body = parasInner;
+      if (!body.length) {
+        return {
+          error:
+            "No text found in paragraph elements. Try searching all body text instead.",
+        };
+      }
     }
     contentType = "application/json";
   } else if (fileType == "PDF") {

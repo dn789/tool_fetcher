@@ -162,9 +162,14 @@ const SideBarContent = ({ termResultsFromServer }) => {
   useEffect(() => {
     if (termResults == "loading") {
       panelStatusSetter("TermResultsPanel", "loading", true);
-    } else if (Array.isArray(termResults)) {
+    } else if (termResults) {
       panelStatusSetter("TermResultsPanel", "loading", false);
-      panelStatusSetter("TermResultsPanel", "count", termResults.length, true);
+      panelStatusSetter(
+        "TermResultsPanel",
+        "count",
+        termResults.length || 0,
+        true
+      );
     }
   }, [termResults]);
 
