@@ -80,7 +80,7 @@ Chrome extension and Python backend for finding **(1)** software names in web pa
 
 ## Usage
 
-1. **Run <em>server.py</em>** with arguments specified in <em>server_config.jsonc</em>. Only the GitHub token needs to be specified if using defaults. See <em>server_config.jsonc</em> for documentation of arguments (<em>server_config_default.jsonc</em> for defaults).
+1. **Run <em>server.py</em>** with arguments specified in <em>server_config.jsonc</em>. Only the GitHub token needs to be specified if using defaults. See <em>server_config.jsonc</em> for documentation of arguments.
 
 2. **Run extension** on a web page or uploaded PDF.
 
