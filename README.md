@@ -47,10 +47,10 @@ Chrome extension and Python backend for finding **(1)** software names in web pa
    ```
 2. **Add files (PDF, HTML and .txt files) to the input folder** to make a corpus (default is <em>find_terms/corpus_input</em>).
 
-3. **Run <em>find_terms_train_pipeline.py</em>** with or without any arguments, or with -<em>-config</em> and the path to a config file. Default parameters (in python file and <em>find_terms_pipeline_config.json</em>) should result in a good model.
+3. **Run <em>find_terms_train_pipeline.py</em>** with <em>--make_corpus</em> and/or <em>--train_model</em> (both for the complete pipeline), or with <em>--config</em> and the path to a config file. Default parameters (in python file and <em>find_terms_pipeline_config.json</em>) should result in a good model.
 
    ```
-   python find_terms_train_pipline.py --<arg>
+   python find_terms_train_pipline.py --make_corpus --train_model --<arg>...
    python find_terms_train_pipline.py --config <config path>
    ```
 
