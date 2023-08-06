@@ -87,3 +87,5 @@ Chrome extension and Python backend for finding **(1)** software names in web pa
 ### Notes
 
 - To switch to a different RoSTER model run, set <em>roster_model_path</em> in <em>server_config.jsonc</em> to the path to the desired model's .pt file.
+
+- When selecting "Open app" on the extension menu on a page containing a PDF, the sidebar might not be resizeable. Selecting "Find terms on page" on the page will open the tagged PDF in a new tab with a resizeable sidebar.
